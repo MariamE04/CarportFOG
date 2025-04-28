@@ -1,0 +1,73 @@
+@startuml
+
+class User {
+  UserId
+  email
+  password
+}
+
+class Carport {
+  Carportid
+  Carportwidth
+  Carportlength
+  Carportheight
+  Roofmaterial
+}
+
+class Order {
+  OrderId
+  Ordernumber
+  Orderdate
+  comment
+  Orderprice
+  PaymentStatus
+}
+
+class Stykliste {
+  id
+  orderNumber
+  quantityordered
+  materialsId
+  productName
+}
+
+class Skur {
+  ShedId
+  Width
+  Length
+  Height
+}
+
+class Quote {
+  quoteId
+  validityPeriod
+  price
+  orderReference
+  status
+}
+
+class Materials {
+  productName
+  productType
+  productSize
+  buyPrice
+  purchasePrice
+}
+
+class Calculator {
+  calculateMaterials()
+  calculatePrice()
+}
+
+' Relationer
+User "1" -- "0..*" Order : places >
+Order "1" -- "1" Carport : includes >
+Order "1" -- "1" Quote : has >
+Order "1" o-- "0..1" Skur : optionally includes >
+Order "1" *-- "1" Stykliste : consists of >
+Stykliste "1" --> "1" Materials : refers to >
+
+Calculator ..> Materials : <<uses>>
+Calculator ..> Order : <<calculates>>
+
+@enduml
