@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>FOG</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="../public/css/styles.css" th:href="@{/css/styles.css}" rel="stylesheet"/>
+</head>
+
+<body>
+<!-- Banner -->
+<header class="header">
+    <!-- FOG Logo -->
+    <div class="logo">
+        <img src="../public/images/fog_logo.png" th:src="@{/images/fog_logo.png}" alt="FOG Logo" style="height: 60px;">
+    </div>
+
+    <!-- Navigation -->
+    <nav class="nav-links">
+        <a class="hjem" href="startpage.html" th:href="@{startpage}">Hjem</a>
+        <a class="byg" href="createOrder.html" th:href="@{createOrder}">Byg Carport</a>
+    </nav>
+
+    <!-- Bruger info -->
+    <div class="user-info" th:if="${session.currentUser != null}">
+        <span th:text="${session.currentUser.email}"></span>
+        <a class="indkøbskurv" href="cart.html" th:href="@{cart}">Kurv</a>
+    </div>
+</header>
+
+<!-- Indhold -->
+<div class="indexContainer">
+    <div class="startText">
+        <h3>Velkommen til FOG!<br>
+            Du er nu logget ind og klar til at designe din egen carport.<br>
+            Tryk på "Byg Carport" eller på knappen nedenunder for at komme i gang.
+        </h3>
+        <form th:action="@{/createOrder}" method="get">
+            <button class="komIgang" type="submit">Kom igang</button>
+        </form>
+    </div>
+
+    <!-- Du kan evt. indsætte et billede af en carport her -->
+    <div class="startImage">
+        <img src="../public/images/carport.png" th:src="@{/images/carport.png}" alt="Carport" style="width: 50%;">
+    </div>
+</div>
+</body>
+</html>

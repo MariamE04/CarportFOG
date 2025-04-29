@@ -3,7 +3,6 @@ package app.persistence;
 
 import app.entities.User;
 import app.exceptions.DatabaseException;
-import org.postgresql.jdbc2.optional.ConnectionPool;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -24,11 +23,11 @@ public class UserMapper {
     }
 
     //Statisk metode, der forsøger at tilføje en ny bruger til databasen.
-    public static int signUp(String email, String password, long phoneNumber) throws DatabaseException { //Statisk metode, så den kan kaldes uden at instantiere CupCakeMapper.
-        User user = new User(email, password, phoneNumber); //Opretter et User-objekt med de indtastede oplysninger.
+    public static int signUp(String email, String password) throws DatabaseException { //Statisk metode, så den kan kaldes uden at instantiere CupCakeMapper.
+        User user = new User(email, password); //Opretter et User-objekt med de indtastede oplysninger.
 
         // forsøger at indsætte en bruger, men hvis email allerede findes, gør den ingenting.
-        String sql = "INSERT INTO users (email, password , phone_number) VALUES (?,?,?) ON CONFLICT (email) DO NOtHING";
+        String sql = "INSERT INTO users (email, password) VALUES (?,?) ON CONFLICT (email) DO NOtHING";
 
         try (
                 Connection connection = connectionPool.getConnection(); //henter en forbindelse til databasen.
@@ -37,7 +36,7 @@ public class UserMapper {
             //Disse erstatter ? i SQL'en.
             ps.setString(1, user.getEmail());
             ps.setString(2, user.getPassword());
-            ps.setLong(3,user.getPhoneNumber());
+            //ps.setLong(3,user.getPhoneNumber());
 
             //Eksekverer indsættelsen og returnerer hvor mange rækker, der blev ændret (0 eller 1).
             int rowsAffected = ps.executeUpdate(); //kører INSERT-sætningen
