@@ -3,17 +3,15 @@ package app.entities;
 import java.util.List;
 
 public class Materials {
-    List<Materials> materials;
     int materialId;
     String name;
     String description;
     String unit;
-    String amount;
+    int amount;
     int length;
     int price;
 
-    public Materials(List<Materials> materials, int materialId, String name, String description, String unit, String amount, int length, int price) {
-        this.materials = materials;
+    public Materials(int materialId, String name, String description, String unit, int amount, int length, int price) {
         this.materialId = materialId;
         this.name = name;
         this.description = description;
@@ -23,22 +21,13 @@ public class Materials {
         this.price = price;
     }
 
-    public Materials(int length, String amount, String unit, String description, int price, String name, List<Materials> materials) {
+    public Materials(int length, int amount, String unit, String description, int price, String name, List<Materials> materials) {
         this.length = length;
         this.amount = amount;
         this.unit = unit;
         this.description = description;
         this.price = price;
         this.name = name;
-        this.materials = materials;
-    }
-
-    public List<Materials> getMaterials() {
-        return materials;
-    }
-
-    public void setMaterials(List<Materials> materials) {
-        this.materials = materials;
     }
 
     public int getMaterialId() {
@@ -73,11 +62,11 @@ public class Materials {
         this.unit = unit;
     }
 
-    public String getAmount() {
+    public int getAmount() {
         return amount;
     }
 
-    public void setAmount(String amount) {
+    public void setAmount(int amount) {
         this.amount = amount;
     }
 

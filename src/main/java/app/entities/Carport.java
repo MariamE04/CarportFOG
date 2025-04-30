@@ -4,31 +4,28 @@ public class Carport {
 int carportId;
 int width;
 int length;
-int height;
 String roofType;
 int shedId;
 
-    public Carport(int carportId, int width, int length, int height, String roofType, int shedId) {
+    public Carport(int carportId, int width, int length, String roofType, int shedId) {
         this.carportId = carportId;
         this.width = width;
         this.length = length;
-        this.height = height;
         this.roofType = roofType;
         this.shedId = shedId;
     }
 
-    public Carport(int width, int length, int height, String roofType, int shedId) {
+    public Carport(int width, int length, String roofType, int shedId) {
         this.width = width;
         this.length = length;
-        this.height = height;
+
         this.roofType = roofType;
         this.shedId = shedId;
     }
 
-    public Carport(int width, int length, int height, String roofType) {
+    public Carport(int width, int length, String roofType) {
         this.width = width;
         this.length = length;
-        this.height = height;
         this.roofType = roofType;
     }
 
@@ -54,14 +51,6 @@ int shedId;
 
     public void setLength(int length) {
         this.length = length;
-    }
-
-    public int getHeight() {
-        return height;
-    }
-
-    public void setHeight(int height) {
-        this.height = height;
     }
 
     public String getRoofType() {

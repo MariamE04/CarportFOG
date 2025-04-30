@@ -3,44 +3,22 @@ package app.entities;
 import java.util.List;
 
 public class OrderDetails {
-    List<Carport> carportList;
-    List<Materials> materialsList;
     int orderDetailId;
     int orderId;
     int quantity;
-    int materialId;
+   Materials materials;
 
-    public OrderDetails(List<Carport> carportList, List<Materials> materialsList, int orderDetailId, int orderId, int quantity, int materialId) {
-        this.carportList = carportList;
-        this.materialsList = materialsList;
+    public OrderDetails(int orderDetailId, int orderId, int quantity, Materials materials) {
         this.orderDetailId = orderDetailId;
         this.orderId = orderId;
         this.quantity = quantity;
-        this.materialId = materialId;
+        this.materials = materials;
     }
 
-    public OrderDetails(int materialId, int quantity, int orderId, List<Materials> materialsList, List<Carport> carportList) {
-        this.materialId = materialId;
+    public OrderDetails(Materials materials, int quantity, int orderId) {
+        this.materials = materials;
         this.quantity = quantity;
         this.orderId = orderId;
-        this.materialsList = materialsList;
-        this.carportList = carportList;
-    }
-
-    public List<Carport> getCarportList() {
-        return carportList;
-    }
-
-    public void setCarportList(List<Carport> carportList) {
-        this.carportList = carportList;
-    }
-
-    public List<Materials> getMaterialsList() {
-        return materialsList;
-    }
-
-    public void setMaterialsList(List<Materials> materialsList) {
-        this.materialsList = materialsList;
     }
 
     public int getOrderDetailId() {
@@ -67,11 +45,11 @@ public class OrderDetails {
         this.quantity = quantity;
     }
 
-    public int getMaterialId() {
-        return materialId;
+    public Materials getMaterials() {
+        return materials;
     }
 
-    public void setMaterialId(int materialId) {
-        this.materialId = materialId;
+    public void setMaterials(Materials materials) {
+        this.materials = materials;
     }
 }

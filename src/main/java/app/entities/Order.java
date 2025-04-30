@@ -5,16 +5,16 @@ import java.util.List;
 
 public class Order {
     int orderId;
-    LocalDate localDate;
+    LocalDate dateCreated;
     int price;
-    boolean paymentStatus;
+    String paymentStatus;
     int userId;
     int carportId;
     int quoteId;
 
-    public Order(int orderId, LocalDate localDate, int price, boolean paymentStatus, int userId, int carportId, int quoteId) {
+    public Order(int orderId, LocalDate dateCreated, int price, String paymentStatus, int userId, int carportId, int quoteId) {
         this.orderId = orderId;
-        this.localDate = localDate;
+        this.dateCreated = dateCreated;
         this.price = price;
         this.paymentStatus = paymentStatus;
         this.userId = userId;
@@ -22,8 +22,8 @@ public class Order {
         this.quoteId = quoteId;
     }
 
-    public Order(LocalDate localDate, int price, boolean paymentStatus, int userId, int carportId, int quoteId) {
-        this.localDate = localDate;
+    public Order(LocalDate dateCreated, int price, String paymentStatus, int userId, int carportId, int quoteId) {
+        this.dateCreated = dateCreated;
         this.price = price;
         this.paymentStatus = paymentStatus;
         this.userId = userId;
@@ -39,12 +39,12 @@ public class Order {
         this.orderId = orderId;
     }
 
-    public LocalDate getLocalDate() {
-        return localDate;
+    public LocalDate getDateCreated() {
+        return dateCreated;
     }
 
-    public void setLocalDate(LocalDate localDate) {
-        this.localDate = localDate;
+    public void setDateCreated(LocalDate localDate) {
+        this.dateCreated = localDate;
     }
 
     public int getPrice() {
@@ -55,11 +55,11 @@ public class Order {
         this.price = price;
     }
 
-    public boolean isPaymentStatus() {
+    public String isPaymentStatus() {
         return paymentStatus;
     }
 
-    public void setPaymentStatus(boolean paymentStatus) {
+    public void setPaymentStatus(String paymentStatus) {
         this.paymentStatus = paymentStatus;
     }
 
