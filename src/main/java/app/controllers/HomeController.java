@@ -23,9 +23,9 @@ public class HomeController {
         try { //Henter brugerens input fra HTTP-formularen.
             String email = ctx.formParam("email"); // få adgang til brugerens input: e-mail
             String password = ctx.formParam("password");
-            //long phoneNumber = Long.parseLong(ctx.formParam("phoneNumber"));
+            long phoneNumber = Long.parseLong(ctx.formParam("phoneNumber"));
 
-            User user = new User(email, password); //Opretter et User-objekt med de indtastede oplysninger.
+            User user = new User(email, password, phoneNumber); //Opretter et User-objekt med de indtastede oplysninger.
             boolean userExists = UserMapper.userExists(user); //Kalder userExists fra UserMapper for at tjekke, om brugeren allerede findes i databasen.
 
 
@@ -35,7 +35,7 @@ public class HomeController {
                 return 0; // Indikerer at brugeren allerede findes
 
             } else { //Hvis brugeren ikke findes, forsøges sign-up via UserMapper.signUp.
-                int result = UserMapper.signUp(email, password);
+                int result = UserMapper.signUp(email, password,phoneNumber);
 
                 if (result == 1) {
                     User newUser = new User(email, password); //En ny User oprettes

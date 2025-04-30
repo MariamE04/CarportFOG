@@ -23,6 +23,7 @@ public class Main {
 
         Javalin app = Javalin.create(config -> {
             config.staticFiles.add("/public");
+
             config.jetty.modifyServletContextHandler(handler ->  handler.setSessionHandler(SessionConfig.sessionConfig()));
             config.fileRenderer(new JavalinThymeleaf(ThymeleafConfig.templateEngine()));
         }).start(7070);
