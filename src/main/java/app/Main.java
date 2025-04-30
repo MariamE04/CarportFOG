@@ -35,6 +35,9 @@ public class Main {
         app.get("/", ctx -> ctx.redirect("/index"));
         app.get("/index", ctx -> ctx.render("index.html"));
 
+        //Rute til ordre
+        app.get("admin", ctx -> ctx.render("admin"));
+
         //Viser startsiden.
         app.get("startpage", ctx -> ctx.render("startpage.html"));
 

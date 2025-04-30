@@ -71,7 +71,7 @@ public class HomeController {
                 ctx.sessionAttribute("currentUser", loggedInUser); //gemmes brugeren i sessionen som currentUser.
 
                 //Hvis brugeren er administrator, gemmes en admin-session og omdirigeres til admin-siden.
-                if (email.equals("FOG@gmail.com") && password.equals("123")) {
+                if ("admin".equals(loggedInUser.getRole())) {
                     ctx.sessionAttribute("admin", loggedInUser);
                     ctx.redirect("admin");
 
