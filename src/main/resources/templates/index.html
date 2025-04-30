@@ -1,13 +1,45 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-<title>Newsletters</title>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link href="../public/css/styles.css" th:href="@{/css/styles.css}" rel="stylesheet"/>
+<head>
+    <title>FOG Byggecenter</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="../public/css/index.css" th:href="@{/css/index.css}" rel="stylesheet"/>
 </head>
 
 <body>
-<h1>Welcome to the Javalin / Thymeleaf demo</h1>
-<p>This is your first web application in this world</p>
+
+<!-- Header med FOG-logo og navigation -->
+<header>
+    <img class="fog-logo" src="../public/images/fog_logo.png" th:src="@{/images/fog_logo.png}" alt="FOG Logo">
+  </header>
+
+<div class="indexContainer">
+    <div class="indexText">
+        <h2>Velkommen til FOG Byggecenter!</h2>
+        <br>
+        <h3>Hos FOG hjælper vi dig med at bygge dit næste projekt – uanset om det er en carport, et skur eller noget tredje.
+            <br><br>
+            Brug vores byggeværktøj til at designe dine løsninger, og få automatisk en materialeliste.
+        </h3>
+    </div>
+
+    <div class="indexLogin">
+        <form action="login" method="post">
+            <h3>Login</h3>
+            <label for="email">Email:</label>
+            <input type="text" id="email" name="email" required>
+
+            <label for="password">Adgangskode:</label>
+            <input type="password" id="password" name="password" required>
+
+            <button type="submit">Log ind</button>
+
+            <p>Har du ikke en bruger? <a href="signUp.html" th:href="@{signUp}">Opret dig her</a></p>
+            <p th:text="${message}"></p>
+        </form>
+    </div>
+</div>
+
 </body>
 </html>

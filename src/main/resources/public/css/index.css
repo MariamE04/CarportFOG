@@ -1,0 +1,79 @@
+.fog-logo {
+    height: 60px;
+    width: auto;
+}
+
+.indexContainer {
+    padding: 40px;
+}
+
+.loginContainer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 40px;
+    margin-top: 30px;
+}
+
+/* Login-boks */
+.indexLogin {
+    background-color: #f9f9f9;
+    padding: 25px 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    max-width: 350px;
+    width: 100%;
+    flex: 1 1 300px;
+}
+
+/* Login form styling */
+.indexLogin form {
+    display: flex;
+    flex-direction: column;
+}
+
+.indexLogin input {
+    margin-bottom: 15px;
+    padding: 10px;
+    font-size: 1rem;
+}
+
+.indexLogin button {
+    background-color: #073197;
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.indexLogin button:hover {
+    background-color: #4886ec;
+}
+
+/* Billede ved siden af login */
+.sideImage {
+    flex: 1 1 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.sideImage img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+}
+
+/* RESPONSIV: Stabl layout på små skærme */
+@media screen and (max-width: 768px) {
+    .loginContainer {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .indexLogin,
+    .sideImage {
+        max-width: 100%;
+    }
+}

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>SignUp</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="../public/css/styles.css" th:href="@{/css/styles.css}" rel="stylesheet"/>
+  <link href="../public/css/signup.css" th:href="@{/css/signup.css}" rel="stylesheet"/>
+</head>
+<!-- Banner  -->
+<img class="banner" src="../public/images/fog_logo.png" th:src="@{/images/fog_logo.png}" style="width: 20%">
+
+
+<header>
+</header>
+
+<body>
+<div class="signupContainer">
+  <!-- Muffin billede venstre -->
+  <img class="cupcake" src="../public/images/carport2.png" th:src="@{/images/carport2.png}" alt="cupcake">
+
+  <!-- Signup-boks -->
+  <div class="signupBox">
+    <h3>Opret Bruger</h3>
+    <form action="signUp" method="post">
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" required>
+
+      <label for="password">Adgangskode:</label>
+      <input type="password" id="password" name="password" required>
+
+      <button type="submit">Opret</button>
+    </form>
+
+    <p>Allerede oprettet? <a href="login.html" th:href="@{login}">Log ind her</a></p>
+    <p th:text="${message}"></p>
+
+  </div>
+
+  <!-- Muffin billede højre -->
+  <img class="cupcake" src="../public/images/carport2.png" th:src="@{/images/carport2.png}" alt="cupcake">
+</div>
+</body>
+</html>
