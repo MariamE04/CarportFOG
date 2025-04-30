@@ -5,12 +5,12 @@ import java.util.Date;
 
 public class Quote {
     int quoteId;
-    int validityPeriod;
+    LocalDate validityPeriod;
     int price;
-    Date dateCreated;
+    LocalDate dateCreated;
     boolean isAccepted;
 
-    public Quote(int quoteId, int validityPeriod, int price, Date dateCreated, boolean isAccepted) {
+    public Quote(int quoteId, LocalDate validityPeriod, int price, LocalDate dateCreated, boolean isAccepted) {
         this.quoteId = quoteId;
         this.validityPeriod = validityPeriod;
         this.price = price;
@@ -18,7 +18,7 @@ public class Quote {
         this.isAccepted = isAccepted;
     }
 
-    public Quote(int validityPeriod, int price, Date dateCreated, boolean isAccepted) {
+    public Quote(LocalDate validityPeriod, int price, LocalDate dateCreated, boolean isAccepted) {
         this.validityPeriod = validityPeriod;
         this.price = price;
         this.dateCreated = dateCreated;
@@ -33,11 +33,11 @@ public class Quote {
         this.quoteId = quoteId;
     }
 
-    public int getValidityPeriod() {
+    public LocalDate getValidityPeriod() {
         return validityPeriod;
     }
 
-    public void setValidityPeriod(int validityPeriod) {
+    public void setValidityPeriod(LocalDate validityPeriod) {
         this.validityPeriod = validityPeriod;
     }
 
@@ -49,11 +49,11 @@ public class Quote {
         this.price = price;
     }
 
-    public Date getDateCreated() {
+    public LocalDate getDateCreated() {
         return dateCreated;
     }
 
-    public void setDateCreated(Date dateCreated) {
+    public void setDateCreated(LocalDate dateCreated) {
         this.dateCreated = dateCreated;
     }
 
