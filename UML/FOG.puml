@@ -1,57 +1,61 @@
 @startuml
-
+!pragma layout smetana
 class User {
-  UserId
+  userId
   email
   password
+  phoneNumber
 }
 
 class Carport {
-  Carportid
-  Carportwidth
-  Carportlength
-  Carportheight
-  Roofmaterial
+  carportid
+  carportwidth
+  carportlength
+  carportheight
+  roofType
+  shedId
+
 }
 
 class Order {
-  OrderId
-  Ordernumber
-  Orderdate
-  comment
-  Orderprice
-  PaymentStatus
+  orderId
+  orderDate
+  orderPrice
+  paymentStatus
+  userId
+  carportId
+  quoteId
 }
 
 class Orderdetails {
-  id
-  orderNumber
-  quantityordered
-  materialsId
-  productName
+  orderDetailId
+  orderId
+  quantity
+  materialId
 }
 
-class Skur {
-  ShedId
-  Width
-  Length
-  Height
+class Shed {
+  shedId
+  width
+  length
 }
 
 class Quote {
   quoteId
   validityPeriod
   price
-  orderReference
-  status
+  dateCreated
+  isAccepted
 }
 
 class Materials {
+  materialId
   productName
-  productType
-  productSize
+  productDescription
+  productUnit
+  productAmount
+  productLength
   buyPrice
-  purchasePrice
 }
 
 class Calculator {
@@ -63,9 +67,9 @@ class Calculator {
 User "1" -- "0..*" Order : places >
 Order "1" -- "1" Carport : includes >
 Order "1" -- "1" Quote : has >
-Order "1" o-- "0..1" Skur : optionally includes >
+Carport "1" o-- "0..1" Shed : optionally includes >
 Order "1" *-- "1" Orderdetails : consists of >
-Stykliste "1" --> "1" Materials : refers to >
+Orderdetails "1" -- "1..*" Materials
 
 Calculator ..> Materials : <<uses>>
 Calculator ..> Order : <<calculates>>
