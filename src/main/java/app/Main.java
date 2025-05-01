@@ -46,5 +46,7 @@ public class Main {
         app.post("/login", ctx -> HomeController.userLogIn(ctx)); //POST: Logger brugeren ind.
 
         app.get("/login", ctx -> ctx.render("index.html")); //Viser login-formularen (her: index.html).
+
+        app.get("/admin", ctx -> ctx.render("admin.html"));
     }
 }

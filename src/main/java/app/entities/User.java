@@ -7,27 +7,26 @@ public class User {
     private String email;
     private String password;
     private long PhoneNumber;
-    private String role;
+    private String role = "admin";
 
     public User(int id, String email, String password, long phoneNumber, String role) {
         this.id = id;
         this.email = email;
         this.password = password;
         PhoneNumber = phoneNumber;
-        this.role = role;
     }
 
     public User(String email, String password, long phoneNumber) {
         this.email = email;
         this.password = password;
         PhoneNumber = phoneNumber;
-        this.role = role;
     }
 
     public User(String email, String password) {
         this.email = email;
         this.password = password;
     }
+
 
     public int getId() {
         return id;

@@ -27,7 +27,7 @@ public class UserMapper {
         User user = new User(email, password, phoneNumber); //Opretter et User-objekt med de indtastede oplysninger.
 
         // forsøger at indsætte en bruger, men hvis email allerede findes, gør den ingenting.
-        String sql = "INSERT INTO users (email, password, phone_number) VALUES (?,?,?) ON CONFLICT (email) DO NOtHING";
+        String sql = "INSERT INTO users (email, password, phone_number, role) VALUES (?,?,?,?) ON CONFLICT (email) DO NOtHING";
 
         try (
                 Connection connection = connectionPool.getConnection(); //henter en forbindelse til databasen.
@@ -37,6 +37,8 @@ public class UserMapper {
             ps.setString(1, user.getEmail());
             ps.setString(2, user.getPassword());
             ps.setLong(3,user.getPhoneNumber());
+            ps.setString(4, user.getRole());
+
 
             //Eksekverer indsættelsen og returnerer hvor mange rækker, der blev ændret (0 eller 1).
             int rowsAffected = ps.executeUpdate(); //kører INSERT-sætningen
@@ -65,7 +67,12 @@ public class UserMapper {
 
 
             if (rs.next()) { //returnerer true, hvis der er en række (bruger findes).
-                return user;
+
+                String role = rs.getString("role");
+                Long phoneNumber = rs.getLong("phone_number");
+                int id = rs.getInt("user_id");
+
+                return new User(id, email, password, phoneNumber, role);
             } else {
                 return null; // Forkert email eller kode -> returner null
             }
@@ -117,3 +124,6 @@ public class UserMapper {
     }*/
 
 }
+
+
+

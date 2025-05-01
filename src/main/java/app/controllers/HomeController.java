@@ -62,6 +62,7 @@ public class HomeController {
         //Henter email og password fra login-formularen.
         String email = ctx.formParam("email");
         String password = ctx.formParam("password");
+       // String role = ctx.attribute("role");
 
         try {
             User loggedInUser = UserMapper.logIn(email, password);
@@ -71,8 +72,9 @@ public class HomeController {
                 ctx.sessionAttribute("currentUser", loggedInUser); //gemmes brugeren i sessionen som currentUser.
 
                 //Hvis brugeren er administrator, gemmes en admin-session og omdirigeres til admin-siden.
-                if (email.equals("FOG@gmail.com") && password.equals("123")) {
+                if ("admin".equals(loggedInUser.getRole())) {
                     ctx.sessionAttribute("admin", loggedInUser);
+                    System.out.println("TESTSTST DER VIRKER");
                     ctx.redirect("admin");
 
                 } else { //Hvis det er en almindelig bruger, vises startpage.html.
