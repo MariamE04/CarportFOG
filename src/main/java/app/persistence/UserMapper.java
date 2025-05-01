@@ -27,7 +27,7 @@ public class UserMapper {
         User user = new User(email, password, phoneNumber); //Opretter et User-objekt med de indtastede oplysninger.
 
         // forsøger at indsætte en bruger, men hvis email allerede findes, gør den ingenting.
-        String sql = "INSERT INTO users (email, password, phone_number, role) VALUES (?,?,?,?) ON CONFLICT (email) DO NOtHING";
+        String sql = "INSERT INTO users (email, password, phone_number) VALUES (?,?,?) ON CONFLICT (email) DO NOtHING";
 
         try (
                 Connection connection = connectionPool.getConnection(); //henter en forbindelse til databasen.
@@ -37,8 +37,6 @@ public class UserMapper {
             ps.setString(1, user.getEmail());
             ps.setString(2, user.getPassword());
             ps.setLong(3,user.getPhoneNumber());
-            ps.setString(4, user.getRole());
-
 
             //Eksekverer indsættelsen og returnerer hvor mange rækker, der blev ændret (0 eller 1).
             int rowsAffected = ps.executeUpdate(); //kører INSERT-sætningen
@@ -52,7 +50,6 @@ public class UserMapper {
 
     //Opretter en bruger med indtastede loginoplysninger.
     public static User logIn(String email, String password) throws DatabaseException { //Statisk metode, så den kan kaldes uden at instantiere CupCakeMapper.
-        User user = new User(email, password);
 
         String sql = "SELECT * FROM users WHERE email = ? AND password = ?"; //SQL-sætning til at finde en bruger, hvis både email og kodeord passer.
 
@@ -60,21 +57,20 @@ public class UserMapper {
                 Connection connection = connectionPool.getConnection();
                 PreparedStatement ps = connection.prepareStatement(sql);
         ) {
-            ps.setString(1, user.getEmail());
-            ps.setString(2, user.getPassword());
+            ps.setString(1, email);
+            ps.setString(2, password);
 
             ResultSet rs = ps.executeQuery(); //eksekverer SELECT-sætningen og får et ResultSet
 
+            if (rs.next()) {
+                long phoneNumber = rs.getLong("phone_number");
+                String role = rs.getString("role"); // <- Hent rollen fra databasen
 
-            if (rs.next()) { //returnerer true, hvis der er en række (bruger findes).
-
-                String role = rs.getString("role");
-                Long phoneNumber = rs.getLong("phone_number");
-                int id = rs.getInt("user_id");
-
-                return new User(id, email, password, phoneNumber, role);
+                User user = new User(email, password, phoneNumber);
+                user.setRole(role); // <- Sæt rollen i brugerobjektet
+                return user;
             } else {
-                return null; // Forkert email eller kode -> returner null
+                return null;
             }
 
         } catch (SQLException e) { //Ved fejl kastes en DatabaseException.
@@ -124,6 +120,3 @@ public class UserMapper {
     }*/
 
 }
-
-
-
