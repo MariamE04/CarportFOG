@@ -7,7 +7,7 @@ public class User {
     private String email;
     private String password;
     private long PhoneNumber;
-    private String role = "admin";
+    private String role = "customer";
 
     public User(int id, String email, String password, long phoneNumber, String role) {
         this.id = id;
