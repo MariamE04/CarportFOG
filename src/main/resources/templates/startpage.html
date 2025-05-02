@@ -40,6 +40,14 @@
         </form>
     </div>
 
+    <a th:href="@{/showOrder}" href="showOrder.html">Show order</a>
+
+    <form action="/showOrder" method="get">
+        <label>Width: <input type="number" name="width" value="600"></label><br>
+        <label>Length: <input type="number" name="length" value="780"></label><br>
+        <button type="submit">Generer Carport Tegning</button>
+    </form>
+
     <!-- Du kan evt. indsætte et billede af en carport her -->
     <div class="startImage">
         <img src="../public/images/carport.png" th:src="@{/images/carport.png}" alt="Carport" style="width: 50%;">

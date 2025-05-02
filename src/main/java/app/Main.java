@@ -3,6 +3,7 @@ package app;
 import app.config.SessionConfig;
 import app.config.ThymeleafConfig;
 import app.controllers.HomeController;
+import app.controllers.OrderController;
 import app.persistence.ConnectionPool;
 import app.persistence.UserMapper;
 import io.javalin.Javalin;
@@ -51,5 +52,7 @@ public class Main {
         app.get("/login", ctx -> ctx.render("index.html")); //Viser login-formularen (her: index.html).
 
         app.get("/admin", ctx -> ctx.render("admin.html"));
+
+        app.get("showOrder", ctx -> OrderController.showOrder(ctx));
     }
 }
