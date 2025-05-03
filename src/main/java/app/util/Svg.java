@@ -1,7 +1,6 @@
 package app.util;
 
 public class Svg {
-
     private static final String SVG_TEMPLATE = "<svg version=\"1.1\"\n" +
             "     x=\"%d\" y=\"%d\"\n" +
             "     viewBox=\"%s\"  width=\"%s\" \n" +
@@ -37,7 +36,6 @@ public class Svg {
 
     public void addLine(int x1, int y1, int x2, int y2, String style){
         svg.append(String.format(SVG_LINE_TEMPLATE, x1, y1, x2, y2, style));
-
     }
 
     public void addArrow(int x1, int y1, int x2, int y2, String style){
