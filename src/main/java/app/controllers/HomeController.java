@@ -74,7 +74,7 @@ public class HomeController {
                 //Hvis brugeren er administrator, gemmes en admin-session og omdirigeres til admin-siden.
                 if ("admin".equals(loggedInUser.getRole())) {
                     ctx.sessionAttribute("admin", loggedInUser);
-                    System.out.println("TESTSTST DER VIRKER");
+                    //System.out.println("TESTSTST DER VIRKER");
                     ctx.redirect("admin");
 
                 } else { //Hvis det er en almindelig bruger, vises startpage.html.

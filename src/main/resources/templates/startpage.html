@@ -35,12 +35,7 @@
             Du er nu logget ind og klar til at designe din egen carport.<br>
             Tryk på "Byg Carport" eller på knappen nedenunder for at komme i gang.
         </h3>
-        <form th:action="@{/createOrder}" method="get">
-            <button class="komIgang" type="submit">Kom igang</button>
-        </form>
     </div>
-
-    <a th:href="@{/showOrder}" href="showOrder.html">Show order</a>
 
     <form action="/showOrder" method="get">
         <label>Width: <input type="number" name="width" value="600"></label><br>
