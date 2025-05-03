@@ -21,7 +21,7 @@ public class Materials {
         this.price = price;
     }
 
-    public Materials(int length, int amount, String unit, String description, int price, String name, List<Materials> materials) {
+    public Materials(int length, int amount, String unit, String description, int price, String name) {
         this.length = length;
         this.amount = amount;
         this.unit = unit;

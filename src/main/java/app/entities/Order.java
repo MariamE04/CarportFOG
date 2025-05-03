@@ -6,13 +6,13 @@ import java.util.List;
 public class Order {
     int orderId;
     LocalDate dateCreated;
-    int price;
+    double price;
     String paymentStatus;
     int userId;
     int carportId;
     int quoteId;
 
-    public Order(int orderId, LocalDate dateCreated, int price, String paymentStatus, int userId, int carportId, int quoteId) {
+    public Order(int orderId, LocalDate dateCreated, double price, String paymentStatus, int userId, int carportId, int quoteId) {
         this.orderId = orderId;
         this.dateCreated = dateCreated;
         this.price = price;
@@ -22,7 +22,7 @@ public class Order {
         this.quoteId = quoteId;
     }
 
-    public Order(LocalDate dateCreated, int price, String paymentStatus, int userId, int carportId, int quoteId) {
+    public Order(LocalDate dateCreated, double price, String paymentStatus, int userId, int carportId, int quoteId) {
         this.dateCreated = dateCreated;
         this.price = price;
         this.paymentStatus = paymentStatus;
@@ -47,11 +47,11 @@ public class Order {
         this.dateCreated = localDate;
     }
 
-    public int getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 
