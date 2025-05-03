@@ -46,17 +46,17 @@ public class CarportSvg {
     private void addPost() {
         int stolpeBredde = 10; // Bredde af stolper
         int stolpeHøjde = 10;   //højden af stolperne
-        int afstandMellemStolper = 240; // Afstand mellem stolper
+        int afstandMellemStolper = 200; // Afstand mellem stolper
 
         // Beregner antallet af stolper baseret på bredden af carporten og afstanden mellem stolperne
         // Antallet af stolper kan ikke være mindre end 2
         int antalStolper = Math.max(2, (int) Math.ceil(width / (double) afstandMellemStolper));
 
         //Startposition for stolperne (afstanden fra venstre kant)
-        int start = 30; //30 px fra venstre kant af carporten
+        int start = 50; //30 px fra venstre kant af carporten
 
         // Slutposition for stolperne (afstanden fra højre kant)
-        int end = width - 30; //30 px fra højre kant af carporten
+        int end = width - 50; //30 px fra højre kant af carporten
 
         // Beregner den præcise afstand mellem stolperne langs bredden
         int afstandMellem = (end - start) / (antalStolper - 1);

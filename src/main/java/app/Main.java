@@ -6,6 +6,7 @@ import app.controllers.HomeController;
 import app.controllers.OrderController;
 import app.persistence.ConnectionPool;
 import app.persistence.UserMapper;
+import app.util.PdfGenerator;
 import io.javalin.Javalin;
 import io.javalin.rendering.template.JavalinThymeleaf;
 
@@ -18,8 +19,8 @@ public class Main {
     private static final String DB = "carport";
 
     private static final ConnectionPool connectionPool = ConnectionPool.getInstance(USER, PASSWORD, URL, DB);
-    public static void main(String[] args)
-    {
+    public static void main(String[] args){
+
         // Initializing Javalin and Jetty webserver
 
         Javalin app = Javalin.create(config -> {
