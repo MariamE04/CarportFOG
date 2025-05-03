@@ -8,11 +8,13 @@ public class CarportSvg {
     public CarportSvg(int width, int length) {
         this.width = width;
         this.length = length;
-        carportSvg = new Svg(0, 0, "0 0 " + width + " " + length, "50%");
+        //carportSvg = new Svg(0, 0, "0 0 " + width + " " + length, "50%");
+        carportSvg = new Svg(0, 0, "0 0 " + (width + 50) + " " + (length + 50), (width + 50) + "px");
         carportSvg.addRectangle(0, 0, length, width, "stroke-width:1px; stroke:#000000; fill: #ffffff");
         addBeams();
         addRafters();
         addPost();
+        addDimensionArrows();
     }
 
     //remme
@@ -40,6 +42,7 @@ public class CarportSvg {
         }
     }
 
+    //Stolper
     private void addPost() {
         int stolpeBredde = 10; // Bredde af stolper
         int stolpeHøjde = 10;   //højden af stolperne
@@ -70,6 +73,21 @@ public class CarportSvg {
 
         }
     }
+
+    private void addDimensionArrows() {
+        int textOffset = 20;
+
+        // Lodret pil til længden (placeret til højre for carporten)
+        int arrowX = width + 20;  // lidt udenfor carporten
+        carportSvg.addArrow(arrowX, 0, arrowX, length, "stroke:#000000; stroke-width:1px");
+        carportSvg.addText(arrowX + textOffset, length / 2, -90, length + " cm");
+
+        // Vandret pil til bredden (placeret under carporten)
+        int arrowY = length + 20;  // lidt under carporten
+        carportSvg.addArrow(0, arrowY, width, arrowY, "stroke:#000000; stroke-width:1px");
+        carportSvg.addText(width / 2, arrowY + textOffset, 0, width + " cm");
+    }
+
 
     @Override
     public String toString() {
