@@ -1,16 +1,21 @@
 package app.util;
 
+// bruges til at tegne en carport med SVG.
 public class CarportSvg {
+    //dimensionerne på carporten
     private int width;
     private int length;
-    private Svg carportSvg;
+    private Svg carportSvg; // selve SVG-objektet, der tegnes på
 
     public CarportSvg(int width, int length) {
         this.width = width;
         this.length = length;
-        //carportSvg = new Svg(0, 0, "0 0 " + width + " " + length, "50%");
-        carportSvg = new Svg(0, 0, "0 0 " + (width + 50) + " " + (length + 50), (width + 50) + "px");
+        //Opretter et Svg-objekt med lidt ekstra plads rundt om carporten.
+        carportSvg = new Svg(0, 0, "0 0 " + (width + 50) + " " + (length + 50), (width + 50) + "px"); //carportSvg = new Svg(0, 0, "0 0 " + width + " " + length, "50%");
+        //Tegner en stor hvid firkant som baggrund (selve carporten).
         carportSvg.addRectangle(0, 0, length, width, "stroke-width:1px; stroke:#000000; fill: #ffffff");
+
+        //Kalder metoder der tilføjer:
         addBeams();
         addRafters();
         addPost();
@@ -19,9 +24,9 @@ public class CarportSvg {
 
     //remme
     private void addBeams() {
-        double beamHeight = 4.5;
+        double beamHeight = 4.5; // pixel
         double beamWidth = width; // hele bredden af carporten
-        double offsetFromTop = 35;
+        double offsetFromTop = 35; // 35 pixel fra top og bund.
 
         // Øverste rem (nær toppen af carporten)
         carportSvg.addRectangle(0, offsetFromTop, beamHeight, beamWidth,
@@ -37,6 +42,7 @@ public class CarportSvg {
         double spacing = 55.0;
         double rafterWidth = 4.5;
 
+        //For hver i, med 55 pixel mellemrum, tilføjes et spær (vertikal firkant).
         for (double i = 0; i < width; i += spacing) {
             carportSvg.addRectangle(i, 0, length, rafterWidth, "stroke:#000000; fill: #ffffff");
         }
@@ -52,11 +58,11 @@ public class CarportSvg {
         // Antallet af stolper kan ikke være mindre end 2
         int antalStolper = Math.max(2, (int) Math.ceil(width / (double) afstandMellemStolper));
 
-        //Startposition for stolperne (afstanden fra venstre kant)
-        int start = 50; //30 px fra venstre kant af carporten
+        //Startposition for stolperne
+        int start = 50; //50 px fra venstre kant af carporten
 
-        // Slutposition for stolperne (afstanden fra højre kant)
-        int end = width - 50; //30 px fra højre kant af carporten
+        // Slutposition for stolperne
+        int end = width - 50; //50 px fra højre kant af carporten
 
         // Beregner den præcise afstand mellem stolperne langs bredden
         int afstandMellem = (end - start) / (antalStolper - 1);
@@ -74,6 +80,7 @@ public class CarportSvg {
         }
     }
 
+    // tilføjer mål og pile
     private void addDimensionArrows() {
         int textOffset = 20;
 
@@ -88,7 +95,7 @@ public class CarportSvg {
         carportSvg.addText(width / 2, arrowY + textOffset, 0, width + " cm");
     }
 
-
+    //Når objektet udskrives, returneres hele SVG-tegningen som tekst.
     @Override
     public String toString() {
         return carportSvg.toString();
