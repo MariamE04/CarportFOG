@@ -15,6 +15,10 @@ public class OrderMapper {
         this.connectionPool = connectionPool;
     }
 
+    public static void setConnectionPool(ConnectionPool newConnectionPool) {
+        connectionPool = newConnectionPool;
+    }
+
     public static void addOrder(Order order) throws DatabaseException {
         String sql = "INSERT INTO orders (user_id, carport_id, quote_id, order_date, status, total_price) " +
                 "VALUES(?,?,?,?,?,?)";
@@ -22,12 +26,12 @@ public class OrderMapper {
         try(Connection connection = connectionPool.getConnection();
             PreparedStatement ps = connection.prepareStatement(sql)){
 
-            ps.setInt(1, order.getOrderId());
-            ps.setInt(2, order.getCarportId());
-            ps.setInt(3, order.getQuoteId());
-            ps.setDate(4, Date.valueOf(order.getDateCreated()));
-            ps.setString(5, order.isPaymentStatus());
-            ps.setDouble(6, order.getPrice());
+            ps.setInt(1, order.getOrder_id());
+            ps.setInt(2, order.getCarport_id());
+            ps.setInt(3, order.getOrder_id());
+            ps.setDate(4, Date.valueOf(order.getDate_created()));
+            ps.setString(5, order.getStatus());
+            ps.setDouble(6, order.getTotal_price());
 
             ps.executeUpdate();
 
@@ -67,11 +71,13 @@ public class OrderMapper {
                 Double price = rs.getDouble("total_price");
                 String paymentStatus = rs.getString("status");
                 int userId = rs.getInt("user_id");
-                int carportId = rs.getInt("carportId");
-                int quoteId = rs.getInt("quoteId");
+                int carportId = rs.getInt("carport_id");
+                int quoteId = rs.getInt("quote_id");
 
                 ordersList.add(new Order(id, localDate, price, paymentStatus, userId, carportId, quoteId));
             }
+
+            System.out.println("HAr hentet størrelsen på listen her" + ordersList.size());
 
         } catch (SQLException e){
             throw new DatabaseException("Fejl i at hente alle ordrene" + e.getMessage());

@@ -3,38 +3,38 @@ package app.entities;
 import java.util.List;
 
 public class OrderDetails {
-    int orderDetailId;
-    int orderId;
+    int order_detail_id;
+    int order_id;
     int quantity;
    Materials materials;
 
-    public OrderDetails(int orderDetailId, int orderId, int quantity, Materials materials) {
-        this.orderDetailId = orderDetailId;
-        this.orderId = orderId;
+    public OrderDetails(int order_detail_id, int order_id, int quantity, Materials materials) {
+        this.order_detail_id = order_detail_id;
+        this.order_id = order_id;
         this.quantity = quantity;
         this.materials = materials;
     }
 
-    public OrderDetails(Materials materials, int quantity, int orderId) {
+    public OrderDetails(Materials materials, int quantity, int order_id) {
         this.materials = materials;
         this.quantity = quantity;
-        this.orderId = orderId;
+        this.order_id = order_id;
     }
 
-    public int getOrderDetailId() {
-        return orderDetailId;
+    public int getOrder_detail_id() {
+        return order_detail_id;
     }
 
-    public void setOrderDetailId(int orderDetailId) {
-        this.orderDetailId = orderDetailId;
+    public void setOrder_detail_id(int order_detail_id) {
+        this.order_detail_id = order_detail_id;
     }
 
-    public int getOrderId() {
-        return orderId;
+    public int getOrder_id() {
+        return order_id;
     }
 
-    public void setOrderId(int orderId) {
-        this.orderId = orderId;
+    public void setOrder_id(int order_id) {
+        this.order_id = order_id;
     }
 
     public int getQuantity() {
@@ -51,5 +51,15 @@ public class OrderDetails {
 
     public void setMaterials(Materials materials) {
         this.materials = materials;
+    }
+
+    @Override
+    public String toString() {
+        return "OrderDetails{" +
+                "order_detail_id=" + order_detail_id +
+                ", order_id=" + order_id +
+                ", quantity=" + quantity +
+                ", materials=" + materials +
+                '}';
     }
 }

@@ -16,6 +16,10 @@ public class OrderDetailMapper {
 
     private static ConnectionPool connectionPool;
 
+    public static void setConnectionPool(ConnectionPool newConnectionPool){
+        connectionPool = newConnectionPool;
+    }
+
     public OrderDetailMapper(ConnectionPool connectionPool){
         this.connectionPool = connectionPool;
 

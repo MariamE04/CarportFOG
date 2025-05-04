@@ -85,4 +85,17 @@ public class Materials {
     public void setPrice(int price) {
         this.price = price;
     }
+
+    @Override
+    public String toString() {
+        return "Materials{" +
+                "materialId=" + materialId +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", unit='" + unit + '\'' +
+                ", amount=" + amount +
+                ", length=" + length +
+                ", price=" + price +
+                '}';
+    }
 }
