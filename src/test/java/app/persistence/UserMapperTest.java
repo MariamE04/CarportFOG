@@ -127,7 +127,7 @@ class DatabaseTest {
             UserMapper.setConnectionPool(connector); // Sæt connection pool
 
             // Forsøg at oprette en ny bruger
-            int result = UserMapper.signUp("test@example.com", "password123", 12345678);
+            int result = UserMapper.signUp("test01@example.com", "password123", 12345678);
             if (result == 1) {
                 System.out.println("User successfully signed up!");
             } else {
