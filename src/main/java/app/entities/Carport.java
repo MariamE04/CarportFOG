@@ -29,6 +29,11 @@ int shedId;
         this.roofType = roofType;
     }
 
+    public Carport(int width, int length) {
+        this.width = width;
+        this.length = length;
+    }
+
     public int getCarportId() {
         return carportId;
     }

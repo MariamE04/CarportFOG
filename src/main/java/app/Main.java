@@ -2,13 +2,11 @@ package app;
 
 import app.config.SessionConfig;
 import app.config.ThymeleafConfig;
+import app.controllers.CarportController;
 import app.controllers.HomeController;
 import app.controllers.OrderController;
 import app.controllers.OrderDetailController;
-import app.persistence.ConnectionPool;
-import app.persistence.OrderDetailMapper;
-import app.persistence.OrderMapper;
-import app.persistence.UserMapper;
+import app.persistence.*;
 import app.util.PdfGenerator;
 import io.javalin.Javalin;
 import io.javalin.rendering.template.JavalinThymeleaf;
@@ -38,6 +36,8 @@ public class Main {
         OrderMapper.setConnectionPool(connectionPool);
         OrderDetailMapper.setConnectionPool(connectionPool);
         OrderDetailController.setConnectionPool(connectionPool);
+        CarportController.setConnectionPool(connectionPool);
+        CarportMapper.setConnectionPool(connectionPool);
 
 
         // Routing
@@ -71,5 +71,13 @@ public class Main {
 
         app.post("orderdetails", ctx -> OrderDetailController.getOrderDetailsByOrderNumber(ctx));
         app.get("orderdetails", ctx -> ctx.render("orderdetails"));
+
+
+        // Rute til createCarport
+        app.get("createCarport", ctx ->{
+            CarportController.showWidthAndLength(ctx);
+
+        });
+
     }
 }
