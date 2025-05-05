@@ -5,11 +5,11 @@ import app.config.ThymeleafConfig;
 import app.controllers.HomeController;
 import app.controllers.OrderController;
 import app.controllers.OrderDetailController;
+import app.controllers.SvgController;
 import app.persistence.ConnectionPool;
 import app.persistence.OrderDetailMapper;
 import app.persistence.OrderMapper;
 import app.persistence.UserMapper;
-import app.util.PdfGenerator;
 import io.javalin.Javalin;
 import io.javalin.rendering.template.JavalinThymeleaf;
 
@@ -61,7 +61,7 @@ public class Main {
 
         //app.get("/admin", ctx -> ctx.render("admin.html"));
 
-        app.get("showOrder", ctx -> OrderController.showOrder(ctx));
+        app.get("showOrder", ctx -> SvgController.showOrder(ctx));
 
         app.get("/admin", ctx -> {
             OrderController.getAllOrders(ctx);
