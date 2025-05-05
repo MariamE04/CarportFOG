@@ -21,7 +21,7 @@ public class Materials {
         this.price = price;
     }
 
-    public Materials(int length, int amount, String unit, String description, int price, String name, List<Materials> materials) {
+    public Materials(int length, int amount, String unit, String description, int price, String name) {
         this.length = length;
         this.amount = amount;
         this.unit = unit;
@@ -84,5 +84,18 @@ public class Materials {
 
     public void setPrice(int price) {
         this.price = price;
+    }
+
+    @Override
+    public String toString() {
+        return "Materials{" +
+                "materialId=" + materialId +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", unit='" + unit + '\'' +
+                ", amount=" + amount +
+                ", length=" + length +
+                ", price=" + price +
+                '}';
     }
 }

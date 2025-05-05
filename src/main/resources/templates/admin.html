@@ -38,10 +38,11 @@
             </thead>
             <tbody>
             <tr th:each="order: ${orders}">
-                <td th:utext="${'Ordre nummer: ' + order.order_nr  + '|  Dato: ' + order.localDate +'| <br> Bruger: ' + order.email}"></td>
+                <td th:utext="${'Ordre nummer: ' + order.order_id  + '|  Dato: ' + order.date_created +'| <br> Bruger: ' + order.user_id}"></td>
+
 
                 <td>
-                    <button class="orderdetails-button" type="submit" name="orderNumber" th:value="${order.order_nr}" formaction="orderdetails" >OrderDetail</button>
+                    <button class="orderdetails-button" type="submit" name="orderNumber" th:value="${order.order_id}" formaction="orderdetails" >OrderDetail</button>
                 </td>
             </tr>
             </tbody>

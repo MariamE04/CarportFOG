@@ -4,86 +4,86 @@ import java.time.LocalDate;
 import java.util.List;
 
 public class Order {
-    int orderId;
-    LocalDate dateCreated;
-    int price;
-    String paymentStatus;
-    int userId;
-    int carportId;
-    int quoteId;
+    int order_id;
+    LocalDate date_created;
+    double total_price;
+    String status;
+    int user_id;
+    int carport_id;
+    int quote_id;
 
-    public Order(int orderId, LocalDate dateCreated, int price, String paymentStatus, int userId, int carportId, int quoteId) {
-        this.orderId = orderId;
-        this.dateCreated = dateCreated;
-        this.price = price;
-        this.paymentStatus = paymentStatus;
-        this.userId = userId;
-        this.carportId = carportId;
-        this.quoteId = quoteId;
+    public Order(int order_id, LocalDate date_created, double total_price, String status, int user_id, int carport_id, int quote_id) {
+        this.order_id = order_id;
+        this.date_created = date_created;
+        this.total_price = total_price;
+        this.status = status;
+        this.user_id = user_id;
+        this.carport_id = carport_id;
+        this.quote_id = quote_id;
     }
 
-    public Order(LocalDate dateCreated, int price, String paymentStatus, int userId, int carportId, int quoteId) {
-        this.dateCreated = dateCreated;
-        this.price = price;
-        this.paymentStatus = paymentStatus;
-        this.userId = userId;
-        this.carportId = carportId;
-        this.quoteId = quoteId;
+    public Order(LocalDate date_created, double total_price, String status, int user_id, int carport_id, int quote_id) {
+        this.date_created = date_created;
+        this.total_price = total_price;
+        this.status = status;
+        this.user_id = user_id;
+        this.carport_id = carport_id;
+        this.quote_id = quote_id;
     }
 
-    public int getOrderId() {
-        return orderId;
+    public int getOrder_id() {
+        return order_id;
     }
 
-    public void setOrderId(int orderId) {
-        this.orderId = orderId;
+    public void setOrder_id(int order_id) {
+        this.order_id = order_id;
     }
 
-    public LocalDate getDateCreated() {
-        return dateCreated;
+    public LocalDate getDate_created() {
+        return date_created;
     }
 
-    public void setDateCreated(LocalDate localDate) {
-        this.dateCreated = localDate;
+    public void setDate_created(LocalDate date_created) {
+        this.date_created = date_created;
     }
 
-    public int getPrice() {
-        return price;
+    public double getTotal_price() {
+        return total_price;
     }
 
-    public void setPrice(int price) {
-        this.price = price;
+    public void setTotal_price(double total_price) {
+        this.total_price = total_price;
     }
 
-    public String isPaymentStatus() {
-        return paymentStatus;
+    public String getStatus() {
+        return status;
     }
 
-    public void setPaymentStatus(String paymentStatus) {
-        this.paymentStatus = paymentStatus;
+    public void setStatus(String status) {
+        this.status = status;
     }
 
-    public int getUserId() {
-        return userId;
+    public int getUser_id() {
+        return user_id;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setUser_id(int user_id) {
+        this.user_id = user_id;
     }
 
-    public int getCarportId() {
-        return carportId;
+    public int getCarport_id() {
+        return carport_id;
     }
 
-    public void setCarportId(int carportId) {
-        this.carportId = carportId;
+    public void setCarport_id(int carport_id) {
+        this.carport_id = carport_id;
     }
 
-    public int getQuoteId() {
-        return quoteId;
+    public int getQuote_id() {
+        return quote_id;
     }
 
-    public void setQuoteId(int quoteId) {
-        this.quoteId = quoteId;
+    public void setQuote_id(int quote_id) {
+        this.quote_id = quote_id;
     }
 }
