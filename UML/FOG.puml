@@ -58,11 +58,6 @@ class Materials {
   buyPrice
 }
 
-class Calculator {
-  calculateMaterials()
-  calculatePrice()
-}
-
 ' Relationer
 User "1" -- "0..*" Order : places >
 Order "1" -- "1" Carport : includes >
@@ -70,8 +65,5 @@ Order "1" -- "1" Quote : has >
 Carport "1" o-- "0..1" Shed : optionally includes >
 Order "1" *-- "1" Orderdetails : consists of >
 Orderdetails "1" -- "1..*" Materials
-
-Calculator ..> Materials : <<uses>>
-Calculator ..> Order : <<calculates>>
 
 @enduml

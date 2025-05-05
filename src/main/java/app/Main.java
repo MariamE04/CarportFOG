@@ -5,7 +5,9 @@ import app.config.ThymeleafConfig;
 import app.controllers.HomeController;
 import app.controllers.OrderController;
 import app.persistence.ConnectionPool;
+import app.persistence.MaterialMapper;
 import app.persistence.UserMapper;
+import app.util.Calculator;
 import app.util.PdfGenerator;
 import io.javalin.Javalin;
 import io.javalin.rendering.template.JavalinThymeleaf;
@@ -32,6 +34,8 @@ public class Main {
 
         HomeController.setConnectionPool(connectionPool);
         UserMapper.setConnectionPool(connectionPool);
+        MaterialMapper.setConnectionPool(connectionPool);
+        Calculator.setConnectionPool(connectionPool);
 
         // Routing
         app.get("/", ctx -> ctx.redirect("/index"));

@@ -1,21 +1,19 @@
 package app.entities;
 
-import java.util.List;
-
 public class OrderDetails {
     int orderDetailId;
     int orderId;
     int quantity;
-   Materials materials;
+   Material materials;
 
-    public OrderDetails(int orderDetailId, int orderId, int quantity, Materials materials) {
+    public OrderDetails(int orderDetailId, int orderId, int quantity, Material materials) {
         this.orderDetailId = orderDetailId;
         this.orderId = orderId;
         this.quantity = quantity;
         this.materials = materials;
     }
 
-    public OrderDetails(Materials materials, int quantity, int orderId) {
+    public OrderDetails(Material materials, int quantity, int orderId) {
         this.materials = materials;
         this.quantity = quantity;
         this.orderId = orderId;
@@ -45,11 +43,11 @@ public class OrderDetails {
         this.quantity = quantity;
     }
 
-    public Materials getMaterials() {
+    public Material getMaterials() {
         return materials;
     }
 
-    public void setMaterials(Materials materials) {
+    public void setMaterials(Material materials) {
         this.materials = materials;
     }
 }
