@@ -31,6 +31,7 @@ public class SvgController {
             // Konverterer SVG til PDF og gemmer filen
             converter.convertSvgToPdf(svgContent, pdfFilename);
             System.out.println("PDF gemt som " + pdfFilename);
+
         } catch (IOException | TranscoderException e) {
             e.printStackTrace();
         }

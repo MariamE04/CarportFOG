@@ -31,6 +31,8 @@ public class SvgToPdfConverter {
 
             //Selve konverteringen sker her. transcode(...) læser SVG’en og skriver PDF’en.
             transcoder.transcode(input, output);
+        } catch (RuntimeException e) {
+            e.printStackTrace(); // Udskriv fejlmeddelelser for at finde ud af, hvad der går galt.
         }
     }
 }
