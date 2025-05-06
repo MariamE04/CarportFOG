@@ -23,7 +23,7 @@ public class CarportMapper {
     //Method to get all the widths and lengths
     public static List<Carport> getWidthAndLength() throws DatabaseException {
         List<Carport> widthAndLength = new ArrayList<>(); // List
-        String sql = "SELECT * FROM public.carport"; // SQL query to search for the widths and lengths
+        String sql = "SELECT * FROM public.carports"; // SQL query to search for the widths and lengths
 
         try (
                 Connection connection = connectionPool.getConnection(); // Acquire a database connection.

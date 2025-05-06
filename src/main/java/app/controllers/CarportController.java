@@ -20,7 +20,7 @@ public class CarportController {
         try {
             List<Carport> widthAndLength = CarportMapper.getWidthAndLength();
             ctx.attribute("widthAndLength", widthAndLength);
-            ctx.render("createcupcake.html");
+            ctx.render("createCarport.html");
         } catch (DatabaseException e) {
             throw new RuntimeException(e);
         }
