@@ -51,6 +51,7 @@ public class SvgController {
             }
 
             System.out.println("SVG-fil gemt som " + filename);
+
         } catch (IOException e) {
             e.printStackTrace(); // Hvis der er en fejl, printes den
         }

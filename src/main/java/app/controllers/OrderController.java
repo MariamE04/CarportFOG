@@ -24,8 +24,6 @@ public class OrderController {
         connectionPool = newConnectionPool;
     }
 
-
-
     public static void getAllOrders(Context ctx) throws DatabaseException {
         List<Order> orders = OrderMapper.getAllOrders();
 
