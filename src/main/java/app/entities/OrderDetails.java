@@ -50,4 +50,14 @@ public class OrderDetails {
     public void setMaterials(Material materials) {
         this.materials = materials;
     }
+
+    @Override
+    public String toString() {
+        return "OrderDetails{" +
+                "order_detail_id=" + orderDetailId +
+                ", order_id=" + orderId +
+                ", quantity=" + quantity +
+                ", materials=" + materials +
+                '}';
+    }
 }
