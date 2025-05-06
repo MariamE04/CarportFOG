@@ -4,11 +4,10 @@ import app.config.SessionConfig;
 import app.config.ThymeleafConfig;
 import app.controllers.HomeController;
 import app.controllers.OrderController;
-import app.controllers.OrderDetailController;
 import app.persistence.ConnectionPool;
-import app.persistence.OrderDetailMapper;
-import app.persistence.OrderMapper;
+import app.persistence.MaterialMapper;
 import app.persistence.UserMapper;
+import app.util.Calculator;
 import app.util.PdfGenerator;
 import io.javalin.Javalin;
 import io.javalin.rendering.template.JavalinThymeleaf;
@@ -35,17 +34,15 @@ public class Main {
 
         HomeController.setConnectionPool(connectionPool);
         UserMapper.setConnectionPool(connectionPool);
-        OrderMapper.setConnectionPool(connectionPool);
-        OrderDetailMapper.setConnectionPool(connectionPool);
-        OrderDetailController.setConnectionPool(connectionPool);
-
+        MaterialMapper.setConnectionPool(connectionPool);
+        Calculator.setConnectionPool(connectionPool);
 
         // Routing
         app.get("/", ctx -> ctx.redirect("/index"));
         app.get("/index", ctx -> ctx.render("index.html"));
 
         //Rute til ordre
-       // app.get("admin", ctx -> ctx.render("admin"));
+        app.get("admin", ctx -> ctx.render("admin"));
 
         //Viser startsiden.
         app.get("startpage", ctx -> ctx.render("startpage.html"));
@@ -59,17 +56,8 @@ public class Main {
 
         app.get("/login", ctx -> ctx.render("index.html")); //Viser login-formularen (her: index.html).
 
-        //app.get("/admin", ctx -> ctx.render("admin.html"));
+        app.get("/admin", ctx -> ctx.render("admin.html"));
 
         app.get("showOrder", ctx -> OrderController.showOrder(ctx));
-
-        app.get("/admin", ctx -> {
-            OrderController.getAllOrders(ctx);
-        });
-
-        //app.get("/orderdetails", ctx -> OrderDetailController.getOrderDetailsByOrderNumber(ctx));
-
-        app.post("orderdetails", ctx -> OrderDetailController.getOrderDetailsByOrderNumber(ctx));
-        app.get("orderdetails", ctx -> ctx.render("orderdetails"));
     }
 }
