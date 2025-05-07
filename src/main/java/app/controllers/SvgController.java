@@ -4,9 +4,6 @@ import app.util.CarportSvg;
 import app.util.SvgToPdfConverter;
 import io.javalin.http.Context;
 import org.apache.batik.transcoder.TranscoderException;
-
-import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 
 public class SvgController {
@@ -35,23 +32,4 @@ public class SvgController {
         ctx.attribute("svg", svgContent);
         ctx.render("showOrder.html");
     }
-
-    // Metode til at gemme SVG til en fil
-    public static void saveSvgToFile(String svgContent, String filename) {
-        try {
-            // Opretter en ny fil
-            File file = new File(filename);
-
-            // Skriver SVG-indholdet til filen
-            try (FileWriter writer = new FileWriter(file)) {
-                writer.write(svgContent);
-            }
-
-            System.out.println("SVG-fil gemt som " + filename);
-
-        } catch (IOException e) {
-            e.printStackTrace(); // Hvis der er en fejl, printes den
-        }
-    }
-
 }
