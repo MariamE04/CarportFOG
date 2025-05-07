@@ -6,11 +6,11 @@ import java.util.Date;
 public class Quote {
     int quoteId;
     LocalDate validityPeriod;
-    int price;
+    double price;
     LocalDate dateCreated;
     boolean isAccepted;
 
-    public Quote(int quoteId, LocalDate validityPeriod, int price, LocalDate dateCreated, boolean isAccepted) {
+    public Quote(int quoteId, LocalDate validityPeriod, double price, LocalDate dateCreated, boolean isAccepted) {
         this.quoteId = quoteId;
         this.validityPeriod = validityPeriod;
         this.price = price;
@@ -18,7 +18,8 @@ public class Quote {
         this.isAccepted = isAccepted;
     }
 
-    public Quote(LocalDate validityPeriod, int price, LocalDate dateCreated, boolean isAccepted) {
+    public Quote(int quoteId, LocalDate validityPeriod, double price, boolean isAccepted) {
+        this.quoteId = quoteId;
         this.validityPeriod = validityPeriod;
         this.price = price;
         this.dateCreated = dateCreated;
@@ -41,11 +42,11 @@ public class Quote {
         this.validityPeriod = validityPeriod;
     }
 
-    public int getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 

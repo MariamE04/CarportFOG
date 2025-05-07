@@ -2,14 +2,10 @@ package app;
 
 import app.config.SessionConfig;
 import app.config.ThymeleafConfig;
-import app.controllers.CarportController;
-import app.controllers.HomeController;
-import app.controllers.OrderController;
-import app.controllers.OrderDetailController;
+import app.controllers.*;
 import app.persistence.*;
 
 import app.util.Calculator;
-import app.util.PdfGenerator;
 import io.javalin.Javalin;
 import io.javalin.rendering.template.JavalinThymeleaf;
 
@@ -45,6 +41,7 @@ public class Main {
         MaterialMapper.setConnectionPool(connectionPool);
 
 
+
         // Routing
         app.get("/", ctx -> ctx.redirect("/index"));
         app.get("/index", ctx -> ctx.render("index.html"));
@@ -66,7 +63,7 @@ public class Main {
 
         //app.get("/admin", ctx -> ctx.render("admin.html"));
 
-        app.get("showOrder", ctx -> OrderController.showOrder(ctx));
+        app.get("showOrder", ctx -> SvgController.showOrder(ctx));
 
         app.get("/admin", ctx -> {
             OrderController.getAllOrders(ctx);
