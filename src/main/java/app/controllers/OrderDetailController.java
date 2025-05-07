@@ -16,7 +16,6 @@ public class OrderDetailController {
     }
 
     public static void getOrderDetailsByOrderNumber(Context ctx) throws DatabaseException {
-
         int orderNumber = Integer.parseInt(ctx.formParam("orderNumber"));
         List<OrderDetails> orderDetails =  OrderDetailMapper.getOrderDetailsByOrder(orderNumber);
         ctx.sessionAttribute("orderDetails", orderDetails);
@@ -25,4 +24,9 @@ public class OrderDetailController {
             System.out.println(orderd);
         }
     }
+
 }
+
+
+
+

@@ -39,6 +39,9 @@
             <tbody>
             <tr th:each="order: ${orders}">
                 <td th:utext="${'Ordre nummer: ' + order.order_id  + '|  Dato: ' + order.date_created +'| <br> Bruger: ' + order.user_id}"></td>
+                <td th:utext="${'| <br> Carport H/L/B: ' + order.carport.height + order.carport.length + order.carport.width}">
+                </td>
+                <td th:if="${order.shed != null}" th:text="${'Skur L/B: ' + order.shed.length + order.shed.width}"></td>
 
 
                 <td>

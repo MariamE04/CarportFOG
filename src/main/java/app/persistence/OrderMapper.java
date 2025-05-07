@@ -1,6 +1,8 @@
 package app.persistence;
 
+import app.entities.Carport;
 import app.entities.Order;
+import app.entities.Shed;
 import app.exceptions.DatabaseException;
 
 import java.sql.*;
@@ -27,11 +29,10 @@ public class OrderMapper {
             PreparedStatement ps = connection.prepareStatement(sql)){
 
             ps.setInt(1, order.getOrder_id());
-            ps.setInt(2, order.getCarport_id());
-            ps.setInt(3, order.getOrder_id());
-            ps.setDate(4, Date.valueOf(order.getDate_created()));
-            ps.setString(5, order.getStatus());
-            ps.setDouble(6, order.getTotal_price());
+            ps.setInt(2, order.getOrder_id());
+            ps.setDate(3, Date.valueOf(order.getDate_created()));
+            ps.setString(4, order.getStatus());
+            ps.setDouble(5, order.getTotal_price());
 
             ps.executeUpdate();
 
@@ -58,7 +59,9 @@ public class OrderMapper {
     }
 
     public static List<Order> getAllOrders() throws DatabaseException{
-        String sql = "SELECT * FROM orders";
+        String sql = "SELECT * FROM orders JOIN carports ON orders.carport_id = carports.carport_id\n" +
+                "LEFT JOIN sheds ON carports.shed_id = sheds.shed_id\n";
+
         List<Order> ordersList = new ArrayList<>();
 
         try(Connection connection = connectionPool.getConnection();
@@ -74,10 +77,24 @@ public class OrderMapper {
                 int carportId = rs.getInt("carport_id");
                 int quoteId = rs.getInt("quote_id");
 
-                ordersList.add(new Order(id, localDate, price, paymentStatus, userId, carportId, quoteId));
+                int carportWidth = rs.getInt("carport_width");
+                int carportLength = rs.getInt("carport_length");
+                String roofType = rs.getString("roof_type");
+                int shedWidth = rs.getInt("shed_width");
+                int shedLength = rs.getInt("shed_length");
+                int shedId = rs.getInt("shed_id");
+
+                Shed shed = null;
+                if(shedId > 0){
+                    shed = new Shed( shedId, shedLength, shedWidth);
+                }
+
+                Carport carport = new Carport(carportId, carportWidth, carportLength, roofType, shed);
+
+                ordersList.add(new Order(id, localDate, price, paymentStatus, userId, quoteId, carport, shed));
             }
 
-            System.out.println("HAr hentet størrelsen på listen her" + ordersList.size());
+            System.out.println("Har hentet størrelsen på listen her" + ordersList.size());
 
         } catch (SQLException e){
             throw new DatabaseException("Fejl i at hente alle ordrene" + e.getMessage());
@@ -102,8 +119,16 @@ public class OrderMapper {
                 int carportId = rs.getInt("carportId");
                 int quoteId = rs.getInt("quoteId");
 
-                ordersList.add(new Order(id, localDate, price, paymentStatus, userId, carportId, quoteId));
-            }
+                int carportWidth = rs.getInt("carport_width");
+                int carportLength = rs.getInt("carport_length");
+                int carportHeight = rs.getInt("carport_height");
+                int shedWidth = rs.getInt("carport_width");
+                int shedLength = rs.getInt("shed_length");
+                String roofType = rs.getString("roof_type");
+                Shed shed = new Shed(shedLength, shedWidth);
+
+                Carport carport = new Carport(carportId ,carportWidth, carportLength,carportHeight, roofType, shed);
+                ordersList.add(new Order(id, localDate, price, paymentStatus, userId, quoteId, carport, shed));            }
 
         } catch (SQLException e){
             throw new DatabaseException("Fejl i at hente ordrene fra "+ userId + e.getMessage());

@@ -1,32 +1,28 @@
 package app.entities;
 
 public class Carport {
-int carportId;
-int width;
-int length;
-String roofType;
-int shedId;
+    int carportId;
+    int width;
+    int length;
+    int height;
+    String roofType;
+    Shed shed;
 
-    public Carport(int carportId, int width, int length, String roofType, int shedId) {
+    public Carport(int carportId, int width, int length, int height, String roofType, Shed shed) {
         this.carportId = carportId;
         this.width = width;
         this.length = length;
+        this.height = height;
         this.roofType = roofType;
-        this.shedId = shedId;
+        this.shed = shed;
     }
 
-    public Carport(int width, int length, String roofType, int shedId) {
+    public Carport(int width, int length, int height, String roofType, Shed shed) {
         this.width = width;
         this.length = length;
-
+        this.height = height;
         this.roofType = roofType;
-        this.shedId = shedId;
-    }
-
-    public Carport(int width, int length, String roofType) {
-        this.width = width;
-        this.length = length;
-        this.roofType = roofType;
+        this.shed = shed;
     }
 
     public Carport(int width, int length) {
@@ -58,6 +54,14 @@ int shedId;
         this.length = length;
     }
 
+    public int getHeight() {
+        return height;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
+    }
+
     public String getRoofType() {
         return roofType;
     }
@@ -66,11 +70,11 @@ int shedId;
         this.roofType = roofType;
     }
 
-    public int getShedId() {
-        return shedId;
+    public Shed getShed() {
+        return shed;
     }
 
-    public void setShedId(int shedId) {
-        this.shedId = shedId;
+    public void setShed(Shed shed) {
+        this.shed = shed;
     }
 }
