@@ -7,6 +7,8 @@ import app.controllers.HomeController;
 import app.controllers.OrderController;
 import app.controllers.OrderDetailController;
 import app.persistence.*;
+
+import app.util.Calculator;
 import app.util.PdfGenerator;
 import io.javalin.Javalin;
 import io.javalin.rendering.template.JavalinThymeleaf;
@@ -36,8 +38,11 @@ public class Main {
         OrderMapper.setConnectionPool(connectionPool);
         OrderDetailMapper.setConnectionPool(connectionPool);
         OrderDetailController.setConnectionPool(connectionPool);
+
         CarportController.setConnectionPool(connectionPool);
         CarportMapper.setConnectionPool(connectionPool);
+
+        MaterialMapper.setConnectionPool(connectionPool);
 
 
         // Routing
@@ -45,7 +50,7 @@ public class Main {
         app.get("/index", ctx -> ctx.render("index.html"));
 
         //Rute til ordre
-       // app.get("admin", ctx -> ctx.render("admin"));
+        //app.get("admin", ctx -> ctx.render("admin"));
 
         //Viser startsiden.
         app.get("startpage", ctx -> ctx.render("startpage.html"));

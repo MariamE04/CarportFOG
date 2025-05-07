@@ -1,40 +1,38 @@
 package app.entities;
 
-import java.util.List;
-
 public class OrderDetails {
-    int order_detail_id;
-    int order_id;
+    int orderDetailId;
+    int orderId;
     int quantity;
-   Materials materials;
+   Material materials;
 
-    public OrderDetails(int order_detail_id, int order_id, int quantity, Materials materials) {
-        this.order_detail_id = order_detail_id;
-        this.order_id = order_id;
+    public OrderDetails(int orderDetailId, int orderId, int quantity, Material materials) {
+        this.orderDetailId = orderDetailId;
+        this.orderId = orderId;
         this.quantity = quantity;
         this.materials = materials;
     }
 
-    public OrderDetails(Materials materials, int quantity, int order_id) {
+    public OrderDetails(Material materials, int quantity, int orderId) {
         this.materials = materials;
         this.quantity = quantity;
-        this.order_id = order_id;
+        this.orderId = orderId;
     }
 
-    public int getOrder_detail_id() {
-        return order_detail_id;
+    public int getOrderDetailId() {
+        return orderDetailId;
     }
 
-    public void setOrder_detail_id(int order_detail_id) {
-        this.order_detail_id = order_detail_id;
+    public void setOrderDetailId(int orderDetailId) {
+        this.orderDetailId = orderDetailId;
     }
 
-    public int getOrder_id() {
-        return order_id;
+    public int getOrderId() {
+        return orderId;
     }
 
-    public void setOrder_id(int order_id) {
-        this.order_id = order_id;
+    public void setOrderId(int orderId) {
+        this.orderId = orderId;
     }
 
     public int getQuantity() {
@@ -45,19 +43,19 @@ public class OrderDetails {
         this.quantity = quantity;
     }
 
-    public Materials getMaterials() {
+    public Material getMaterials() {
         return materials;
     }
 
-    public void setMaterials(Materials materials) {
+    public void setMaterials(Material materials) {
         this.materials = materials;
     }
 
     @Override
     public String toString() {
         return "OrderDetails{" +
-                "order_detail_id=" + order_detail_id +
-                ", order_id=" + order_id +
+                "order_detail_id=" + orderDetailId +
+                ", order_id=" + orderId +
                 ", quantity=" + quantity +
                 ", materials=" + materials +
                 '}';
