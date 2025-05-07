@@ -2,10 +2,7 @@ package app;
 
 import app.config.SessionConfig;
 import app.config.ThymeleafConfig;
-import app.controllers.CarportController;
-import app.controllers.HomeController;
-import app.controllers.OrderController;
-import app.controllers.OrderDetailController;
+import app.controllers.*;
 import app.persistence.*;
 
 import app.util.Calculator;
@@ -41,6 +38,8 @@ public class Main {
 
         CarportController.setConnectionPool(connectionPool);
         CarportMapper.setConnectionPool(connectionPool);
+        ShedController.setConnectionPool(connectionPool);
+        ShedMapper.setConnectionPool(connectionPool);
 
         MaterialMapper.setConnectionPool(connectionPool);
 
@@ -81,6 +80,11 @@ public class Main {
         // Rute til createCarport
         app.get("createCarport", ctx ->{
             CarportController.showWidthAndLength(ctx); });
+
+        app.get("createCarport", ctx ->{
+            ShedController.showShedWidthAndLength(ctx); });
+
+
 
     }
 }

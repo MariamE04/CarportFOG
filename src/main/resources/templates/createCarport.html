@@ -89,9 +89,35 @@
             <p>Krav: skal udfyldes</p>
         </div>
 
+        <div class="shed-dropdown">
+            <label th:for="shedWidthAndLength">Vælg skurets mål</label>
+            <div class="shedLength">
+                <select  name="length" required>
+                    <option value="" disabled selected>Vælg skurets længde
+                    </option>
+                    <option th:each="eachShedLength: ${shedWidthAndLength}" th:value="${eachShedLength.length}"
+                            th:text="${eachShedLength.length + ': '+ ' cm'}">
+                    </option>
+                </select>
+            </div>
 
 
-        <div class="stack-buy">
+
+            <div class="shedWidth">
+                <select  name="width" required>
+                    <option value="" disabled selected>Vælg skurets bredde
+                    </option>
+                    <option th:each="eachShedWidth: ${shedWidthAndLength}" th:value="${eachShedWidth.width}"
+                            th:text="${eachShedWidth.width + ': ' + ' cm'}">
+                    </option>
+                </select>
+            </div>
+        </div>
+
+
+
+
+            <div class="stack-buy">
             <label th:for="buy">Indsend Mål</label>
             <button type="submit">Indsend mål</button>
         </div>
