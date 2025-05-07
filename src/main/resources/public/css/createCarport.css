@@ -1,5 +1,5 @@
-body html {
-    background-color: lightslategray;
+body {
+    background-color: #F0EFEF;
 }
 
 header {
@@ -13,6 +13,7 @@ header {
 .build-carport {
     display: flex;
     margin-top: 6vh;
+    background-color: white;
     /* Længde-boks css */
 
 }
@@ -128,7 +129,7 @@ header {
 .stack-buy {
     display: flex;
     flex-direction: column;
-    margin-left: 45vh;
+    margin-left: 20vh;
 }
 
 .stack-buy label {
@@ -149,4 +150,46 @@ header {
 .stack-buy button:hover {
     background-color: lightgreen;
     font-weight: bold;
+}
+
+
+/* Shed css  */
+
+.shed-dropdown {
+display: flex;
+    flex-direction: column;
+    margin-left: 4vw;
+}
+
+.shed-dropdown label {
+    background-color: #A4D2D7;
+    padding: 3vh;
+    color: black;
+    font-weight: bold;
+}
+
+
+.shedWidth select{
+    margin-top: 1vh;
+    margin-left: 1vw;
+    font-size: 10px;
+    font-style: italic;
+    padding: 1vh;
+    border: none;
+    border-bottom: 2px solid black;
+    outline: none;
+}
+
+.shedLength select{
+    margin-left: 1vw;
+    font-size: 10px;
+    font-style: italic;
+    padding: 1vh;
+    border: none;
+    border-bottom: 2px solid black;
+    outline: none;
+}
+
+.shedLength  {
+    margin-top: 3vh;
 }
