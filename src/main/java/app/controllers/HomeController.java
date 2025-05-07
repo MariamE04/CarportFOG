@@ -82,7 +82,7 @@ public class HomeController {
                 }
             } else { //Hvis brugeren ikke findes, vises en fejlbesked på index.html.
                 ctx.attribute("message", "Fejl i enten e-mail eller password. Prøv igen.");
-                ctx.render("index.html");
+                ctx.render("login.html");
             }
         } catch (DatabaseException e) { //Hvis der opstår en databasefejl under login, logges fejlen, og brugeren får en generisk fejlbesked.
             LOGGER.severe("Error during login: " + e.getMessage());
