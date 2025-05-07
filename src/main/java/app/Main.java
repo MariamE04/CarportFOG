@@ -6,7 +6,6 @@ import app.controllers.*;
 import app.persistence.*;
 
 import app.util.Calculator;
-import app.util.PdfGenerator;
 import io.javalin.Javalin;
 import io.javalin.rendering.template.JavalinThymeleaf;
 
