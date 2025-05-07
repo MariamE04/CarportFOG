@@ -76,7 +76,6 @@ public class CarportSvg {
 
             // Stolper på den nederste rem (nederste linje)
             carportSvg.addRectangle(x, length - 35 - stolpeHøjde / 2.0, stolpeBredde, stolpeHøjde, "stroke:#000000; fill: none;");
-
         }
     }
 
