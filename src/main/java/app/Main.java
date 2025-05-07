@@ -59,15 +59,12 @@ public class Main {
 
         app.get("/login", ctx -> ctx.render("index.html")); //Viser login-formularen (her: index.html).
 
-        //app.get("/admin", ctx -> ctx.render("admin.html"));
 
         app.get("showOrder", ctx -> OrderController.showOrder(ctx));
 
         app.get("/admin", ctx -> {
             OrderController.getAllOrders(ctx);
         });
-
-        //app.get("/orderdetails", ctx -> OrderDetailController.getOrderDetailsByOrderNumber(ctx));
 
         app.post("orderdetails", ctx -> OrderDetailController.getOrderDetailsByOrderNumber(ctx));
         app.get("orderdetails", ctx -> ctx.render("orderdetails"));

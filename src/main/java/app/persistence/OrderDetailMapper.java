@@ -1,6 +1,5 @@
 package app.persistence;
 
-import app.entities.Carport;
 import app.entities.Materials;
 import app.entities.OrderDetails;
 import app.exceptions.DatabaseException;
@@ -26,9 +25,12 @@ public class OrderDetailMapper {
     }
 
     public static List<OrderDetails> getOrderDetailsByOrder(int orderId) throws DatabaseException {
-        List<OrderDetails>orderDetails = new ArrayList<>();
-        String sql = "SELECT * FROM orderdetails JOIN orders ON orderdetails.order_id = orders.order_id" +
-                " JOIN materials ON orderdetails.material_id = materials.material_id WHERE orders.order_id = ?";
+        List<OrderDetails> orderDetails = new ArrayList<>();
+        String sql = "SELECT *\n" +
+                "FROM orderdetails\n" +
+                "JOIN orders ON orderdetails.order_id = orders.order_id " +
+                "JOIN materials ON orderdetails.material_id = materials.material_id WHERE orders.order_id = ?";
+
 
         try(Connection connection = connectionPool.getConnection();
             PreparedStatement ps = connection.prepareStatement(sql)){
@@ -61,6 +63,7 @@ public class OrderDetailMapper {
         return orderDetails;
 
     }
+
 
     public static void addOrderDetail(int orderId, Materials materials, int quantity) throws DatabaseException {
         String sql = "INSERT INTO orderdetails (order_id, material_id, quantity) VALUES(?,?,?)";
