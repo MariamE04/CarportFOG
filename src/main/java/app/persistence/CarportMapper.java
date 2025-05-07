@@ -31,8 +31,8 @@ public class CarportMapper {
         ) {
             ResultSet rs = ps.executeQuery(); // Execute the query and fetch results.
             while (rs.next()) { // Iterate over each row in the result set.
-                int width = rs.getInt("width"); // Extract the 'width' field from the row.
-                int length = rs.getInt("length"); // Extract the 'length' field.
+                int width = rs.getInt("carport_width"); // Extract the 'width' field from the row.
+                int length = rs.getInt("carport_length"); // Extract the 'length' field.
 
                 // Create a Carport object and add it to the list.
                 widthAndLength.add(new Carport(width, length));
@@ -47,7 +47,7 @@ public class CarportMapper {
     //Method to get the width the user chooses
     public static Carport getChosenWidthAndLength(int choice1, int choice2) throws DatabaseException {
         Carport carport = null; // Object to hold topping record.
-        String sql = "SELECT * FROM public.carports WHERE width = ? AND length = ?"; // SQL query to fetch all records.
+        String sql = "SELECT * FROM public.carports WHERE carport_width = ? AND carport_length = ?"; // SQL query to fetch all records.
 
         try (
                 Connection connection = connectionPool.getConnection(); // Acquire a database connection.
@@ -57,8 +57,8 @@ public class CarportMapper {
             ps.setInt(2, choice2);
             ResultSet rs = ps.executeQuery(); // Execute the query and fetch results.
             while (rs.next()) { // Iterate over each row in the result set.
-                int width = rs.getInt("width"); // Extract the 'topping' field from the row.
-                int length = rs.getInt("length"); // Extract the 'price' field.
+                int width = rs.getInt("carport_width"); // Extract the 'topping' field from the row.
+                int length = rs.getInt("carport_length"); // Extract the 'price' field.
 
                 // Create a Carport object and add it to the list.
                 carport = new Carport(width, length);

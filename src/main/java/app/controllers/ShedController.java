@@ -6,6 +6,7 @@ import app.persistence.ConnectionPool;
 import app.persistence.ShedMapper;
 import io.javalin.http.Context;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ShedController {
@@ -17,12 +18,17 @@ public class ShedController {
     }
 
     public static void showShedWidthAndLength(Context ctx){
-        try {
-            List<Shed> shedWidthAndLength = ShedMapper.getShedWidthAndLength();
+
+            List<Shed> shedWidthAndLength = new ArrayList<>();
+            int i = 240;
+            while(i<=780){
+                shedWidthAndLength.add(new Shed(i,i));
+                i = i+60;
+            }
+
             ctx.attribute("shedWidthAndLength", shedWidthAndLength);
             ctx.render("createCarport.html");
-        } catch (DatabaseException e) {
-            throw new RuntimeException(e);
-        }
+
+
     }
 }
