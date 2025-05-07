@@ -79,12 +79,8 @@ public class Main {
 
         // Rute til createCarport
         app.get("createCarport", ctx ->{
-            CarportController.showWidthAndLength(ctx); });
-
-        app.get("createCarport", ctx ->{
-            ShedController.showShedWidthAndLength(ctx); });
-
-
-
+            CarportController.showWidthAndLength(ctx);
+            ShedController.showShedWidthAndLength(ctx);
+        });
     }
 }

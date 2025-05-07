@@ -31,8 +31,8 @@ public class ShedMapper {
         ) {
             ResultSet rs = ps.executeQuery(); // Execute the query and fetch results.
             while (rs.next()) { // Iterate over each row in the result set.
-                int width = rs.getInt("width"); // Extract the 'width' field from the row.
-                int length = rs.getInt("length"); // Extract the 'length' field.
+                int width = rs.getInt("shed_width"); // Extract the 'width' field from the row.
+                int length = rs.getInt("shed_length"); // Extract the 'length' field.
 
                 // Create a Shed object and add it to the list.
                 shedWidthAndLength.add(new Shed(width, length));
@@ -47,7 +47,7 @@ public class ShedMapper {
     //Method to get the width the user chooses
     public static Shed getChosenShedWidthAndLength(int choice1, int choice2) throws DatabaseException {
         Shed shed = null; // Object to hold topping record.
-        String sql = "SELECT * FROM public.shed WHERE width = ? AND length = ?"; // SQL query to fetch all records.
+        String sql = "SELECT * FROM public.shed WHERE shed_width = ? AND shed_length = ?"; // SQL query to fetch all records.
 
         try (
                 Connection connection = connectionPool.getConnection(); // Acquire a database connection.
@@ -57,8 +57,8 @@ public class ShedMapper {
             ps.setInt(2, choice2);
             ResultSet rs = ps.executeQuery(); // Execute the query and fetch results.
             while (rs.next()) { // Iterate over each row in the result set.
-                int width = rs.getInt("width"); // Extract the 'topping' field from the row.
-                int length = rs.getInt("length"); // Extract the 'price' field.
+                int width = rs.getInt("shed_width"); // Extract the 'topping' field from the row.
+                int length = rs.getInt("shed_length"); // Extract the 'price' field.
 
                 // Create a Shed object and add it to the list.
                 shed = new Shed(width, length);

@@ -6,6 +6,7 @@ import app.persistence.CarportMapper;
 import app.persistence.ConnectionPool;
 import io.javalin.http.Context;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CarportController {
@@ -16,14 +17,23 @@ public class CarportController {
         connectionPool = newConnectionPool;
     }
 
+
+
     public static void showWidthAndLength(Context ctx){
-        try {
-            List<Carport> widthAndLength = CarportMapper.getWidthAndLength();
+
+            List<Carport> widthAndLength = new ArrayList<>();
+            int i = 240;
+            while(i<=780){
+                widthAndLength.add(new Carport(i,i));
+                i = i+60;
+            }
+
             ctx.attribute("widthAndLength", widthAndLength);
             ctx.render("createCarport.html");
-        } catch (DatabaseException e) {
-            throw new RuntimeException(e);
+
         }
-    }
+
+
+
 
 }
