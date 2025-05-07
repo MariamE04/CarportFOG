@@ -19,11 +19,7 @@ public class SvgController {
         CarportSvg svg = new CarportSvg(width, length);
         String svgContent = svg.toString();
 
-        // Gemmer SVG'en i en fil
-        String svgFilename = "carport_" + width + "x" + length + ".svg";
-        saveSvgToFile(svgContent, svgFilename);
-
-        // Konverterer SVG'en til PDF
+       // Konverterer SVG'en til PDF
         String pdfFilename = "carport_" + width + "x" + length + ".pdf";
         SvgToPdfConverter converter = new SvgToPdfConverter();
 
