@@ -32,7 +32,7 @@
 <h2>Mine tilbud</h2>
 
 
-<form th:action="@{'/quote/respond/' + ${quote.id}}" method="post">
+<form th:action="@{'/quotes/' + ${quote.quoteId}}" method="post">
     <label><input type="radio" name="response" value="accept"> Accepter</label>
     <label><input type="radio" name="response" value="reject"> Afvis</label>
     <button type="submit">Godkend</button>
@@ -42,10 +42,10 @@
 <!-- Afventer bekræftelse -->
 <section>
     <h3>Afventer bekræftelse</h3>
-    <div th:each="quote : ${qoutes}" th:if="${!quote.accepted}">
+    <div th:each="quote : ${quotes}" th:if="${!quote.accepted}">
         <p>Pris: <span th:text="${quote.finalPrice}"></span> kr</p>
         <p>Udløber d. <span th:text="${quote.validUntilDate}"></span></p>
-        <a th:href="@{'/order/details/' + ${quote.id}}">Se detaljer</a>
+        <a th:href="@{${quote.id}}">Se detaljer</a>
         <hr/>
     </div>
 </section>
@@ -56,7 +56,7 @@
     <div th:each="quote : ${qoutes}" th:if="${quote.accepted}">
         <p>Pris: <span th:text="${quote.finalPrice}"></span> kr</p>
         <p>Bekræftet d. <span th:text="${quote.createdAtDate}"></span></p>
-        <a th:href="@{'/order/details/' + ${quote.id}}">Se detaljer</a>
+        <a th:href="@{${quote.id}}">Se detaljer</a>
         <hr/>
     </div>
 </section>

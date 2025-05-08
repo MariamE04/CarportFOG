@@ -31,10 +31,15 @@ public class QuoteController {
       public static void getQuotesByUser(Context ctx){
         User user = ctx.sessionAttribute("currentUser");
 
+          if (user == null) {
+              ctx.status(401).result("User not logged in");
+              return;
+          }
+
         try {
             List<Quote> qoutes = QuoteMapper.getQuotesByEmail(user.getEmail());
-            ctx.attribute("qoutes", qoutes);
-            ctx.render("qoutes_user.html");
+            ctx.attribute("quotes", qoutes);
+            ctx.render("quotes_user.html");
 
         } catch (DatabaseException e) {
             ctx.attribute("message", "Fejl ved hentning af qoutes til bruger: " + user.getEmail() + e.getMessage());
@@ -47,7 +52,7 @@ public class QuoteController {
         String response = ctx.formParam("response"); // "accept" eller "reject"
 
         try{
-            if("accpet".equals(response)){
+            if("accept".equals(response)){
                 QuoteMapper.updateQuoteAccepted(quoteId, true);
             } else if("reject".equals(response)) {
                 QuoteMapper.deleteQuote(quoteId);

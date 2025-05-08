@@ -76,6 +76,7 @@ public class Main {
 
 
         app.get("/quotes", QuoteController::getQuotesByUser);
+        app.post("/quotes/{id}", QuoteController::respondToQute);
 
 
 
