@@ -2,12 +2,27 @@ body {
     background-color: #F0EFEF;
 }
 
-header {
-    display: flex;
-    flex-direction: row;
-    background-color: white;
-    text-decoration-color: black;
 
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #f2f2f2;
+    padding: 20px;
+}
+
+.nav-links a {
+    margin-left: 40px;
+    text-decoration: none;
+    font-weight: bold;
+    color: #000;
+}
+
+.user-info {
+    margin-left: auto;
+    display: flex;
+    gap: 20px;
+    align-items: center;
 }
 
 .build-carport {

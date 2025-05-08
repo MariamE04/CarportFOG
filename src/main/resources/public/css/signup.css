@@ -15,12 +15,13 @@
 .signupBox {
     width: 25vw;
     padding: 20px;
-    background-color: #99c3ef;
-    border: 1px solid #99c3ef;
+    background-color: #ffffff;
+    border: 1px solid #ffffff;
     border-radius: 30px;
     display: flex;
     flex-direction: column;
     align-items: center;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
 .signupBox form {
@@ -48,7 +49,7 @@
 .signupBox button {
     margin-top: 15px;
     padding: 10px;
-    background-color: #073197;
+    background-color: #0c0c0c;
     color: white;
     border: none;
     border-radius: 5px;
@@ -71,4 +72,44 @@
 
 .signupBox a:hover {
     text-decoration: underline;
+}
+
+.top-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 10px 20px;
+    border-bottom: 1px solid #ddd;
+    gap: 20px;
+}
+
+.fog-logo {
+    height: 50px;
+}
+
+.nav-links a {
+    margin-left: 40px;
+    text-decoration: none;
+    font-weight: bold;
+    color: #000;
+}
+
+.user-info {
+    margin-left: auto;
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+.login-icon {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.top-nav a {
+    margin: 0 15px;
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
 }

@@ -36,15 +36,14 @@ class DatabaseTest {
                                 // SHEDS
                                 "CREATE TABLE IF NOT EXISTS test.sheds (" +
                                 "shed_id bigserial PRIMARY KEY, " +
-                                "width BIGINT NOT NULL, " +
-                                "length BIGINT NOT NULL);" +
+                                "shed_width BIGINT NOT NULL, " +
+                                "shed_length BIGINT NOT NULL);" +
 
                                 // CARPORTS
                                 "CREATE TABLE IF NOT EXISTS test.carports (" +
                                 "carport_id bigserial PRIMARY KEY, " +
-                                "width BIGINT NOT NULL, " +
-                                "length BIGINT NOT NULL, " +
-                                "height BIGINT NOT NULL, " +
+                                "carport_width BIGINT NOT NULL, " +
+                                "carport_length BIGINT NOT NULL, " +
                                 "roof_type VARCHAR(255) NOT NULL, " +
                                 "shed_id BIGINT REFERENCES test.sheds(shed_id));" +
 
@@ -103,8 +102,8 @@ class DatabaseTest {
 
             // Tilføj testdata
             stmt.execute("INSERT INTO test.users (email, password, role, phone_number) VALUES ('test@example.com', 'secret', 'admin', 12345678);");
-            stmt.execute("INSERT INTO test.sheds (width, length) VALUES (200, 300);");
-            stmt.execute("INSERT INTO test.carports (width, length, height, roof_type, shed_id) VALUES (600, 700, 250, 'flat', 1);");
+            stmt.execute("INSERT INTO test.sheds (shed_width, shed_length) VALUES (200, 300);");
+            stmt.execute("INSERT INTO test.carports (carport_width, carport_length, roof_type, shed_id) VALUES (600, 700, 'flat', 1);");
             stmt.execute("INSERT INTO test.quotes (final_price, valid_until_date, created_at_date, is_accepted) VALUES (19999.99, '2025-12-31', '2025-01-01', false);");
             stmt.execute("INSERT INTO test.materials (name, description, unit, amount, length, price) VALUES ('wood beam', 'strong beam', 'pcs', 10, 240.5, 30.0);");
             stmt.execute("INSERT INTO test.orders (user_id, carport_id, quote_id, order_date, status, total_price) VALUES (1, 1, 1, '2025-01-01', 'pending', 19999.99);");

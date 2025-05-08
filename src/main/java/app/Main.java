@@ -61,7 +61,7 @@ public class Main {
         // Rute til login
         app.post("/login", ctx -> HomeController.userLogIn(ctx)); //POST: Logger brugeren ind.
 
-        app.get("/login", ctx -> ctx.render("index.html")); //Viser login-formularen (her: index.html).
+        app.get("/login", ctx -> ctx.render("login.html")); //Viser login-formularen (her: index.html).
 
 
         app.get("showOrder", ctx -> SvgController.showOrder(ctx));
