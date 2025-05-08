@@ -1,7 +1,7 @@
 package app.util;
 
 import app.entities.Carport;
-import app.entities.Material;
+import app.entities.Materials;
 import app.exceptions.DatabaseException;
 import app.persistence.ConnectionPool;
 import app.persistence.MaterialMapper;
@@ -16,7 +16,7 @@ public class Calculator {
         int length = carport.getLength();
         int postCount = postCalculator(length);
         int rafterCount = rafterCalculator(length);
-        List<Material> beams = beamCalculator(length);
+        List<Materials> beams = beamCalculator(length);
     }
 
     public int postCalculator(int length){
@@ -37,21 +37,21 @@ public class Calculator {
         return count;
     }
 
-    public List<Material> beamCalculator(int length) throws DatabaseException {
-        List<Material> beamsList = new ArrayList<>();
-        Material currentBeam = null;
+    public List<Materials> beamCalculator(int length) throws DatabaseException {
+        List<Materials> beamsList = new ArrayList<>();
+        Materials currentBeam = null;
         boolean lengthExceeded = false;
-        List<Material> allMaterials = MaterialMapper.getMaterialsByLengths();
-        for (Material material : allMaterials) {
-            if (material.getLength() >= length && material.getLength() < currentBeam.getLength()) {
-                currentBeam = material;
+        List<Materials> allMaterials = MaterialMapper.getMaterialsByLengths();
+        for (Materials materials : allMaterials) {
+            if (materials.getLength() >= length && materials.getLength() < currentBeam.getLength()) {
+                currentBeam = materials;
             }
         }
         if (currentBeam == null) {
             lengthExceeded = true;
-            for (Material material : allMaterials) {
-                if (material.getLength() >= length/2 && material.getLength() < currentBeam.getLength()) {
-                    currentBeam = material;
+            for (Materials materials : allMaterials) {
+                if (materials.getLength() >= length/2 && materials.getLength() < currentBeam.getLength()) {
+                    currentBeam = materials;
                 }
             }
         }
