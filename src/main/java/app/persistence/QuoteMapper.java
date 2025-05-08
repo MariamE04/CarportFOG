@@ -78,4 +78,32 @@ public class QuoteMapper {
         }
         return quoteList;
     }
+
+
+    public static void updateQuoteAccepted(int quoteId, boolean accepted) throws DatabaseException {
+        String sql = "UPDATE quotes SET is_accepted = ? WHERE quote_id = ?";
+
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setBoolean(1, accepted);
+            ps.setInt(2, quoteId);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new DatabaseException("Kunne ikke opdatere quote: " + e.getMessage());
+        }
+    }
+
+    public static void deleteQuote(int quoteId) throws DatabaseException {
+        String sql = "DELETE FROM quotes WHERE quote_id = ?";
+
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, quoteId);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new DatabaseException("Kunne ikke slette quote: " + e.getMessage());
+        }
+    }
+
+
 }

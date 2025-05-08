@@ -39,8 +39,10 @@ public class Main {
         CarportMapper.setConnectionPool(connectionPool);
         ShedController.setConnectionPool(connectionPool);
         ShedMapper.setConnectionPool(connectionPool);
-
         MaterialMapper.setConnectionPool(connectionPool);
+
+        QuoteMapper.setConnectionPool(connectionPool);
+        QuoteController.setConnectionPool(connectionPool);
 
 
 
@@ -60,7 +62,6 @@ public class Main {
 
         // Rute til login
         app.post("/login", ctx -> HomeController.userLogIn(ctx)); //POST: Logger brugeren ind.
-
         app.get("/login", ctx -> ctx.render("login.html")); //Viser login-formularen (her: index.html).
 
 
@@ -72,6 +73,10 @@ public class Main {
 
         app.post("orderdetails", ctx -> OrderDetailController.getOrderDetailsByOrderNumber(ctx));
         app.get("orderdetails", ctx -> ctx.render("orderdetails"));
+
+
+        app.get("/quotes", QuoteController::getQuotesByUser);
+
 
 
         // Rute til createCarport

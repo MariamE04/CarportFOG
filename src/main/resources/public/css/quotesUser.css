@@ -1,0 +1,25 @@
+.top-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 10px 20px;
+    border-bottom: 1px solid #ddd;
+    gap: 20px;
+}
+
+.fog-logo {
+    height: 50px;
+}
+
+.top-nav a {
+    margin: 0 15px;
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
+}
+
+.login-icon {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
