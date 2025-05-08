@@ -4,20 +4,29 @@
     <meta charset="UTF-8">
     <title>FOG Byggecenter</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="/css/index.css" rel="stylesheet" />
+    <link href="../public/css/index.css" th:href="@{/css/index.css}" rel="stylesheet"/>
 </head>
 <body>
 
 <header class="top-header">
     <img class="fog-logo" th:src="@{/images/fog_logo.png}" alt="FOG Logo">
+
     <nav class="top-nav">
         <a th:href="@{/}">Hjem</a>
-        <a th:href="@{/createCarport.html}">Byg carport</a>
+        <a th:href="@{/createCarport}">Byg carport</a>
     </nav>
-    <div class="login-icon">
+
+    <div class="login-icon" th:if="${session.currentUser == null}">
         <span>🔒</span>
         <a th:href="@{/login}">Login</a>
     </div>
+
+    <!-- Bruger info -->
+    <div class="user-info" th:if="${session.currentUser != null}">
+        <span th:text="${session.currentUser.email}"></span>
+        <a class="indkøbskurv" href="quotes_user.html" th:href="@{quotes}">Kurv</a>
+    </div>
+
 </header>
 
 <main class="intro-section">

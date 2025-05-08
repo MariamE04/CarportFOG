@@ -31,8 +31,8 @@ public class CarportMapper {
         ) {
             ResultSet rs = ps.executeQuery(); // Execute the query and fetch results.
             while (rs.next()) { // Iterate over each row in the result set.
-                int width = rs.getInt("width"); // Extract the 'width' field from the row.
-                int length = rs.getInt("length"); // Extract the 'length' field.
+                int width = rs.getInt("carport_width"); // Extract the 'width' field from the row.
+                int length = rs.getInt("carport_length"); // Extract the 'length' field.
 
                 // Create a Carport object and add it to the list.
                 widthAndLength.add(new Carport(width, length));

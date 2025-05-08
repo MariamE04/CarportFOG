@@ -1,13 +1,14 @@
-.header {
+.top-header {
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    background-color: #f2f2f2;
-    padding: 20px;
+    align-items: flex-start;
+    padding: 10px 20px;
+    border-bottom: 1px solid #ddd;
+    gap: 20px;
 }
 
-.logo img {
-    height: 60px;
+.fog-logo {
+    height: 50px;
 }
 
 .nav-links a {
@@ -22,6 +23,19 @@
     display: flex;
     gap: 20px;
     align-items: center;
+}
+
+.login-icon {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.top-nav a {
+    margin: 0 15px;
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
 }
 
 .carport-svg-topview{

@@ -7,11 +7,31 @@
     <link href="../public/css/styles.css" th:href="@{/css/styles.css}" rel="stylesheet"/>
     <link href="../public/css/signup.css" th:href="@{/css/signup.css}" rel="stylesheet"/>
 </head>
-<!-- Banner  -->
-<img class="banner" src="../public/images/fog_logo.png" th:src="@{/images/fog_logo.png}" style="width: 20%">
-    <title>Login</title>
-</head>
+
 <body>
+
+<header class="top-header">
+    <img class="fog-logo" th:src="@{/images/fog_logo.png}" alt="FOG Logo">
+
+    <nav class="top-nav">
+        <a th:href="@{/}">Hjem</a>
+        <a th:href="@{/createCarport}">Byg carport</a>
+    </nav>
+
+    <div class="login-icon" th:if="${session.currentUser == null}">
+        <span>🔒</span>
+        <a th:href="@{/login}">Login</a>
+    </div>
+
+    <!-- Bruger info -->
+    <div class="user-info" th:if="${session.currentUser != null}">
+        <span th:text="${session.currentUser.email}"></span>
+        <a class="indkøbskurv" href="quotes_user.html" th:href="@{quotes}">Kurv</a>
+    </div>
+
+</header>
+
+
 <div class="signupContainer">
 
     <!-- Signup-boks -->
