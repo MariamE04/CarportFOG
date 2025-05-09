@@ -7,6 +7,8 @@
     <link href="../public/css/quotesUser.css" th:href="@{/css/quotesUser.css}" rel="stylesheet"/>
 </head>
 
+<body>
+
 <header class="top-header">
     <img class="fog-logo" th:src="@{/images/fog_logo.png}" alt="FOG Logo">
 
@@ -20,32 +22,27 @@
         <a th:href="@{/login}">Login</a>
     </div>
 
-    <!-- Bruger info -->
     <div class="user-info" th:if="${session.currentUser != null}">
         <span th:text="${session.currentUser.email}"></span>
-        <a class="indkøbskurv" href="quotes_user.html" th:href="@{quotes}">Kurv</a>
+        <a class="indkøbskurv" th:href="@{/quotes}">Kurv</a>
     </div>
-
 </header>
 
-<body>
 <h2>Mine tilbud</h2>
-
-
-<form th:action="@{'/quotes/' + ${quote.quoteId}}" method="post">
-    <label><input type="radio" name="response" value="accept"> Accepter</label>
-    <label><input type="radio" name="response" value="reject"> Afvis</label>
-    <button type="submit">Godkend</button>
-</form>
-
 
 <!-- Afventer bekræftelse -->
 <section>
     <h3>Afventer bekræftelse</h3>
-    <div th:each="quote : ${quotes}" th:if="${!quote.accepted}">
-        <p>Pris: <span th:text="${quote.finalPrice}"></span> kr</p>
-        <p>Udløber d. <span th:text="${quote.validUntilDate}"></span></p>
-        <a th:href="@{${quote.id}}">Se detaljer</a>
+    <div th:each="quote : ${quotes}" th:if="${!quote.isAccepted}">
+        <p>Pris: <span th:text="${quote.price}"></span> kr</p>
+        <p>Udløber d. <span th:text="${quote.validityPeriod}"></span></p>
+        <a th:href="@{'/quotes/' + ${quote.quoteId}}">Se detaljer</a>
+
+        <form th:action="@{'/quotes/' + ${quote.quoteId}}" method="post">
+            <label><input type="radio" name="response" value="accept"> Accepter</label>
+            <label><input type="radio" name="response" value="reject"> Afvis</label>
+            <button type="submit">Godkend</button>
+        </form>
         <hr/>
     </div>
 </section>
@@ -53,13 +50,13 @@
 <!-- Bekræftede tilbud -->
 <section>
     <h3>Bekræftede tilbud</h3>
-    <div th:each="quote : ${qoutes}" th:if="${quote.accepted}">
-        <p>Pris: <span th:text="${quote.finalPrice}"></span> kr</p>
-        <p>Bekræftet d. <span th:text="${quote.createdAtDate}"></span></p>
-        <a th:href="@{${quote.id}}">Se detaljer</a>
+    <div th:each="quote : ${quotes}" th:if="${quote.isAccepted}">
+        <p>Pris: <span th:text="${quote.price}"></span> kr</p>
+        <p>Bekræftet d. <span th:text="${quote.dateCreated}"></span></p>
+        <a th:href="@{'/quotes/' + ${quote.quoteId}}">Se detaljer</a>
         <hr/>
     </div>
 </section>
-</body>
 
+</body>
 </html>

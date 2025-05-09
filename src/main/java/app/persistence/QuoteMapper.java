@@ -38,13 +38,13 @@ public class QuoteMapper {
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
-                int id = rs.getInt("quote_id");
-                LocalDate validUntil = rs.getDate("valid_until_date").toLocalDate();
-                double finalPrice = rs.getDouble("final_price");
+                int quoteId = rs.getInt("quote_id");
+                LocalDate validityPeriod = rs.getDate("valid_until_date").toLocalDate();
+                double price= rs.getDouble("final_price");
                 LocalDate createdAt = rs.getDate("created_at_date").toLocalDate();
                 boolean isAccepted = rs.getBoolean("is_accepted");
 
-                quoteList.add(new Quote(id,validUntil, finalPrice, createdAt, isAccepted));
+                quoteList.add(new Quote(quoteId,validityPeriod, price, createdAt, isAccepted));
             }
 
         } catch (SQLException e) {
