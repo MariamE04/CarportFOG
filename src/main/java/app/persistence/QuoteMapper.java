@@ -22,7 +22,7 @@ public class QuoteMapper {
 
     public static List<Quote> getQuotesByEmail(String email) throws DatabaseException {
         String sql = """
-        SELECT q.quote_id, q.final_price, q.valid_until_date, q.created_at_date, q.is_accepted
+        SELECT q.quote_id, q.final_price, q.valid_until_date, q.created_at_date, q.is_accepted, q.is_visible
         FROM quotes q
         JOIN orders o ON q.quote_id = o.quote_id
         JOIN users u ON o.user_id = u.user_id
@@ -43,8 +43,9 @@ public class QuoteMapper {
                 double price= rs.getDouble("final_price");
                 LocalDate createdAt = rs.getDate("created_at_date").toLocalDate();
                 boolean isAccepted = rs.getBoolean("is_accepted");
+                boolean isVisible = rs.getBoolean("is_visible");
 
-                quoteList.add(new Quote(quoteId,validityPeriod, price, createdAt, isAccepted));
+                quoteList.add(new Quote(quoteId,validityPeriod, price, createdAt, isAccepted, isVisible));
             }
 
         } catch (SQLException e) {
@@ -61,21 +62,27 @@ public class QuoteMapper {
              PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setBoolean(1, accepted);
             ps.setInt(2, quoteId);
+
             ps.executeUpdate();
+
         } catch (SQLException e) {
             throw new DatabaseException("Kunne ikke opdatere quote: " + e.getMessage());
         }
     }
 
-    public static void deleteQuote(int quoteId) throws DatabaseException {
-        String sql = "DELETE FROM quotes WHERE quote_id = ?";
+    public static void updateQuoteVisibility(int quoteId, boolean isVisible) throws DatabaseException {
+        String sql = "UPDATE quotes SET is_visible = ? WHERE quote_id = ?";
 
         try (Connection connection = connectionPool.getConnection();
              PreparedStatement ps = connection.prepareStatement(sql)) {
-            ps.setInt(1, quoteId);
+
+            ps.setBoolean(1, isVisible);
+            ps.setInt(2, quoteId);
+
             ps.executeUpdate();
+
         } catch (SQLException e) {
-            throw new DatabaseException("Kunne ikke slette quote: " + e.getMessage());
+            throw new DatabaseException("Kunne ikke opdatere is_visible for quote: " + e.getMessage());
         }
     }
 

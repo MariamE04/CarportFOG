@@ -4,11 +4,12 @@
     import java.util.Date;
 
     public class Quote {
-        int quoteId;
-        LocalDate validityPeriod;
-        double price;
-        LocalDate dateCreated;
-        boolean isAccepted;
+        private int quoteId;
+        private LocalDate validityPeriod;
+        private double price;
+        private LocalDate dateCreated;
+        private boolean isAccepted;
+        private boolean isVisible;
 
         public Quote(int quoteId, LocalDate validityPeriod, double price, LocalDate dateCreated, boolean isAccepted) {
             this.quoteId = quoteId;
@@ -18,13 +19,13 @@
             this.isAccepted = isAccepted;
         }
 
-
-        public Quote(int quoteId, LocalDate validityPeriod, double price, boolean isAccepted) {
+        public Quote(int quoteId, LocalDate validityPeriod, double price, LocalDate dateCreated, boolean isAccepted, boolean isVisible) {
             this.quoteId = quoteId;
             this.validityPeriod = validityPeriod;
             this.price = price;
-            this.dateCreated = LocalDate.now();
+            this.dateCreated = dateCreated;
             this.isAccepted = isAccepted;
+            this.isVisible = isVisible;
         }
 
         public int getQuoteId() {
@@ -65,5 +66,13 @@
 
         public void setAccepted(boolean accepted) {
             isAccepted = accepted;
+        }
+
+        public boolean isVisible() {
+            return isVisible;
+        }
+
+        public void setVisible(boolean visible) {
+            isVisible = visible;
         }
     }
