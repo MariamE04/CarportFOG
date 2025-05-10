@@ -24,7 +24,7 @@
 
     <div class="user-info" th:if="${session.currentUser != null}">
         <span th:text="${session.currentUser.email}"></span>
-        <a class="indkøbskurv" th:href="@{/quotes}">Kurv</a>
+        <a class="indkøbskurv" th:href="@{/quotes}">Mine tilbud</a>
     </div>
 </header>
 
