@@ -11,13 +11,6 @@
         private boolean isAccepted;
         private boolean isVisible;
 
-        public Quote(int quoteId, LocalDate validityPeriod, double price, LocalDate dateCreated, boolean isAccepted) {
-            this.quoteId = quoteId;
-            this.validityPeriod = validityPeriod;
-            this.price = price;
-            this.dateCreated = dateCreated;
-            this.isAccepted = isAccepted;
-        }
 
         public Quote(int quoteId, LocalDate validityPeriod, double price, LocalDate dateCreated, boolean isAccepted, boolean isVisible) {
             this.quoteId = quoteId;

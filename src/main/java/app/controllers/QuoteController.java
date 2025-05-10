@@ -7,6 +7,7 @@ import app.persistence.ConnectionPool;
 import app.persistence.QuoteMapper;
 import io.javalin.http.Context;
 
+import java.util.Iterator;
 import java.util.List;
 
 public class QuoteController {
@@ -30,7 +31,14 @@ public class QuoteController {
         try {
             List<Quote> quotes = QuoteMapper.getQuotesByEmail(user.getEmail());
             // Filtrér quotes, der ikke er synlige
-            quotes.removeIf(quote -> !quote.isVisible());  // Fjern tilbud, der ikke er synlige
+            Iterator<Quote> iterator = quotes.iterator();
+            while (iterator.hasNext()) {
+                Quote quote = iterator.next();
+                if (!quote.isVisible()) {
+                    iterator.remove();
+                }
+            }
+            // Fjern tilbud, der ikke er synlige
             ctx.attribute("quotes", quotes);
             ctx.render("quotes_user.html");
 
