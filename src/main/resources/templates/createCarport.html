@@ -42,8 +42,6 @@
     <div class="indexText">
         <h2>Byg din egen carport</h2>
         <br>
-        <p>Alle mål er i centimeter</p>
-        <br>
 
 
 
@@ -54,7 +52,7 @@
     <form class="build-carport" action="createCarport" method="post">
 
         <div class="stack-length">
-            <label th:for="widthAndLength">Vælg Længde</label>
+            <label th:for="widthAndLength">Vælg Længde i cm</label>
             <div class="length">
                 <select  name="length" required>
                     <option value="" disabled selected>Vælg længde
@@ -67,7 +65,7 @@
         </div>
 
         <div class="stack-width">
-            <label th:for="widthAndLength">Vælg Bredde</label>
+            <label th:for="widthAndLength">Vælg Bredde i cm</label>
             <div class="width">
                 <select  name="width" required>
                     <option value="" disabled selected>Vælg Bredde
@@ -95,7 +93,7 @@
             <label th:for="shedWidthAndLength">Vælg skurets mål</label>
             <div class="shedLength">
                 <select  name="length" required>
-                    <option value="" disabled selected>Vælg skurets længde
+                    <option value="" disabled selected>Vælg skurets længde i cm
                     </option>
                     <option th:each="eachShedLength: ${shedWidthAndLength}" th:value="${eachShedLength.length}"
                             th:text="${eachShedLength.length}">
@@ -107,7 +105,7 @@
 
             <div class="shedWidth">
                 <select  name="width" required>
-                    <option value="" disabled selected>Vælg skurets bredde
+                    <option value="" disabled selected>Vælg skurets bredde i cm
                     </option>
                     <option th:each="eachShedWidth: ${shedWidthAndLength}" th:value="${eachShedWidth.width}"
                             th:text="${eachShedWidth.width}">

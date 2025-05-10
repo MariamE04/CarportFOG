@@ -36,4 +36,61 @@ public class CarportMapper {
 
     }
 
-}
+    public static Carport getCarportById(int carportId) throws DatabaseException{
+        Carport carport = null;
+
+        String sql = "select * from public.carports where carport_id = ?";
+
+        try (
+                Connection connection = connectionPool.getConnection();
+                PreparedStatement ps = connection.prepareStatement(sql)
+        )
+        {
+            ps.setInt(1, carportId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next())
+            {
+                int width = rs.getInt("carport_width");
+                int length = rs.getInt("carport_length");
+                int height = rs.getInt("carport_height");
+                String roofType = rs.getString("roof_type");
+                //Tilføj shed her hvis skur skal med senere
+
+                 carport = new Carport(width, length, height, roofType);
+            }
+        }
+        catch (SQLException e)
+        {
+            throw new DatabaseException("Fejl ved hentning af carport med id = " + carportId, e.getMessage());
+        }
+        return carport;
+
+    }
+
+    public static void updateCarport(int width, int length, int carportId) throws DatabaseException{
+        String sql = "update public.carports set width = ?, length = ? where task_id = ?";
+
+        try (
+                Connection connection = connectionPool.getConnection();
+                PreparedStatement ps = connection.prepareStatement(sql)
+        )
+        {
+            ps.setInt(1, width);
+            ps.setInt(2, length);
+            ps.setInt(3, carportId);
+            int rowsAffected = ps.executeUpdate();
+            if (rowsAffected != 1)
+            {
+                throw new DatabaseException("Fejl i opdatering af carport");
+            }
+        }
+        catch (SQLException e)
+        {
+            throw new DatabaseException("Fejl i opdatering af carports mål", e.getMessage());
+        }
+    }
+
+
+    }
+
+
