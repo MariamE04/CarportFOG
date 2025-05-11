@@ -85,6 +85,4 @@ public class QuoteController {
         // Efter at have opdateret, sendes brugeren tilbage til listen af tilbud.
         ctx.redirect("/quotes"); // flyt udenfor try-catch så det kører uanset hvad
     }
-
-
 }
