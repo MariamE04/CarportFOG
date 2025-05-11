@@ -7,6 +7,7 @@ import app.persistence.ConnectionPool;
 import app.persistence.QuoteMapper;
 import io.javalin.http.Context;
 
+import java.time.LocalDate;
 import java.util.Iterator;
 import java.util.List;
 
@@ -22,6 +23,7 @@ public class QuoteController {
 
     //Henter tilbud for den aktuelle bruger baseret på sessionen
     public static void getQuotesByUser(Context ctx) {
+        expirationDate();
 
         // Henter den aktuelle bruger fra sessionen.
         User user = ctx.sessionAttribute("currentUser");
@@ -84,5 +86,18 @@ public class QuoteController {
 
         // Efter at have opdateret, sendes brugeren tilbage til listen af tilbud.
         ctx.redirect("/quotes"); // flyt udenfor try-catch så det kører uanset hvad
+    }
+
+    public static void expirationDate() {
+        try{
+            List<Quote> allQuotes = QuoteMapper.getAllQuotes();
+
+            for(Quote quote: allQuotes){
+                if(quote.isVisible() && quote.getValidityPeriod().isBefore(LocalDate.now().minusDays(14))){
+                    QuoteMapper.updateQuoteVisibility(quote.getQuoteId(), false);
+                }
+            }} catch (DatabaseException e) {
+            System.out.println("Fejl i expirationDate: " + e.getMessage());
+         }
     }
 }
