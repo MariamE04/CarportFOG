@@ -85,5 +85,9 @@ public class Main {
             CarportController.showWidthAndLength(ctx);
             ShedController.showShedWidthAndLength(ctx);
         });
+
+        app.post("createCarport", ctx ->{
+            CarportController.sendOrder(ctx);
+        });
     }
 }

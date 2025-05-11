@@ -42,6 +42,8 @@
     <div class="indexText">
         <h2>Byg din egen carport</h2>
         <br>
+        <p>Alle mål er i centimeter</p>
+        <br>
 
 
 
@@ -58,7 +60,7 @@
                     <option value="" disabled selected>Vælg længde
                     </option>
                     <option th:each="eachLength: ${widthAndLength}" th:value="${eachLength.length}"
-                            th:text="${eachLength.length + ': '+ ' cm'}">
+                            th:text="${eachLength.length}">
                     </option>
                 </select>
             </div>
@@ -71,7 +73,7 @@
                     <option value="" disabled selected>Vælg Bredde
                     </option>
                     <option th:each="eachWidth: ${widthAndLength}" th:value="${eachWidth.width}"
-                            th:text="${eachWidth.width + ': ' + ' cm'}">
+                            th:text="${eachWidth.width}">
                     </option>
                 </select>
             </div>
@@ -96,7 +98,7 @@
                     <option value="" disabled selected>Vælg skurets længde
                     </option>
                     <option th:each="eachShedLength: ${shedWidthAndLength}" th:value="${eachShedLength.length}"
-                            th:text="${eachShedLength.length + ': '+ ' cm'}">
+                            th:text="${eachShedLength.length}">
                     </option>
                 </select>
             </div>
@@ -108,7 +110,7 @@
                     <option value="" disabled selected>Vælg skurets bredde
                     </option>
                     <option th:each="eachShedWidth: ${shedWidthAndLength}" th:value="${eachShedWidth.width}"
-                            th:text="${eachShedWidth.width + ': ' + ' cm'}">
+                            th:text="${eachShedWidth.width}">
                     </option>
                 </select>
             </div>
