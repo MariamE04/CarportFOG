@@ -150,6 +150,27 @@ class DatabaseTest {
     }
 
 
+    @Test
+    void login(){
+        UserMapper.setConnectionPool(connector);
+
+        String correctEmail = "test@example.com";
+        String correctPassword = "secret";
+
+        try {
+            User result = UserMapper.logIn(correctEmail, correctPassword);
+
+           assertNotNull(result, "Login should succeed for valid credentials.");
+           assertEquals(correctEmail, result.getEmail(), "Logged-in email should match the provided email.");
+           assertEquals("admin", result.getRole(), "Role should match the inserted value.");
+
+        } catch (DatabaseException e) {
+            fail("Login failed for valid credentials: " + e.getMessage());
+            throw new RuntimeException(e);
+        }
+    }
+
+
 
     @Test
     void testUserExists() {
