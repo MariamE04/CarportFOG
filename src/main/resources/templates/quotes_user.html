@@ -31,15 +31,18 @@
 <h2>Mine tilbud</h2>
 
 <!-- Afventer bekræftelse -->
-<div th:each="quote : ${quotes}" th:if="${!quote.isAccepted}">
+
+<!-- Vis aktive tilbud, som ikke er accepteret, afvist eller udløbet -->
+<div th:each="quote : ${quotes}"
+     th:if="${!quote.accepted} and ${quote.visible} and !${quote.isExpired}">
     <p>Pris: <span th:text="${quote.price}"></span> kr</p>
-    <p>Udløber d. <span th:text="${quote.validityPeriod}"></span></p>
+    <p>Gyldig indtil: <span th:text="${quote.validityPeriod}"></span></p>
     <a th:href="@{'/quotes/' + ${quote.quoteId}}">Se detaljer</a>
 
     <form th:action="@{'/quotes/' + ${quote.quoteId}}" method="post">
         <label><input type="radio" name="response" value="accept"> Accepter</label>
         <label><input type="radio" name="response" value="reject"> Afvis</label>
-        <button type="submit">Godkend</button>
+        <button type="submit">Send</button>
     </form>
     <hr/>
 </div>

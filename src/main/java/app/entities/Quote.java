@@ -10,6 +10,7 @@
         private LocalDate dateCreated;
         private boolean isAccepted;
         private boolean isVisible;
+        private  boolean isExpired;
 
 
         public Quote(int quoteId, LocalDate validityPeriod, double price, LocalDate dateCreated, boolean isAccepted, boolean isVisible) {
@@ -20,6 +21,11 @@
             this.isAccepted = isAccepted;
             this.isVisible = isVisible;
         }
+
+        public boolean isExpired() {
+            return dateCreated.plusDays(14).isBefore(LocalDate.now());
+        }
+
 
         public int getQuoteId() {
             return quoteId;
@@ -68,4 +74,5 @@
         public void setVisible(boolean visible) {
             isVisible = visible;
         }
+
     }

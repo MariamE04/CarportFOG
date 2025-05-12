@@ -7,6 +7,7 @@ import app.persistence.ConnectionPool;
 import app.persistence.QuoteMapper;
 import io.javalin.http.Context;
 
+import java.time.LocalDate;
 import java.util.Iterator;
 import java.util.List;
 
@@ -19,9 +20,9 @@ public class QuoteController {
         connectionPool = newConnectionPool;
     }
 
-
     //Henter tilbud for den aktuelle bruger baseret på sessionen
     public static void getQuotesByUser(Context ctx) {
+        expirationDate();
 
         // Henter den aktuelle bruger fra sessionen.
         User user = ctx.sessionAttribute("currentUser");
@@ -33,6 +34,7 @@ public class QuoteController {
         }
 
         try {
+
             // Henter alle tilbud for brugeren via email.
             List<Quote> quotes = QuoteMapper.getQuotesByEmail(user.getEmail());
 
@@ -71,6 +73,7 @@ public class QuoteController {
             //accepterer tilbuddet: opdateres quote som accepteret i databasen
             if("accept".equals(response)){
                 QuoteMapper.updateQuoteAccepted(quoteId, true);
+                QuoteMapper.updateQuoteVisibility(quoteId, true);
 
             // brugeren afviser tilbuddet: opdateres quote som usynligt.
             } else if("reject".equals(response)) {
@@ -84,5 +87,21 @@ public class QuoteController {
 
         // Efter at have opdateret, sendes brugeren tilbage til listen af tilbud.
         ctx.redirect("/quotes"); // flyt udenfor try-catch så det kører uanset hvad
+    }
+
+    public static void expirationDate() {
+        try {
+            List<Quote> allQuotes = QuoteMapper.getAllQuotes();
+
+            for (Quote quote : allQuotes) {
+                if (quote.isVisible() && !quote.isAccepted()
+                        && quote.getDateCreated().plusDays(14).isBefore(LocalDate.now())) {
+                    QuoteMapper.updateQuoteVisibility(quote.getQuoteId(), false);
+                    // evt: QuoteMapper.updateQuoteExpired(quote.getQuoteId(), true);
+                }
+            }
+        } catch (DatabaseException e) {
+            System.out.println("Fejl i expirationDate: " + e.getMessage());
+        }
     }
 }

@@ -23,3 +23,19 @@
     align-items: center;
     gap: 5px;
 }
+
+.expired {
+    color: gray;
+    font-style: italic;
+}
+
+.expired-link {
+    color: gray;
+    pointer-events: none; /* Deaktiverer klik */
+}
+
+button:disabled {
+    background-color: gray;
+    cursor: not-allowed;
+    pointer-events: none; /* Deaktiverer knappen */
+}

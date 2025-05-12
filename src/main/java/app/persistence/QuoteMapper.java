@@ -22,7 +22,6 @@ public class QuoteMapper {
         connectionPool = newConnectionPool; // Tildeler den nye connectionPool til den statiske variabel.
     }
 
-
     // Henter alle tilbud (quotes) for en bruger baseret på deres email.
     public static List<Quote> getQuotesByEmail(String email) throws DatabaseException {
         String sql = """
@@ -81,24 +80,50 @@ public class QuoteMapper {
         }
     }
 
-    // Opdaterer synligheden af et tilbud (is_visible).
-    public static void updateQuoteVisibility(int quoteId, boolean isVisible) throws DatabaseException {
+        // Opdaterer synligheden af et tilbud (is_visible).
+        public static void updateQuoteVisibility(int quoteId, boolean isVisible) throws DatabaseException {
 
-        // SQL-forespørgsel til at opdatere is_visible for et tilbud.
-        String sql = "UPDATE quotes SET is_visible = ? WHERE quote_id = ?";
+            // SQL-forespørgsel til at opdatere is_visible for et tilbud.
+            String sql = "UPDATE quotes SET is_visible = ? WHERE quote_id = ?";
 
-        try (Connection connection = connectionPool.getConnection(); // Henter en forbindelse fra connection pool.
-             PreparedStatement ps = connection.prepareStatement(sql)) { // Forbereder SQL-forespørgslen.
+            try (Connection connection = connectionPool.getConnection(); // Henter en forbindelse fra connection pool.
+                 PreparedStatement ps = connection.prepareStatement(sql)) { // Forbereder SQL-forespørgslen.
 
-            ps.setBoolean(1, isVisible); // Sætter den nye værdi for is_visible.
-            ps.setInt(2, quoteId);  // Sætter quote_id i forespørgslen.
+                ps.setBoolean(1, isVisible); // Sætter den nye værdi for is_visible.
+                ps.setInt(2, quoteId);  // Sætter quote_id i forespørgslen.
 
-            ps.executeUpdate(); // Udfører opdateringen.
+                ps.executeUpdate(); // Udfører opdateringen.
+
+            } catch (SQLException e) {
+                throw new DatabaseException("Kunne ikke opdatere is_visible for quote: " + e.getMessage());
+            }
+        }
+
+    public static List<Quote> getAllQuotes() throws DatabaseException {
+        String sql = "SELECT * FROM quotes";
+        List<Quote> quoteList = new ArrayList<>();
+
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql);) {
+
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                int quoteId = rs.getInt("quote_id");
+                LocalDate validityPeriod = rs.getDate("valid_until_date").toLocalDate();
+                double price = rs.getDouble("final_price");
+                LocalDate createdAt = rs.getDate("created_at_date").toLocalDate();
+                boolean isAccepted = rs.getBoolean("is_accepted");
+                boolean isVisible = rs.getBoolean("is_visible");
+
+                quoteList.add(new Quote(quoteId, validityPeriod, price, createdAt, isAccepted, isVisible));
+            }
 
         } catch (SQLException e) {
-            throw new DatabaseException("Kunne ikke opdatere is_visible for quote: " + e.getMessage());
+            throw new DatabaseException("Fejl i getAllQuotes: " + e.getMessage());
         }
-    }
 
+        return quoteList;
+    }
 
 }
