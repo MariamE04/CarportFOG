@@ -22,7 +22,6 @@ public class QuoteMapper {
         connectionPool = newConnectionPool; // Tildeler den nye connectionPool til den statiske variabel.
     }
 
-
     // Henter alle tilbud (quotes) for en bruger baseret på deres email.
     public static List<Quote> getQuotesByEmail(String email) throws DatabaseException {
         String sql = """
@@ -100,29 +99,31 @@ public class QuoteMapper {
             }
         }
 
-        public static List<Quote> getAllQuotes() throws DatabaseException {
-            String sql = "SELECT * FROM quotes";
-            List<Quote> quoteList = new ArrayList<>();
+    public static List<Quote> getAllQuotes() throws DatabaseException {
+        String sql = "SELECT * FROM quotes";
+        List<Quote> quoteList = new ArrayList<>();
 
-            try (Connection connection = connectionPool.getConnection();
-                 PreparedStatement ps = connection.prepareStatement(sql);
-                 ResultSet rs = ps.executeQuery()) {
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql);) {
 
-                while (rs.next()) {
-                    int quoteId = rs.getInt("quote_id");
-                    LocalDate validityPeriod = rs.getDate("valid_until_date").toLocalDate();
-                    double price = rs.getDouble("final_price");
-                    LocalDate createdAt = rs.getDate("created_at_date").toLocalDate();
-                    boolean isAccepted = rs.getBoolean("is_accepted");
-                    boolean isVisible = rs.getBoolean("is_visible");
+            ResultSet rs = ps.executeQuery();
 
-                    quoteList.add(new Quote(quoteId, validityPeriod, price, createdAt, isAccepted, isVisible));
-                }
+            while (rs.next()) {
+                int quoteId = rs.getInt("quote_id");
+                LocalDate validityPeriod = rs.getDate("valid_until_date").toLocalDate();
+                double price = rs.getDouble("final_price");
+                LocalDate createdAt = rs.getDate("created_at_date").toLocalDate();
+                boolean isAccepted = rs.getBoolean("is_accepted");
+                boolean isVisible = rs.getBoolean("is_visible");
 
-            } catch (SQLException e) {
-                throw new DatabaseException("Fejl i getAllQuotes: " + e.getMessage());
+                quoteList.add(new Quote(quoteId, validityPeriod, price, createdAt, isAccepted, isVisible));
             }
 
-            return quoteList;
+        } catch (SQLException e) {
+            throw new DatabaseException("Fejl i getAllQuotes: " + e.getMessage());
         }
+
+        return quoteList;
+    }
+
 }

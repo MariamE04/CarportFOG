@@ -20,10 +20,9 @@ public class QuoteController {
         connectionPool = newConnectionPool;
     }
 
-
     //Henter tilbud for den aktuelle bruger baseret på sessionen
     public static void getQuotesByUser(Context ctx) {
-        expirationDate();
+        //expirationDate();
 
         // Henter den aktuelle bruger fra sessionen.
         User user = ctx.sessionAttribute("currentUser");
@@ -35,6 +34,7 @@ public class QuoteController {
         }
 
         try {
+
             // Henter alle tilbud for brugeren via email.
             List<Quote> quotes = QuoteMapper.getQuotesByEmail(user.getEmail());
 
@@ -73,6 +73,7 @@ public class QuoteController {
             //accepterer tilbuddet: opdateres quote som accepteret i databasen
             if("accept".equals(response)){
                 QuoteMapper.updateQuoteAccepted(quoteId, true);
+                QuoteMapper.updateQuoteVisibility(quoteId, true);
 
             // brugeren afviser tilbuddet: opdateres quote som usynligt.
             } else if("reject".equals(response)) {
@@ -88,16 +89,17 @@ public class QuoteController {
         ctx.redirect("/quotes"); // flyt udenfor try-catch så det kører uanset hvad
     }
 
-    public static void expirationDate() {
+  /*  public static void expirationDate() {
         try{
             List<Quote> allQuotes = QuoteMapper.getAllQuotes();
 
             for(Quote quote: allQuotes){
-                if(quote.isVisible() && quote.getValidityPeriod().isBefore(LocalDate.now().minusDays(14))){
+                if (quote.isVisible() && !quote.isAccepted() && quote.getDateCreated().plusDays(14).isBefore(LocalDate.now())) {
                     QuoteMapper.updateQuoteVisibility(quote.getQuoteId(), false);
                 }
-            }} catch (DatabaseException e) {
+            }
+            } catch (DatabaseException e) {
             System.out.println("Fejl i expirationDate: " + e.getMessage());
          }
-    }
+    }*/
 }

@@ -10,6 +10,7 @@
         private LocalDate dateCreated;
         private boolean isAccepted;
         private boolean isVisible;
+        private  boolean isExpired;
 
 
         public Quote(int quoteId, LocalDate validityPeriod, double price, LocalDate dateCreated, boolean isAccepted, boolean isVisible) {
@@ -20,6 +21,13 @@
             this.isAccepted = isAccepted;
             this.isVisible = isVisible;
         }
+
+        public boolean isExpired() {
+            // Forudsætter at quote er gyldigt i 14 dage efter det er oprettet
+            LocalDate today = LocalDate.now();
+            return dateCreated.plusDays(14).isBefore(today);
+        }
+
 
         public int getQuoteId() {
             return quoteId;
