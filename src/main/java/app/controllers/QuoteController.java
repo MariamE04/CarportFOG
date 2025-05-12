@@ -22,7 +22,7 @@ public class QuoteController {
 
     //Henter tilbud for den aktuelle bruger baseret på sessionen
     public static void getQuotesByUser(Context ctx) {
-        //expirationDate();
+        expirationDate();
 
         // Henter den aktuelle bruger fra sessionen.
         User user = ctx.sessionAttribute("currentUser");
@@ -89,17 +89,19 @@ public class QuoteController {
         ctx.redirect("/quotes"); // flyt udenfor try-catch så det kører uanset hvad
     }
 
-  /*  public static void expirationDate() {
-        try{
+    public static void expirationDate() {
+        try {
             List<Quote> allQuotes = QuoteMapper.getAllQuotes();
 
-            for(Quote quote: allQuotes){
-                if (quote.isVisible() && !quote.isAccepted() && quote.getDateCreated().plusDays(14).isBefore(LocalDate.now())) {
+            for (Quote quote : allQuotes) {
+                if (quote.isVisible() && !quote.isAccepted()
+                        && quote.getDateCreated().plusDays(14).isBefore(LocalDate.now())) {
                     QuoteMapper.updateQuoteVisibility(quote.getQuoteId(), false);
+                    // evt: QuoteMapper.updateQuoteExpired(quote.getQuoteId(), true);
                 }
             }
-            } catch (DatabaseException e) {
+        } catch (DatabaseException e) {
             System.out.println("Fejl i expirationDate: " + e.getMessage());
-         }
-    }*/
+        }
+    }
 }

@@ -23,9 +23,7 @@
         }
 
         public boolean isExpired() {
-            // Forudsætter at quote er gyldigt i 14 dage efter det er oprettet
-            LocalDate today = LocalDate.now();
-            return dateCreated.plusDays(14).isBefore(today);
+            return dateCreated.plusDays(14).isBefore(LocalDate.now());
         }
 
 
@@ -76,4 +74,5 @@
         public void setVisible(boolean visible) {
             isVisible = visible;
         }
+
     }
