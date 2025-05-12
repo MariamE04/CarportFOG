@@ -17,7 +17,7 @@ public class SvgController {
         String svgContent = svg.toString();
 
        // Konverterer SVG'en til PDF
-        String pdfFilename = "carport_" + width + "x" + length + ".pdf";
+        String pdfFilename = "public/pdf/carport_" + width + "x" + length + ".pdf";
         SvgToPdfConverter converter = new SvgToPdfConverter();
 
         try {
@@ -28,8 +28,11 @@ public class SvgController {
         } catch (IOException | TranscoderException e) {
             e.printStackTrace();
         }
-        // Returner SVG'en som en attribute til visning
+
+        // Returner SVG og PDF som attributter til visning i template
         ctx.attribute("svg", svgContent);
-        ctx.render("showOrder.html");
+        ctx.attribute("pdfFilename", pdfFilename);
+        ctx.render("showOrder.html"); // Renderer visningen af ordren
     }
+
 }

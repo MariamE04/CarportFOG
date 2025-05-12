@@ -55,6 +55,13 @@
         <p>Pris: <span th:text="${quote.price}"></span> kr</p>
         <p>Bekræftet d. <span th:text="${quote.dateCreated}"></span></p>
         <a th:href="@{'/quotes/' + ${quote.quoteId}}">Se detaljer</a>
+
+        <div th:if="${!quote.isPaid}">
+            <form th:action="@{'/pay/' + ${quote.quoteId}}" method="get">
+                <button type="submit">Betal</button>
+            </form>
+        </div>
+
         <hr/>
     </div>
 </section>

@@ -1,15 +1,21 @@
 package app.controllers;
 
+import app.entities.Carport;
 import app.entities.Quote;
 import app.entities.User;
 import app.exceptions.DatabaseException;
 import app.persistence.ConnectionPool;
 import app.persistence.QuoteMapper;
+import app.util.CarportSvg;
+import app.util.SvgToPdfConverter;
 import io.javalin.http.Context;
+import org.jetbrains.annotations.NotNull;
 
 import java.time.LocalDate;
 import java.util.Iterator;
 import java.util.List;
+
+import static kotlin.text.Typography.quote;
 
 public class QuoteController {
 
@@ -104,4 +110,12 @@ public class QuoteController {
             System.out.println("Fejl i expirationDate: " + e.getMessage());
         }
     }
+
+    // Viser en side, hvor brugeren kan bekræfte betalingen
+    public static void showPaymentPage(Context ctx) {
+        int quoteId = Integer.parseInt(ctx.pathParam("id"));
+        ctx.attribute("quoteId", quoteId);
+        ctx.render("pay_quote.html");
+    }
+
 }
