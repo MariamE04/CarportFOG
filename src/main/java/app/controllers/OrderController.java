@@ -4,6 +4,7 @@ import app.entities.Order;
 import app.exceptions.DatabaseException;
 import app.persistence.ConnectionPool;
 import app.persistence.OrderMapper;
+import app.util.Calculator;
 import app.util.CarportSvg;
 import app.util.Svg;
 import io.javalin.http.Context;
@@ -19,13 +20,13 @@ public class OrderController {
         connectionPool = newConnectionPool;
     }
 
-    public static void showOrder(Context ctx){
+    public static void showOrder(Context ctx) throws DatabaseException {
         Locale.setDefault(new Locale("US"));
 
         int width = Integer.parseInt(ctx.queryParam("width"));   // fx fra ?width=600
         int length = Integer.parseInt(ctx.queryParam("length")); // fx fra ?length=780
 
-        CarportSvg svg = new CarportSvg(width, length);
+        CarportSvg svg = Calculator.carportCalculator(width, length);
 
         ctx.attribute("svg", svg.toString());
         ctx.render("showOrder.html");

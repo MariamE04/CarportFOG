@@ -1,6 +1,5 @@
 package app.util;
 
-import app.entities.Carport;
 import app.entities.Material;
 import app.exceptions.DatabaseException;
 import app.persistence.ConnectionPool;
@@ -12,51 +11,60 @@ import java.util.List;
 public class Calculator {
     private static ConnectionPool connectionPool;
 
-    public void carportCalculator(Carport carport) throws DatabaseException {
-        int length = carport.getLength();
-        int postCount = postCalculator(length);
-        int rafterCount = rafterCalculator(length);
-        List<Material> beams = beamCalculator(length);
+    public static CarportSvg carportCalculator(int width, int length) throws DatabaseException {
+        int postCount = postCounter(width);
+        int postSpace = postSpace(width);
+        int rafterCount = rafterCalculator(width);
+        List<Material> beams = beamCalculator(width);
+        return new CarportSvg(width, length, postCount, postSpace, rafterCount, beams);
     }
 
-    public int postCalculator(int length){
+    private static int postCounter(int width){
         int count = 4;
-        while (length - 130 > 340){
+        while (width - 130 > 340){
             count += 2;
-            length -= 340;
+            width -= 340;
         }
         return count;
     }
 
-    public int rafterCalculator(int length){
+    private static int postSpace(int width){
+        int postCount = postCounter(width);
+        int space = (width - 130)/(postCount/2) - 1;
+        return space;
+    }
+
+    private static int rafterCalculator(int width){
         int count = 2;
-        while (length >= 55){
+        while (width > 60){
             count += 1;
-            length -= 55;
+            width -= 60;
         }
         return count;
     }
 
-    public List<Material> beamCalculator(int length) throws DatabaseException {
+    private static List<Material> beamCalculator(int width) throws DatabaseException {
         List<Material> beamsList = new ArrayList<>();
         Material currentBeam = null;
         boolean lengthExceeded = false;
         List<Material> allMaterials = MaterialMapper.getMaterialsByLengths();
         for (Material material : allMaterials) {
-            if (material.getLength() >= length && material.getLength() < currentBeam.getLength()) {
+            if (material.getLength() >= width && material.getLength() < currentBeam.getLength()) {
                 currentBeam = material;
             }
         }
         if (currentBeam == null) {
             lengthExceeded = true;
             for (Material material : allMaterials) {
-                if (material.getLength() >= length/2 && material.getLength() < currentBeam.getLength()) {
+                if (material.getLength() >= width /2 && material.getLength() < currentBeam.getLength()) {
                     currentBeam = material;
                 }
             }
         }
         beamsList.add(currentBeam);
+        beamsList.add(currentBeam);
         if (lengthExceeded) {
+            beamsList.add(currentBeam);
             beamsList.add(currentBeam);
         }
         return  beamsList;
