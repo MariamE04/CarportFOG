@@ -81,6 +81,10 @@ public class QuoteController {
                 QuoteMapper.updateQuoteAccepted(quoteId, true);
                 QuoteMapper.updateQuoteVisibility(quoteId, true);
 
+                // Redirect til betalingsside
+                ctx.redirect("/pay/" + quoteId);
+                return; // sørg for at vi ikke også kører redirect nedenfor
+
             // brugeren afviser tilbuddet: opdateres quote som usynligt.
             } else if("reject".equals(response)) {
                 QuoteMapper.updateQuoteVisibility(quoteId,false );

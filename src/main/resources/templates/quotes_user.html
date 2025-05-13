@@ -40,7 +40,7 @@
     <a th:href="@{'/quotes/' + ${quote.quoteId}}">Se detaljer</a>
 
     <form th:action="@{'/quotes/' + ${quote.quoteId}}" method="post">
-        <label><input type="radio" name="response" value="accept"> Accepter</label>
+        <label><input type="radio" name="response" value="accept"> Betal</label>
         <label><input type="radio" name="response" value="reject"> Afvis</label>
         <button type="submit">Send</button>
     </form>
@@ -56,11 +56,6 @@
         <p>Bekræftet d. <span th:text="${quote.dateCreated}"></span></p>
         <a th:href="@{'/quotes/' + ${quote.quoteId}}">Se detaljer</a>
 
-        <div th:if="${!quote.isPaid}">
-            <form th:action="@{'/pay/' + ${quote.quoteId}}" method="get">
-                <button type="submit">Betal</button>
-            </form>
-        </div>
 
         <hr/>
     </div>
