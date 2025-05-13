@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TILBUD</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="../public/css/quotesUser.css" th:href="@{/css/quotesUser.css}" rel="stylesheet"/>
+</head>
+
+<body>
+
+<header class="top-header">
+    <img class="fog-logo" th:src="@{/images/fog_logo.png}" alt="FOG Logo">
+
+    <nav class="top-nav">
+        <a th:href="@{/}">Hjem</a>
+        <a th:href="@{/createCarport}">Byg carport</a>
+    </nav>
+
+    <div class="login-icon" th:if="${session.currentUser == null}">
+        <span>🔒</span>
+        <a th:href="@{/login}">Login</a>
+    </div>
+
+    <div class="user-info" th:if="${session.currentUser != null}">
+        <span th:text="${session.currentUser.email}"></span>
+        <a class="indkøbskurv" th:href="@{/quotes}">Mine tilbud</a>
+    </div>
+</header>
+
+<h2>Mine tilbud</h2>
+
+<!-- Afventer bekræftelse -->
+
+<!-- Vis aktive tilbud, som ikke er accepteret, afvist eller udløbet -->
+<div th:each="quote : ${quotes}"
+     th:if="${!quote.accepted} and ${quote.visible} and !${quote.isExpired}">
+    <p>Pris: <span th:text="${quote.price}"></span> kr</p>
+    <p>Gyldig indtil: <span th:text="${quote.validityPeriod}"></span></p>
+    <a th:href="@{'/quotes/' + ${quote.quoteId}}">Se detaljer</a>
+
+    <form th:action="@{'/quotes/' + ${quote.quoteId}}" method="post">
+        <label><input type="radio" name="response" value="accept"> Accepter</label>
+        <label><input type="radio" name="response" value="reject"> Afvis</label>
+        <button type="submit">Send</button>
+    </form>
+    <hr/>
+</div>
+
+
+<!-- Bekræftede tilbud -->
+<section>
+    <h3>Bekræftede tilbud</h3>
+    <div th:each="quote : ${quotes}" th:if="${quote.isAccepted}">
+        <p>Pris: <span th:text="${quote.price}"></span> kr</p>
+        <p>Bekræftet d. <span th:text="${quote.dateCreated}"></span></p>
+        <a th:href="@{'/quotes/' + ${quote.quoteId}}">Se detaljer</a>
+        <hr/>
+    </div>
+</section>
+
+</body>
+</html>

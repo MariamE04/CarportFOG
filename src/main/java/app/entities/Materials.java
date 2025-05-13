@@ -1,6 +1,6 @@
 package app.entities;
 
-public class Material {
+public class Materials {
     int materialId;
     String name;
     String description;
@@ -9,7 +9,7 @@ public class Material {
     int length;
     int price;
 
-    public Material(int materialId, String name, String description, String unit, int amount, int length, int price) {
+    public Materials(int materialId, String name, String description, String unit, int amount, int length, int price) {
         this.materialId = materialId;
         this.name = name;
         this.description = description;
@@ -19,7 +19,7 @@ public class Material {
         this.price = price;
     }
 
-    public Material(int length, int amount, String unit, String description, int price, String name) {
+    public Materials(int length, int amount, String unit, String description, int price, String name) {
         this.length = length;
         this.amount = amount;
         this.unit = unit;

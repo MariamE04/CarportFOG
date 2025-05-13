@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="../public/css/styles.css" th:href="@{/css/styles.css}" rel="stylesheet"/>
+    <link href="../public/css/signup.css" th:href="@{/css/signup.css}" rel="stylesheet"/>
+</head>
+
+<body>
+
+<header class="top-header">
+    <img class="fog-logo" th:src="@{/images/fog_logo.png}" alt="FOG Logo">
+
+    <nav class="top-nav">
+        <a th:href="@{/}">Hjem</a>
+        <a th:href="@{/createCarport}">Byg carport</a>
+    </nav>
+
+    <div class="login-icon" th:if="${session.currentUser == null}">
+        <span>🔒</span>
+        <a th:href="@{/login}">Login</a>
+    </div>
+
+    <!-- Bruger info -->
+    <div class="user-info" th:if="${session.currentUser != null}">
+        <span th:text="${session.currentUser.email}"></span>
+        <a class="indkøbskurv" href="quotes_user.html" th:href="@{quotes}">Mine tilbud</a>
+    </div>
+
+</header>
+
+
+<div class="signupContainer">
+
+    <!-- Signup-boks -->
+    <div class="signupBox">
+        <h3>Opret Bruger</h3>
+        <form action="login" method="post">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="password">Adgangskode:</label>
+            <input type="password" id="password" name="password" required>
+
+            <button type="submit">Login</button>
+        </form>
+
+        <p>Ikke oprettet? <a href="signUp.html" th:href="@{signUp}">Sign up her</a></p>
+        <p th:text="${message}"></p>
+
+    </div>
+</div>
+</body>
+</html>

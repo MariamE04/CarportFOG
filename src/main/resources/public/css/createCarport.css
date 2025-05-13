@@ -1,0 +1,210 @@
+body {
+    background-color: #F0EFEF;
+}
+
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #f2f2f2;
+    padding: 20px;
+}
+
+.nav-links a {
+    margin-left: 40px;
+    text-decoration: none;
+    font-weight: bold;
+    color: #000;
+}
+
+.user-info {
+    margin-left: auto;
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+.build-carport {
+    display: flex;
+    margin-top: 6vh;
+    background-color: white;
+    /* Længde-boks css */
+
+}
+
+.stack-length {
+    display: flex;
+    flex-direction: column;
+    margin-left: 14vh;
+}
+
+.stack-length label{
+    background-color: #A4D2D7;
+    padding: 3vh;
+    color: black;
+    font-weight: bold;
+
+}
+
+.length {
+    margin-top: 3vh;
+}
+
+.stack-length select {
+    font-size: 12px;
+    font-style: italic;
+    padding: 3vh;
+    border: none;
+    border-bottom: 2px solid black;
+    outline: none;
+}
+
+.stack-length select:hover {
+    border-bottom: 4px solid black;
+    font-weight: bold;
+}
+
+
+/* Bredde boks css */
+.stack-width {
+    display: flex;
+    flex-direction: column;
+    margin-left: 14vh;
+}
+
+.stack-width label{
+    background-color: #A4D2D7;
+    padding: 3vh;
+    color: black;
+    font-weight: bold;
+
+}
+
+.width {
+    margin-top: 3vh;
+}
+
+.stack-width select {
+    font-size: 12px;
+    font-style: italic;
+    padding: 3vh;
+    border: none;
+    border-bottom: 2px solid black;
+    outline: none;
+}
+
+.stack-width select:hover {
+    border-bottom: 4px solid black;
+    font-weight: bold;
+}
+
+/* Skur boks css */
+
+.shed {
+    display: flex;
+    flex-direction: column;
+    margin-left: 14vh;
+}
+
+.shed h3 {
+    margin-top: 0.2vh; /* Uden den her linje satte den sig åbenbart længere ned */
+    font-size: 17px;
+    background-color: #A4D2D7;
+    padding: 2.8vh;
+    padding-left: 5vh;
+    padding-right: 5vh;
+}
+
+.yesno {
+    display: flex;
+    flex-direction: row;
+    margin-top: 2vh;
+    margin-left: 1vh;
+}
+
+.shed p {
+    font-size: 12px;
+    font-weight: lighter;
+    opacity: 0.5;
+    margin-left: 3vh;
+}
+
+.shed label {
+    font-size: 14px;
+    margin-top: 0.5vh;
+}
+
+.nej {
+    margin-left: 7vh;
+}
+
+/* Læg i kurv */
+
+.stack-buy {
+    display: flex;
+    flex-direction: column;
+    margin-left: 20vh;
+}
+
+.stack-buy label {
+    background-color: #A4D2D7;
+    padding: 3vh;
+    color: black;
+    font-weight: bold;
+}
+
+.stack-buy button {
+    background-color: #76D779;
+    padding: 2vh;
+    color: black;
+    border-radius: 32px;
+    margin-top: 4vh;
+}
+
+.stack-buy button:hover {
+    background-color: lightgreen;
+    font-weight: bold;
+}
+
+
+/* Shed css  */
+
+.shed-dropdown {
+display: flex;
+    flex-direction: column;
+    margin-left: 4vw;
+}
+
+.shed-dropdown label {
+    background-color: #A4D2D7;
+    padding: 3vh;
+    color: black;
+    font-weight: bold;
+}
+
+
+.shedWidth select{
+    margin-top: 1vh;
+    margin-left: 1vw;
+    font-size: 10px;
+    font-style: italic;
+    padding: 1vh;
+    border: none;
+    border-bottom: 2px solid black;
+    outline: none;
+}
+
+.shedLength select{
+    margin-left: 1vw;
+    font-size: 10px;
+    font-style: italic;
+    padding: 1vh;
+    border: none;
+    border-bottom: 2px solid black;
+    outline: none;
+}
+
+.shedLength  {
+    margin-top: 3vh;
+}

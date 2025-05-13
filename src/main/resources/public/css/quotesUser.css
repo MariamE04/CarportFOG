@@ -11,18 +11,11 @@
     height: 50px;
 }
 
-.nav-links a {
-    margin-left: 40px;
+.top-nav a {
+    margin: 0 15px;
     text-decoration: none;
+    color: black;
     font-weight: bold;
-    color: #000;
-}
-
-.user-info {
-    margin-left: auto;
-    display: flex;
-    gap: 20px;
-    align-items: center;
 }
 
 .login-icon {
@@ -31,13 +24,18 @@
     gap: 5px;
 }
 
-.top-nav a {
-    margin: 0 15px;
-    text-decoration: none;
-    color: black;
-    font-weight: bold;
+.expired {
+    color: gray;
+    font-style: italic;
 }
 
-.carport-svg-topview{
-    max-width: 800px;
+.expired-link {
+    color: gray;
+    pointer-events: none; /* Deaktiverer klik */
+}
+
+button:disabled {
+    background-color: gray;
+    cursor: not-allowed;
+    pointer-events: none; /* Deaktiverer knappen */
 }

@@ -84,6 +84,7 @@ public class CarportSvg {
             carportSvg.addRectangle(x, length - 35 - postDimension / 2.0, postDimension, postDimension, "stroke:#000000; fill: none;");
             x += postSpace;
             postsPlaced += 2;
+
         }
     }
 

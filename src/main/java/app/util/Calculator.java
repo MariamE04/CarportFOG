@@ -1,5 +1,6 @@
 package app.util;
 
+
 import app.entities.Material;
 import app.exceptions.DatabaseException;
 import app.persistence.ConnectionPool;
@@ -10,6 +11,7 @@ import java.util.List;
 
 public class Calculator {
     private static ConnectionPool connectionPool;
+
 
     public static CarportSvg carportCalculator(int width, int length) throws DatabaseException {
         int postCount = postCounter(width);
@@ -43,6 +45,7 @@ public class Calculator {
         return count;
     }
 
+
     private static List<Material> beamCalculator(int width) throws DatabaseException {
         List<Material> beamsList = new ArrayList<>();
         Material currentBeam = null;
@@ -55,9 +58,11 @@ public class Calculator {
         }
         if (currentBeam == null) {
             lengthExceeded = true;
+          
             for (Material material : allMaterials) {
                 if (material.getLength() >= width /2 && material.getLength() < currentBeam.getLength()) {
                     currentBeam = material;
+
                 }
             }
         }

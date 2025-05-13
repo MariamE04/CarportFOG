@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<title>Cupcake</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="../public/css/createCarport.css" th:href="@{/css/createCarport.css}" rel="stylesheet"/>
+</head>
+
+<!-- Banner -->
+<header class="header">
+    <!-- FOG Logo -->
+    <div class="logo">
+        <img src="../public/images/fog_logo.png" th:src="@{/images/fog_logo.png}" alt="FOG Logo" style="height: 60px;">
+    </div>
+
+    <!-- Navigation -->
+    <nav class="nav-links">
+        <a class="hjem" href="index.html" th:href="@{index}">Hjem</a>
+        <a class="byg" href="createCarport.html" th:href="@{createCarport}">Byg Carport</a>
+    </nav>
+
+    <!-- Bruger info -->
+    <div class="user-info" th:if="${session.currentUser != null}">
+        <span th:text="${session.currentUser.email}"></span>
+        <a class="indkøbskurv" href="quotes_user.html" th:href="@{/quotes}">Mine tilbud</a>
+    </div>
+</header>
+
+
+
+
+
+<body>
+<div class="indexContainer">
+    <div class="indexText">
+        <h2>Byg din egen carport</h2>
+        <br>
+        <p>Alle mål er i centimeter</p>
+        <br>
+
+
+
+    </div>
+
+
+<div class="build-carport">
+    <form class="build-carport" action="createCarport" method="post">
+
+        <div class="stack-length">
+            <label th:for="widthAndLength">Vælg Længde</label>
+            <div class="length">
+                <select  name="length" required>
+                    <option value="" disabled selected>Vælg længde
+                    </option>
+                    <option th:each="eachLength: ${widthAndLength}" th:value="${eachLength.length}"
+                            th:text="${eachLength.length}">
+                    </option>
+                </select>
+            </div>
+        </div>
+
+        <div class="stack-width">
+            <label th:for="widthAndLength">Vælg Bredde</label>
+            <div class="width">
+                <select  name="width" required>
+                    <option value="" disabled selected>Vælg Bredde
+                    </option>
+                    <option th:each="eachWidth: ${widthAndLength}" th:value="${eachWidth.width}"
+                            th:text="${eachWidth.width}">
+                    </option>
+                </select>
+            </div>
+        </div>
+
+        <div class="shed">
+        <h3>Vælg skur</h3>
+            <div class="yesno">
+        <input  type="radio" id="ja" name="skur" value="ja">
+        <label for="ja">Ja</label>
+
+        <input class="nej" type="radio" id="nej" name="skur" value="nej">
+        <label  for="nej">Nej</label>
+            </div>
+            <p>Krav: skal udfyldes</p>
+        </div>
+
+        <div class="shed-dropdown">
+            <label th:for="shedWidthAndLength">Vælg skurets mål</label>
+            <div class="shedLength">
+                <select  name="length" required>
+                    <option value="" disabled selected>Vælg skurets længde
+                    </option>
+                    <option th:each="eachShedLength: ${shedWidthAndLength}" th:value="${eachShedLength.length}"
+                            th:text="${eachShedLength.length}">
+                    </option>
+                </select>
+            </div>
+
+
+
+            <div class="shedWidth">
+                <select  name="width" required>
+                    <option value="" disabled selected>Vælg skurets bredde
+                    </option>
+                    <option th:each="eachShedWidth: ${shedWidthAndLength}" th:value="${eachShedWidth.width}"
+                            th:text="${eachShedWidth.width}">
+                    </option>
+                </select>
+            </div>
+        </div>
+
+
+
+
+            <div class="stack-buy">
+            <label th:for="buy">Indsend Mål</label>
+            <button type="submit">Indsend mål</button>
+        </div>
+    </form>
+</div>
+    </div>
+</body>
+</html>
+
+</body>
+</html>

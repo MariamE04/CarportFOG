@@ -1,10 +1,11 @@
 package app.util;
 
 public class Svg {
-    private static final String SVG_TEMPLATE = "<svg version=\"1.1\"\n" +
+    private static final String SVG_TEMPLATE = "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\"\n" +
             "     x=\"%d\" y=\"%d\"\n" +
             "     viewBox=\"%s\"  width=\"%s\" \n" +
             "     preserveAspectRatio=\"xMinYMin\">";
+
 
 
     private static final String SVG_ARROW_DEFS ="  <defs>\n" +

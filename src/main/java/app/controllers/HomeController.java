@@ -42,7 +42,7 @@ public class HomeController {
                     //huske, hvem der er logget ind.
                     ctx.sessionAttribute("currentUser", newUser); // Gemmer hele User-objektet i sessionen (currentUser).
                     ctx.attribute("message", "You have now been registered");
-                    ctx.status(200).render("startpage.html"); // omdirigeres til startpage.html.
+                    ctx.status(200).render("index.html"); // omdirigeres til startpage.html.
                     return 1; // Indikerer succesfuld oprettelse
 
                 } else {
@@ -78,11 +78,11 @@ public class HomeController {
                     ctx.redirect("admin");
 
                 } else { //Hvis det er en almindelig bruger, vises startpage.html.
-                    ctx.render("startpage.html");
+                    ctx.render("index.html");
                 }
             } else { //Hvis brugeren ikke findes, vises en fejlbesked på index.html.
                 ctx.attribute("message", "Fejl i enten e-mail eller password. Prøv igen.");
-                ctx.render("index.html");
+                ctx.render("login.html");
             }
         } catch (DatabaseException e) { //Hvis der opstår en databasefejl under login, logges fejlen, og brugeren får en generisk fejlbesked.
             LOGGER.severe("Error during login: " + e.getMessage());

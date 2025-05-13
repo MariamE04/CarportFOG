@@ -2,12 +2,10 @@ package app;
 
 import app.config.SessionConfig;
 import app.config.ThymeleafConfig;
-import app.controllers.HomeController;
-import app.controllers.OrderController;
-import app.controllers.OrderDetailController;
+import app.controllers.*;
 import app.persistence.*;
+
 import app.util.Calculator;
-import app.util.PdfGenerator;
 import io.javalin.Javalin;
 import io.javalin.rendering.template.JavalinThymeleaf;
 
@@ -36,8 +34,17 @@ public class Main {
         OrderMapper.setConnectionPool(connectionPool);
         OrderDetailMapper.setConnectionPool(connectionPool);
         OrderDetailController.setConnectionPool(connectionPool);
+
+        CarportController.setConnectionPool(connectionPool);
+        CarportMapper.setConnectionPool(connectionPool);
+        ShedController.setConnectionPool(connectionPool);
+        ShedMapper.setConnectionPool(connectionPool);
         MaterialMapper.setConnectionPool(connectionPool);
-        Calculator.setConnectionPool(connectionPool);
+
+        QuoteMapper.setConnectionPool(connectionPool);
+        QuoteController.setConnectionPool(connectionPool);
+
+
 
         // Routing
         app.get("/", ctx -> ctx.redirect("/index"));
@@ -55,20 +62,32 @@ public class Main {
 
         // Rute til login
         app.post("/login", ctx -> HomeController.userLogIn(ctx)); //POST: Logger brugeren ind.
+        app.get("/login", ctx -> ctx.render("login.html")); //Viser login-formularen (her: index.html).
 
-        app.get("/login", ctx -> ctx.render("index.html")); //Viser login-formularen (her: index.html).
 
-        //app.get("/admin", ctx -> ctx.render("admin.html"));
-
-        app.get("showOrder", ctx -> OrderController.showOrder(ctx));
+        app.get("showOrder", ctx -> SvgController.showOrder(ctx));
 
         app.get("/admin", ctx -> {
             OrderController.getAllOrders(ctx);
         });
 
-        //app.get("/orderdetails", ctx -> OrderDetailController.getOrderDetailsByOrderNumber(ctx));
-
         app.post("orderdetails", ctx -> OrderDetailController.getOrderDetailsByOrderNumber(ctx));
         app.get("orderdetails", ctx -> ctx.render("orderdetails"));
+
+
+        app.get("/quotes", QuoteController::getQuotesByUser);
+        app.post("/quotes/{id}", QuoteController::respondToQute);
+
+
+
+        // Rute til createCarport
+        app.get("createCarport", ctx ->{
+            CarportController.showWidthAndLength(ctx);
+            ShedController.showShedWidthAndLength(ctx);
+        });
+
+        app.post("createCarport", ctx ->{
+            CarportController.sendOrder(ctx);
+        });
     }
 }

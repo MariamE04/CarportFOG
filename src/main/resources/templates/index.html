@@ -1,45 +1,58 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="da" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>FOG Byggecenter</title>
     <meta charset="UTF-8">
+    <title>FOG Byggecenter</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="../public/css/index.css" th:href="@{/css/index.css}" rel="stylesheet"/>
 </head>
-
 <body>
 
-<!-- Header med FOG-logo og navigation -->
-<header>
-    <img class="fog-logo" src="../public/images/fog_logo.png" th:src="@{/images/fog_logo.png}" alt="FOG Logo">
-  </header>
+<header class="top-header">
+    <img class="fog-logo" th:src="@{/images/fog_logo.png}" alt="FOG Logo">
 
-<div class="indexContainer">
-    <div class="indexText">
-        <h2>Velkommen til FOG Byggecenter!</h2>
-        <br>
-        <h3>Hos FOG hjælper vi dig med at bygge dit næste projekt – uanset om det er en carport, et skur eller noget tredje.
-            <br><br>
-            Brug vores byggeværktøj til at designe dine løsninger, og få automatisk en materialeliste.
-        </h3>
+    <nav class="top-nav">
+        <a th:href="@{/}">Hjem</a>
+        <a th:href="@{/createCarport}">Byg carport</a>
+    </nav>
+
+    <div class="login-icon" th:if="${session.currentUser == null}">
+        <span>🔒</span>
+        <a th:href="@{/login}">Login</a>
     </div>
 
-    <div class="indexLogin">
-        <form action="login" method="post">
-            <h3>Login</h3>
-            <label for="email">Email:</label>
-            <input type="text" id="email" name="email" required>
-
-            <label for="password">Adgangskode:</label>
-            <input type="password" id="password" name="password" required>
-
-            <button type="submit">Log ind</button>
-
-            <p>Har du ikke en bruger? <a href="signUp.html" th:href="@{signUp}">Opret dig her</a></p>
-            <p th:text="${message}"></p>
-        </form>
+    <!-- Bruger info -->
+    <div class="user-info" th:if="${session.currentUser != null}">
+        <span th:text="${session.currentUser.email}"></span>
+        <a th:href="@{/quotes}">Mine tilbud</a>
     </div>
-</div>
+
+</header>
+
+<main class="intro-section">
+    <div class="intro-text">
+        <h2>Velkommen til Fog</h2>
+        <p>
+            Hos Fog kan du nemt designe din egen carport online.<br>
+            Du vælger størrelsen, og vi leverer en løsning i holdbare<br>
+            materialer og høj kvalitet.
+        </p>
+        <p>
+            Kom i gang med dit carport-projekt i dag –<br>
+            det er enkelt og overskueligt!
+        </p>
+    </div>
+    <div class="intro-image">
+        <img th:src="@{/images/carport.png}" alt="Carport billede">
+    </div>
+</main>
+
+<section class="boxes">
+    <div class="box light-blue"></div>
+    <div class="box white"></div>
+    <div class="box light-blue"></div>
+    <div class="box white"></div>
+</section>
 
 </body>
 </html>
