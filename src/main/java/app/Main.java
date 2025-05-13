@@ -78,6 +78,18 @@ public class Main {
         app.get("/quotes", QuoteController::getQuotesByUser);
         app.post("/quotes/{id}", QuoteController::respondToQute);
 
+        app.get("/pay/{id}", QuoteController::showPaymentPage);
+
+
+        // Ruter for at vise ordren og betale for carport
+        app.get("/order", SvgController::showOrder);  // Rute til at vise og generere ordren
+
+
+        app.get("/pdf/*", ctx -> {
+            java.io.File file = new java.io.File("public/pdf/" + ctx.pathParam("*"));
+            if (file.exists()) ctx.result(String.valueOf(file));
+            else ctx.status(404).result("Fil ikke fundet.");
+        });
 
 
         // Rute til createCarport
