@@ -4,17 +4,17 @@ public class OrderDetails {
     int orderDetailId;
     int orderId;
     int quantity;
-   Materials materials;
+   Material material;
 
-    public OrderDetails(int orderDetailId, int orderId, int quantity, Materials materials) {
+    public OrderDetails(int orderDetailId, int orderId, int quantity, Material material) {
         this.orderDetailId = orderDetailId;
         this.orderId = orderId;
         this.quantity = quantity;
-        this.materials = materials;
+        this.material = material;
     }
 
-    public OrderDetails(Materials materials, int quantity, int orderId) {
-        this.materials = materials;
+    public OrderDetails(Material material, int quantity, int orderId) {
+        this.material = material;
         this.quantity = quantity;
         this.orderId = orderId;
     }
@@ -43,12 +43,12 @@ public class OrderDetails {
         this.quantity = quantity;
     }
 
-    public Materials getMaterials() {
-        return materials;
+    public Material getMaterials() {
+        return material;
     }
 
-    public void setMaterials(Materials materials) {
-        this.materials = materials;
+    public void setMaterials(Material material) {
+        this.material = material;
     }
 
     @Override
@@ -57,7 +57,7 @@ public class OrderDetails {
                 "order_detail_id=" + orderDetailId +
                 ", order_id=" + orderId +
                 ", quantity=" + quantity +
-                ", materials=" + materials +
+                ", materials=" + material +
                 '}';
     }
 }

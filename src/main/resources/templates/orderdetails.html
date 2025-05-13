@@ -23,8 +23,8 @@
     <tr th:each="orderdetails :${session.orderDetails}">
       <td th:text="${orderdetails.order_id}"></td>
       <td th:text="${orderdetails.quantity}"></td>
-      <td th:text="${orderdetails.materials.name}"></td>
-      <td th:text="${orderdetails.materials.price}"></td>
+      <td th:text="${orderdetails.material.name}"></td>
+      <td th:text="${orderdetails.material.price}"></td>
 
     </tr>
     </tbody>
