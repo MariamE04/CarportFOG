@@ -1,5 +1,7 @@
 package app.persistence;
 
+import app.entities.Quote;
+import app.exceptions.DatabaseException;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -7,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 class QuoteMapperTest {
@@ -108,7 +111,11 @@ class QuoteMapperTest {
             stmt.execute("INSERT INTO test.users (email, password, role, phone_number) VALUES ('test@example.com', 'secret', 'admin', 12345678);");
             stmt.execute("INSERT INTO test.sheds (shed_width, shed_length) VALUES (200, 300);");
             stmt.execute("INSERT INTO test.carports (carport_width, carport_length, roof_type, shed_id) VALUES (600, 700, 'flat', 1);");
+
             stmt.execute("INSERT INTO test.quotes (final_price, valid_until_date, created_at_date, is_accepted, is_visible) VALUES (19999.99, '2025-12-31', '2025-01-01', false, true);");
+            stmt.execute("INSERT INTO test.quotes (final_price, valid_until_date, created_at_date, is_accepted, is_visible) VALUES (24000.99, '2025-12-31', '2025-02-01', false, true);");
+            stmt.execute("INSERT INTO test.quotes (final_price, valid_until_date, created_at_date, is_accepted, is_visible) VALUES (12999.99, '2025-12-31', '2025-03-01', true, true);");
+
             stmt.execute("INSERT INTO test.materials (name, description, unit, amount, length, price) VALUES ('wood beam', 'strong beam', 'pcs', 10, 240.5, 30.0);");
             stmt.execute("INSERT INTO test.orders (user_id, carport_id, quote_id, order_date, status, total_price) VALUES (1, 1, 1, '2025-01-01', 'pending', 19999.99);");
             stmt.execute("INSERT INTO test.orderdetails (order_id, material_id, quantity) VALUES (1, 1, 5);");
@@ -125,18 +132,55 @@ class QuoteMapperTest {
 
 
     @Test
-    void getQuotesByEmail() {
+    void getQuotesByEmail() throws DatabaseException {
+
+        QuoteMapper.setConnectionPool(connector);
+
+        String email = "test@example.com";
+
+        List<Quote> quotes = QuoteMapper.getQuotesByEmail(email);
+
+        assertFalse(quotes.isEmpty());
+
+        Quote firstQuote =quotes.get(0);
+
+        assertEquals(1, firstQuote.getQuoteId(), "Order ID should be 1" );
+        assertEquals(19999.99, firstQuote.getPrice(), 0.01);
+        assertTrue(firstQuote.isVisible());
     }
 
     @Test
     void updateQuoteAccepted() {
+        QuoteMapper.setConnectionPool(connector);
+
     }
 
     @Test
-    void updateQuoteVisibility() {
+    void updateQuoteVisibility() throws DatabaseException {
+        QuoteMapper.setConnectionPool(connector);
+
+        String email = "test@example.com";
+        boolean newIsVisible = true; // default
+
+        /*Quote originalQuote = QuoteMapper.getQuotesByEmail(email);
+        assertNotNull(originalQuote, "Quote should exist");
+        assertTrue(originalQuote.isVisible(), "The original quote should be visible");
+
+        // Opdater synligheden af tilbuddet
+        QuoteMapper.updateQuoteVisibility(quoteId, newIsVisible);
+
+        // Hent tilbuddet igen for at bekræfte opdateringen
+        Quote updatedQuote = QuoteMapper.getQuoteById(quoteId);
+        assertNotNull(updatedQuote, "Updated quote should exist");
+        assertFalse(updatedQuote.isVisible(), "The updated quote should not be visible"); */
     }
 
     @Test
-    void getAllQuotes() {
+    void getAllQuotes() throws DatabaseException {
+        QuoteMapper.setConnectionPool(connector);
+
+        List<Quote> qoutes =QuoteMapper.getAllQuotes();
+
+        assertEquals(3, qoutes.size(), "There should be exactly 3 quotes");
     }
 }
