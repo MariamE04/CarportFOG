@@ -159,21 +159,19 @@ class QuoteMapperTest {
     void updateQuoteVisibility() throws DatabaseException {
         QuoteMapper.setConnectionPool(connector);
 
-        String email = "test@example.com";
-        boolean newIsVisible = true; // default
+        int id = 1;
+        boolean newIsVisible = true;
 
-        /*Quote originalQuote = QuoteMapper.getQuotesByEmail(email);
-        assertNotNull(originalQuote, "Quote should exist");
-        assertTrue(originalQuote.isVisible(), "The original quote should be visible");
+        // Opdater synlighed
+        QuoteMapper.updateQuoteVisibility(id, newIsVisible);
 
-        // Opdater synligheden af tilbuddet
-        QuoteMapper.updateQuoteVisibility(quoteId, newIsVisible);
+        // Hent quote fra databasen igen
+        Quote updatedQuote = QuoteMapper.getQuoteById(id);
 
-        // Hent tilbuddet igen for at bekræfte opdateringen
-        Quote updatedQuote = QuoteMapper.getQuoteById(quoteId);
-        assertNotNull(updatedQuote, "Updated quote should exist");
-        assertFalse(updatedQuote.isVisible(), "The updated quote should not be visible"); */
+        // Bekræft at den er opdateret korrekt
+        assertTrue(updatedQuote.isVisible());
     }
+
 
     @Test
     void getAllQuotes() throws DatabaseException {

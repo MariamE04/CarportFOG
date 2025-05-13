@@ -126,4 +126,27 @@ public class QuoteMapper {
         return quoteList;
     }
 
+    public static Quote getQuoteById(int id) throws DatabaseException {
+        Quote quote = null;
+
+        String sql = "SELECT * FROM quotes WHERE quote_id = ?";
+
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
+
+            ps.setInt(1, id);
+
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                boolean isVisible = rs.getBoolean("is_visible");
+                quote = new Quote(id,isVisible);
+            }
+        } catch (SQLException e) {
+            throw new DatabaseException("Error getting quote by id", e.getMessage());
+        }
+
+        return quote;
+    }
+
 }
