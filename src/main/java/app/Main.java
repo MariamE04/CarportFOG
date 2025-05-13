@@ -80,15 +80,13 @@ public class Main {
 
         app.get("/pay/{id}", QuoteController::showPaymentPage);
 
-
         // Ruter for at vise ordren og betale for carport
-        app.get("/order", SvgController::showOrder);  // Rute til at vise og generere ordren
+        app.get("/pay", SvgController::showOrder);  // Rute til at vise og generere ordren
 
 
-        app.get("/pdf/*", ctx -> {
-            java.io.File file = new java.io.File("public/pdf/" + ctx.pathParam("*"));
-            if (file.exists()) ctx.result(String.valueOf(file));
-            else ctx.status(404).result("Fil ikke fundet.");
+        app.get("/pdf/{filename}", ctx -> {
+            String filename = ctx.pathParam("filename");
+            ctx.redirect("/public/pdf/" + filename);
         });
 
 
