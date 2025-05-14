@@ -62,6 +62,7 @@ public class CarportController {
         }
         order.setOrderDetails(orderDetails);
         order.priceSummation();
+        OrderMapper.updatePrice(order);
     }
 }
 

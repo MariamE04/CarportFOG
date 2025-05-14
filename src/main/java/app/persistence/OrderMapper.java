@@ -22,7 +22,7 @@ public class OrderMapper {
     }
 
     public static void addOrder(Order order) throws DatabaseException {
-        String sql = "INSERT INTO orders (user_id, carport_id, quote_id, order_date, status, total_price) " +
+        String sql = "INSERT INTO orders (user_id, carport_id, order_date, status, total_price) " +
                 "VALUES(?,?,?,?,?,?)";
 
         try(Connection connection = connectionPool.getConnection();
@@ -134,5 +134,37 @@ public class OrderMapper {
         return ordersList;
     }
 
+    public static void updatePrice(Order order) throws DatabaseException{
+        String sql = "UPDATE orders SET total_price = ? WHERE order_id = ?";
 
+        try (Connection connection = connectionPool.getConnection(); // Henter en forbindelse fra connection pool.
+             PreparedStatement ps = connection.prepareStatement(sql)) { // Forbereder SQL-forespørgslen.
+
+            ps.setDouble(1, order.getTotal_price());  // Sætter den nye pris.
+            ps.setInt(2, order.getOrder_id());   // Sætter order_id i forespørgslen.
+
+            ps.executeUpdate(); // Udfører opdateringen.
+
+        } catch (SQLException e) {
+            throw new DatabaseException("Kunne ikke opdatere order pris: " + e.getMessage());
+        }
+    }
+
+    public static void updateQuoteAccepted(int quoteId, boolean accepted) throws DatabaseException {
+
+        // SQL-forespørgsel til at opdatere is_accepted for et tilbud.
+        String sql = "UPDATE quotes SET is_accepted = ? WHERE quote_id = ?";
+
+        try (Connection connection = connectionPool.getConnection(); // Henter en forbindelse fra connection pool.
+             PreparedStatement ps = connection.prepareStatement(sql)) { // Forbereder SQL-forespørgslen.
+
+            ps.setBoolean(1, accepted);  // Sætter den nye værdi for is_accepted.
+            ps.setInt(2, quoteId);   // Sætter quote_id i forespørgslen.
+
+            ps.executeUpdate(); // Udfører opdateringen.
+
+        } catch (SQLException e) {
+            throw new DatabaseException("Kunne ikke opdatere quote: " + e.getMessage());
+        }
+    }
 }
