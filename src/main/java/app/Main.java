@@ -5,15 +5,10 @@ import app.config.ThymeleafConfig;
 import app.controllers.*;
 import app.persistence.*;
 
-import app.util.Calculator;
 import app.util.FileUtil;
 import io.javalin.Javalin;
-import io.javalin.http.staticfiles.Location;
 import io.javalin.rendering.template.JavalinThymeleaf;
 
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.

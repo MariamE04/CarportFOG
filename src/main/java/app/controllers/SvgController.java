@@ -1,7 +1,6 @@
 package app.controllers;
 
 import app.entities.Carport;
-import app.entities.Material;
 import app.exceptions.DatabaseException;
 import app.persistence.CarportMapper;
 import app.util.Calculator;
@@ -10,7 +9,6 @@ import app.util.SvgToPdfConverter;
 import io.javalin.http.Context;
 import org.apache.batik.transcoder.TranscoderException;
 import java.io.IOException;
-import java.util.List;
 
 public class SvgController {
     // Metode til at vise og generere en ordre med SVG samt konvertering til PDF

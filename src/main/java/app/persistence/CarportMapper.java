@@ -59,7 +59,7 @@ public class CarportMapper {
         }
         return null;
     }
-}
+
     public static Carport getCarportById(int carportId) throws DatabaseException{
         Carport carport = null;
 

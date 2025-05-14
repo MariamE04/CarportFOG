@@ -38,7 +38,7 @@ public class MaterialMapper {
         } catch (SQLException e){
             throw new DatabaseException("Fejl i at hente materialernes længder" + e.getMessage());
         }
-        return materialList;
+        return materialsList;
     }
 
     public static void setConnectionPool(ConnectionPool newConnectionPool) {

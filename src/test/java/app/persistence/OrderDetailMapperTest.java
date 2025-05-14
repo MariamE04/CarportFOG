@@ -1,6 +1,6 @@
 package app.persistence;
 
-import app.entities.Materials;
+import app.entities.Material;
 import app.entities.OrderDetails;
 import app.exceptions.DatabaseException;
 import org.junit.jupiter.api.BeforeAll;
@@ -143,7 +143,7 @@ class OrderDetailMapperTest {
         assertEquals(1, orderDetails.getOrderId());
         assertEquals(5, orderDetails.getQuantity());
 
-        Materials materials = orderDetails.getMaterials();
+        Material materials = orderDetails.getMaterial();
 
         assertEquals(1, materials.getMaterialId());
         assertEquals("wood beam", materials.getName());
