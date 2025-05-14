@@ -3,6 +3,7 @@ package app.controllers;
 import app.entities.Carport;
 import app.entities.Material;
 import app.persistence.CarportMapper;
+import app.util.Calculator;
 import app.util.CarportSvg;
 import app.util.SvgToPdfConverter;
 import io.javalin.http.Context;
@@ -16,12 +17,14 @@ public class SvgController {
         try {
             int quoteId = Integer.parseInt(ctx.pathParam("id"));
 
-            // HENT carport fra databasen via quoteId (her er det en placeholder – lav denne metode i din DAO)
+            // HENT carport fra databasen via quoteId (her er det en placeholder)
             Carport carport = CarportMapper.getCarportByQuoteId(quoteId);
             if (carport == null) {
                 ctx.status(404).result("Carport ikke fundet for tilbud ID: " + quoteId);
                 return;
             }
+
+            CarportSvg carportSvg = Calculator.
 
             int width = carport.getWidth();
             int length = carport.getLength();
