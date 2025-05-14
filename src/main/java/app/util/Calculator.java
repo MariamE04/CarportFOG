@@ -12,8 +12,21 @@ import java.util.List;
 public class Calculator {
     private static ConnectionPool connectionPool;
 
+    public static List<Material> orderCalculator(int width, int length) throws DatabaseException {
+        List<Material> materials = new ArrayList<>();
+        int postCount = postCounter(width);
+        for (int i = 0; i < postCount; i++)
+            materials.add(MaterialMapper.getPost());
+        int rafterCount = rafterCalculator(width);
+        for (int i = 0; i < rafterCount; i++)
+            materials.add(MaterialMapper.getRafter());
+        List<Material> beams = beamCalculator(width);
+        for (int i = 0; i < beams.size(); i++)
+            materials.add(beams.get(i));
+        return materials;
+    }
 
-    public static CarportSvg carportCalculator(int width, int length) throws DatabaseException {
+    public static CarportSvg svgCalculator(int width, int length) throws DatabaseException {
         int postCount = postCounter(width);
         int postSpace = postSpace(width);
         int rafterCount = rafterCalculator(width);

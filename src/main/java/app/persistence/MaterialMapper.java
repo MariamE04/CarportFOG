@@ -40,6 +40,58 @@ public class MaterialMapper {
         return materialsList;
     }
 
+    //Bruges til at hente stolper
+    public static Material getPost() throws DatabaseException {
+        String sql = "SELECT * FROM materials WHERE name = '97x97 mm. trykimp. Stolpe'";
+
+        try(Connection connection = connectionPool.getConnection();
+            PreparedStatement ps = connection.prepareStatement(sql)){
+
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                int id = rs.getInt("material_id");
+                String name = rs.getString("name");
+                String description = rs.getString("description");
+                String unit = rs.getString("unit");
+                int amount = rs.getInt("amount");
+                int length = rs.getInt("length");
+                int price = rs.getInt("price");
+
+                return new Material(id, name, description, unit, amount, length, price);
+            }
+
+        } catch (SQLException e){
+            throw new DatabaseException("Fejl i at hente stolper" + e.getMessage());
+        }
+        return null;
+    }
+
+    //Bruges til at hente spær
+    public static Material getRafter() throws DatabaseException {
+        String sql = "SELECT * FROM materials WHERE name = '45x195 mm. spærtræ ubh.'";
+
+        try(Connection connection = connectionPool.getConnection();
+            PreparedStatement ps = connection.prepareStatement(sql)){
+
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                int id = rs.getInt("material_id");
+                String name = rs.getString("name");
+                String description = rs.getString("description");
+                String unit = rs.getString("unit");
+                int amount = rs.getInt("amount");
+                int length = rs.getInt("length");
+                int price = rs.getInt("price");
+
+                return new Material(id, name, description, unit, amount, length, price);
+            }
+
+        } catch (SQLException e){
+            throw new DatabaseException("Fejl i at hente spær" + e.getMessage());
+        }
+        return null;
+    }
+
     public static void setConnectionPool(ConnectionPool newConnectionPool) {
         connectionPool = newConnectionPool;
     }

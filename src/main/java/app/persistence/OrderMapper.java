@@ -75,7 +75,6 @@ public class OrderMapper {
                 String paymentStatus = rs.getString("status");
                 int userId = rs.getInt("user_id");
                 int carportId = rs.getInt("carport_id");
-                int quoteId = rs.getInt("quote_id");
 
                 int carportWidth = rs.getInt("carport_width");
                 int carportLength = rs.getInt("carport_length");
@@ -91,7 +90,7 @@ public class OrderMapper {
 
                 Carport carport = new Carport(carportId, carportWidth, carportLength, roofType, shed);
 
-                ordersList.add(new Order(id, localDate, price, paymentStatus, userId, quoteId, carport, shed));
+                ordersList.add(new Order(id, localDate, price, paymentStatus, userId, carport, shed));
             }
 
             System.out.println("Har hentet størrelsen på listen her" + ordersList.size());
@@ -117,7 +116,6 @@ public class OrderMapper {
                 Double price = rs.getDouble("total_price");
                 String paymentStatus = rs.getString("status");
                 int carportId = rs.getInt("carportId");
-                int quoteId = rs.getInt("quoteId");
 
                 int carportWidth = rs.getInt("carport_width");
                 int carportLength = rs.getInt("carport_length");
@@ -128,7 +126,7 @@ public class OrderMapper {
                 Shed shed = new Shed(shedLength, shedWidth);
 
                 Carport carport = new Carport(carportId ,carportWidth, carportLength,carportHeight, roofType, shed);
-                ordersList.add(new Order(id, localDate, price, paymentStatus, userId, quoteId, carport, shed));            }
+                ordersList.add(new Order(id, localDate, price, paymentStatus, userId, carport, shed));            }
 
         } catch (SQLException e){
             throw new DatabaseException("Fejl i at hente ordrene fra "+ userId + e.getMessage());

@@ -7,6 +7,7 @@ public class Carport {
     int height;
     String roofType;
     Shed shed;
+    User user;
 
     public Carport(int carportId, int width, int length, int height, String roofType, Shed shed) {
         this.carportId = carportId;
@@ -23,6 +24,12 @@ public class Carport {
         this.height = height;
         this.roofType = roofType;
         this.shed = shed;
+    }
+
+    public Carport(int width, int length, User user) {
+        this.width = width;
+        this.length = length;
+        this.user = user;
     }
 
     public Carport(int width, int length) {
@@ -76,5 +83,13 @@ public class Carport {
 
     public void setShed(Shed shed) {
         this.shed = shed;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }
