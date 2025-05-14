@@ -6,6 +6,7 @@ import app.controllers.*;
 import app.persistence.*;
 
 import app.util.Calculator;
+import app.util.FileUtil;
 import io.javalin.Javalin;
 import io.javalin.http.staticfiles.Location;
 import io.javalin.rendering.template.JavalinThymeleaf;
@@ -90,14 +91,9 @@ public class Main {
 
         app.get("/pdf/{filename}", ctx -> {
             String filename = ctx.pathParam("filename");
-            Path filePath = Paths.get("public/pdf", filename);
-
-            if (Files.exists(filePath)) {
-                ctx.contentType("src/main/resources/public/pdf");
-                ctx.result(Files.newInputStream(filePath));
-            } else {
-                ctx.status(404).result("File not found");
-            }
+            String content = FileUtil.readFileFromResources("public/pdf/" + filename);
+            ctx.contentType("application/pdf");
+            ctx.result(content);
         });
 
 
