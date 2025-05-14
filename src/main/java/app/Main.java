@@ -96,8 +96,6 @@ public class Main {
             ctx.result(content);
         });
 
-
-
         // Rute til createCarport
         app.get("createCarport", ctx ->{
             CarportController.showWidthAndLength(ctx);
