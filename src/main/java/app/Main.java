@@ -81,7 +81,7 @@ public class Main {
         app.get("/pay/{id}", QuoteController::showPaymentPage);
 
         // Ruter for at vise ordren og betale for carport
-        app.get("/pay", SvgController::showOrder);  // Rute til at vise og generere ordren
+        //app.get("/pay/{id}", SvgController::showOrder); // Rute til at vise og generere ordren
 
 
         app.get("/pdf/{filename}", ctx -> {

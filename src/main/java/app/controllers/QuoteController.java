@@ -1,21 +1,16 @@
 package app.controllers;
 
-import app.entities.Carport;
 import app.entities.Quote;
 import app.entities.User;
 import app.exceptions.DatabaseException;
 import app.persistence.ConnectionPool;
 import app.persistence.QuoteMapper;
-import app.util.CarportSvg;
-import app.util.SvgToPdfConverter;
 import io.javalin.http.Context;
-import org.jetbrains.annotations.NotNull;
 
 import java.time.LocalDate;
 import java.util.Iterator;
 import java.util.List;
 
-import static kotlin.text.Typography.quote;
 
 public class QuoteController {
 
