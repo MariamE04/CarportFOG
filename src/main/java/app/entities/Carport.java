@@ -4,7 +4,6 @@ public class Carport {
     int carportId;
     int width;
     int length;
-    int height;
     String roofType;
     Shed shed;
 
@@ -12,7 +11,6 @@ public class Carport {
         this.carportId = carportId;
         this.width = width;
         this.length = length;
-        this.height = height;
         this.roofType = roofType;
         this.shed = shed;
     }
@@ -76,5 +74,16 @@ public class Carport {
 
     public void setShed(Shed shed) {
         this.shed = shed;
+    }
+
+    @Override
+    public String toString() {
+        return "Carport{" +
+                "carportId=" + carportId +
+                ", width=" + width +
+                ", length=" + length +
+                ", roofType='" + roofType + '\'' +
+                ", shed=" + shed +
+                '}';
     }
 }

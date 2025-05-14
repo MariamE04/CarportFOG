@@ -25,10 +25,17 @@
       <td th:text="${orderdetails.quantity}"></td>
       <td th:text="${orderdetails.materials.name}"></td>
       <td th:text="${orderdetails.materials.price}"></td>
-    </tr>
-    </tbody>
-  </table>
 
+    </tr>
+
+
+
+    </tbody>
+
+  </table>
+  <form action="quote.html" method="post">
+<button type="submit" th:value="${totalPrice}" >Generer</button>
+  </form>
 
 
 </div>

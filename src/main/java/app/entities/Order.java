@@ -98,4 +98,17 @@ public class Order {
         this.shed = shed;
     }
 
+    @Override
+    public String toString() {
+        return "Order{" +
+                "order_id=" + order_id +
+                ", date_created=" + date_created +
+                ", total_price=" + total_price +
+                ", status='" + status + '\'' +
+                ", user_id=" + user_id +
+                ", quote_id=" + quote_id +
+                ", carport=" + carport +
+                ", shed=" + shed +
+                '}';
+    }
 }

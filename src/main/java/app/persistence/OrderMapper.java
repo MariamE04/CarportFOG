@@ -121,6 +121,7 @@ public class OrderMapper {
 
                 int carportWidth = rs.getInt("carport_width");
                 int carportLength = rs.getInt("carport_length");
+
                 int shedWidth = rs.getInt("carport_width");
                 int shedLength = rs.getInt("shed_length");
                 String roofType = rs.getString("roof_type");

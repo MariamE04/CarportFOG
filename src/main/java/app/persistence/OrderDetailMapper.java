@@ -1,6 +1,10 @@
 package app.persistence;
 
+import app.entities.Materials;
+import app.entities.Materials;
+
 import app.entities.Material;
+
 import app.entities.OrderDetails;
 import app.exceptions.DatabaseException;
 
@@ -42,7 +46,6 @@ public class OrderDetailMapper {
             while(rs.next()){
                 int id = rs.getInt("order_id");
                 int quantity = rs.getInt("quantity");
-
 
                 int materialId = rs.getInt("material_id");
                 String name = rs.getString("name");
