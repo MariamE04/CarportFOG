@@ -77,4 +77,5 @@ public class Carport {
     public void setShed(Shed shed) {
         this.shed = shed;
     }
+
 }
