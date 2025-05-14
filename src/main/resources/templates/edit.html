@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>FOG Admin</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="../public/css/edit.css" th:href="@{/css/edit.css}" rel="stylesheet"/>
+</head>
+
+<body>
+<div class="edit-body">
+    <form method="post">
+
+        <div class="Carport-length">
+        <label>Carport Længde</label> <br>
+        <input type="number" name="carport-length" th:value="${carport.length}">
+        </div>
+
+
+        <div class="Carport-width">
+        <label>Carport Bredde</label> <br>
+        <input type="number" name="carport-width" th:value="${carport.width}">
+        </div>
+
+        <div class="Price">
+        <label class="Price-title">Pris ialt</label> <br>
+        <input class="Price-input" type="number" name="price" th:value="${price}">
+        </div>
+
+    <input type="hidden" name="edit_carportId" th:value="${carport.carportId}"/>
+    <button class="Save" type="submit"  formaction="/admin">Gem ændringer</button>
+
+    </form>
+</div>
+</body>
+</html>

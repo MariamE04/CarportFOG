@@ -36,4 +36,65 @@ public class CarportMapper {
 
     }
 
-}
+    public static Carport getCarportById(int carportId) throws DatabaseException{
+        Carport carport = null;
+
+        String sql = "select * from public.carports where carport_id = ?";
+
+        try (
+                Connection connection = connectionPool.getConnection();
+                PreparedStatement ps = connection.prepareStatement(sql)
+        )
+        {
+            ps.setInt(1, carportId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next())
+            {
+                int width = rs.getInt("carport_width");
+                int length = rs.getInt("carport_length");
+                String roofType = rs.getString("roof_type");
+                int id = rs.getInt("carport_id");
+                //Tilføj shed her hvis skur skal med senere
+
+                 carport = new Carport(width, length, roofType, id);
+            }
+        }
+        catch (SQLException e)
+        {
+            throw new DatabaseException("Fejl ved hentning af carport med id = " + carportId, e.getMessage());
+        }
+        return carport;
+
+    }
+
+    public static void updateCarport(int width, int length, int carportId) throws DatabaseException{
+        String sql = "update public.carports set carport_width = ?, carport_length = ? where carport_id = ?";
+
+        try (
+                Connection connection = connectionPool.getConnection();
+                PreparedStatement ps = connection.prepareStatement(sql)
+        )
+        {
+            ps.setInt(1, width);
+            ps.setInt(2, length);
+            ps.setInt(3, carportId);
+            int rowsAffected = ps.executeUpdate();
+            if (rowsAffected != 1)
+            {
+                throw new DatabaseException("Fejl i opdatering af carport");
+            }
+        }
+        catch (SQLException e)
+        {
+            throw new DatabaseException("Fejl i opdatering af carports mål", e.getMessage());
+        }
+    }
+
+
+    public static void getCarportIdByOrderId(int order_id){
+        String sql = "select carports.carport_id  orders ON carports.carport_id = orders.carport_id where carport_id = ?";
+    }
+
+    }
+
+
