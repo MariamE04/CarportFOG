@@ -1,6 +1,6 @@
 package app.persistence;
 
-import app.entities.Materials;
+import app.entities.Material;
 import app.exceptions.DatabaseException;
 
 import java.sql.Connection;
@@ -14,9 +14,9 @@ public class MaterialMapper {
     private static ConnectionPool connectionPool;
 
     //Bruges til at hente materialelængder i Calculator
-    public static List<Materials> getMaterialsByLengths() throws DatabaseException {
+    public static List<Material> getMaterialsByLengths() throws DatabaseException {
         String sql = "SELECT * FROM materials ORDER BY length ASC";
-        List<Materials> materialsList = new ArrayList<>();
+        List<Material> materialsList = new ArrayList<>();
 
         try(Connection connection = connectionPool.getConnection();
             PreparedStatement ps = connection.prepareStatement(sql)){
@@ -31,7 +31,7 @@ public class MaterialMapper {
                 int length = rs.getInt("length");
                 int price = rs.getInt("price");
 
-                materialsList.add(new Materials(id, name, description, unit, amount, length, price));
+                materialsList.add(new Material(id, name, description, unit, amount, length, price));
             }
 
         } catch (SQLException e){

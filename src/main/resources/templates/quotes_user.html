@@ -24,28 +24,29 @@
 
     <div class="user-info" th:if="${session.currentUser != null}">
         <span th:text="${session.currentUser.email}"></span>
-        <a class="indkøbskurv" th:href="@{/quotes}">Kurv</a>
+        <a class="indkøbskurv" th:href="@{/quotes}">Mine tilbud</a>
     </div>
 </header>
 
 <h2>Mine tilbud</h2>
 
 <!-- Afventer bekræftelse -->
-<section>
-    <h3>Afventer bekræftelse</h3>
-    <div th:each="quote : ${quotes}" th:if="${!quote.isAccepted}">
-        <p>Pris: <span th:text="${quote.price}"></span> kr</p>
-        <p>Udløber d. <span th:text="${quote.validityPeriod}"></span></p>
-        <a th:href="@{'/quotes/' + ${quote.quoteId}}">Se detaljer</a>
 
-        <form th:action="@{'/quotes/' + ${quote.quoteId}}" method="post">
-            <label><input type="radio" name="response" value="accept"> Accepter</label>
-            <label><input type="radio" name="response" value="reject"> Afvis</label>
-            <button type="submit">Godkend</button>
-        </form>
-        <hr/>
-    </div>
-</section>
+<!-- Vis aktive tilbud, som ikke er accepteret, afvist eller udløbet -->
+<div th:each="quote : ${quotes}"
+     th:if="${!quote.accepted} and ${quote.visible} and !${quote.isExpired}">
+    <p>Pris: <span th:text="${quote.price}"></span> kr</p>
+    <p>Gyldig indtil: <span th:text="${quote.validityPeriod}"></span></p>
+    <a th:href="@{'/quotes/' + ${quote.quoteId}}">Se detaljer</a>
+
+    <form th:action="@{'/quotes/' + ${quote.quoteId}}" method="post">
+        <label><input type="radio" name="response" value="accept"> Accepter</label>
+        <label><input type="radio" name="response" value="reject"> Afvis</label>
+        <button type="submit">Send</button>
+    </form>
+    <hr/>
+</div>
+
 
 <!-- Bekræftede tilbud -->
 <section>

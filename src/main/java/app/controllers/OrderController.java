@@ -7,19 +7,11 @@ import app.exceptions.DatabaseException;
 import app.persistence.CarportMapper;
 import app.persistence.ConnectionPool;
 import app.persistence.OrderMapper;
-import app.util.CarportSvg;
-import app.util.Svg;
-import app.util.SvgToPdfConverter;
 import io.javalin.http.Context;
 import org.apache.batik.transcoder.TranscoderException;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 public class OrderController {
     private static ConnectionPool connectionPool;

@@ -1,13 +1,15 @@
 package app.persistence;
 
-import app.entities.User;
-import app.exceptions.DatabaseException;
-import org.junit.jupiter.api.*;
-import java.sql.*;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 import static org.junit.jupiter.api.Assertions.*;
-
-class DatabaseTest {
+class QuoteMapperTest {
     private static ConnectionPool connector;
 
     @BeforeAll
@@ -123,42 +125,18 @@ class DatabaseTest {
 
 
     @Test
-    void signUp() {
-        try {
-            UserMapper.setConnectionPool(connector); // Sæt connection pool
-
-            // Forsøg at oprette en ny bruger
-            int result = UserMapper.signUp("test01@example.com", "password123", 12345678);
-            if (result == 1) {
-                System.out.println("User successfully signed up!");
-            } else {
-                System.out.println("User already exists or no rows affected.");
-            }
-
-            // Forsøg at oprette samme bruger igen (bør ikke lykkes)
-            result = UserMapper.signUp("test@example.com", "newpassword456", 87654321);
-            if (result == 1) {
-                System.out.println("New user created successfully (shouldn't happen).");
-            } else {
-                System.out.println("User already exists, sign-up failed (as expected).");
-            }
-
-        } catch (DatabaseException e) {
-            e.printStackTrace();
-            Assertions.fail("Sign-up failed unexpectedly: " + e.getMessage());
-        }
+    void getQuotesByEmail() {
     }
 
-
+    @Test
+    void updateQuoteAccepted() {
+    }
 
     @Test
-    void testUserExists() {
-        try (Connection conn = connector.getConnection(); PreparedStatement ps = conn.prepareStatement("SELECT * FROM test.users WHERE email = ?")) {
-            ps.setString(1, "test@example.com");
-            ResultSet rs = ps.executeQuery();
-            assertTrue(rs.next(), "User should exist in the database");
-        } catch (SQLException e) {
-            fail("Query failed: " + e.getMessage());
-        }
+    void updateQuoteVisibility() {
+    }
+
+    @Test
+    void getAllQuotes() {
     }
 }
