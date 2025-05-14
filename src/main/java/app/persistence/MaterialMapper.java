@@ -16,6 +16,7 @@ public class MaterialMapper {
     //Bruges til at hente materialelængder i Calculator
     public static List<Material> getMaterialsByLengths() throws DatabaseException {
         String sql = "SELECT * FROM materials ORDER BY length ASC";
+
         List<Material> materialsList = new ArrayList<>();
 
         try(Connection connection = connectionPool.getConnection();
@@ -37,7 +38,7 @@ public class MaterialMapper {
         } catch (SQLException e){
             throw new DatabaseException("Fejl i at hente materialernes længder" + e.getMessage());
         }
-        return materialsList;
+        return materialList;
     }
 
     public static void setConnectionPool(ConnectionPool newConnectionPool) {

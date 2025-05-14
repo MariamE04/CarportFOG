@@ -25,12 +25,13 @@ public class QuoteMapper {
     // Henter alle tilbud (quotes) for en bruger baseret på deres email.
     public static List<Quote> getQuotesByEmail(String email) throws DatabaseException {
         String sql = """
-        SELECT q.quote_id, q.final_price, q.valid_until_date, q.created_at_date, q.is_accepted, q.is_visible
-        FROM quotes q
-        JOIN orders o ON q.quote_id = o.quote_id
-        JOIN users u ON o.user_id = u.user_id
-        WHERE u.email = ?;
-        """;
+       SELECT q.quote_id, q.final_price, q.valid_until_date, q.created_at_date, q.is_accepted, q.is_visible
+       FROM quotes q
+       JOIN orders o ON q.order_id = o.order_id
+       JOIN carports c ON o.carport_id = c.carport_id
+       JOIN users u ON c.user_id = u.user_id
+       WHERE u.email = ?;
+       """;
 
         // Opretter en tom liste, som vil indeholde alle de hentede quotes.
         List<Quote> quoteList = new ArrayList<>();

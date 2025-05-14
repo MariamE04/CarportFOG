@@ -11,6 +11,7 @@
         private boolean isAccepted;
         private boolean isVisible;
         private  boolean isExpired;
+        private boolean isPaid;
 
 
         public Quote(int quoteId, LocalDate validityPeriod, double price, LocalDate dateCreated, boolean isAccepted, boolean isVisible) {
@@ -75,4 +76,8 @@
             isVisible = visible;
         }
 
+
+        public boolean isPaid() {
+            return isPaid;
+        }
     }

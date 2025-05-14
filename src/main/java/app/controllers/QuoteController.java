@@ -11,6 +11,7 @@ import java.time.LocalDate;
 import java.util.Iterator;
 import java.util.List;
 
+
 public class QuoteController {
 
     private static ConnectionPool connectionPool; //connectionPool holder en statisk reference til en databaseforbindelses-pulje.
@@ -75,6 +76,10 @@ public class QuoteController {
                 QuoteMapper.updateQuoteAccepted(quoteId, true);
                 QuoteMapper.updateQuoteVisibility(quoteId, true);
 
+                // Redirect til betalingsside
+                ctx.redirect("/pay/" + quoteId);
+                return; // sørg for at vi ikke også kører redirect nedenfor
+
             // brugeren afviser tilbuddet: opdateres quote som usynligt.
             } else if("reject".equals(response)) {
                 QuoteMapper.updateQuoteVisibility(quoteId,false );
@@ -104,4 +109,12 @@ public class QuoteController {
             System.out.println("Fejl i expirationDate: " + e.getMessage());
         }
     }
+
+    // Viser en side, hvor brugeren kan bekræfte betalingen
+    public static void showPaymentPage(Context ctx) {
+        int quoteId = Integer.parseInt(ctx.pathParam("id"));
+        ctx.attribute("quoteId", quoteId);
+        ctx.render("pay_quote.html");
+    }
+
 }

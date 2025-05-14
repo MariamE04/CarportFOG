@@ -4,13 +4,18 @@ public class OrderDetails {
     int orderDetailId;
     int orderId;
     int quantity;
-   Material materials;
+    Material material;
+    Material materials;
+
+    public OrderDetails(int orderDetailId, int orderId, int quantity, Material material) {
+
+   
 
     public OrderDetails(int orderDetailId, int orderId, int quantity, Material materials) {
         this.orderDetailId = orderDetailId;
         this.orderId = orderId;
         this.quantity = quantity;
-        this.materials = materials;
+        this.material = material;
     }
 
     public OrderDetails(Material materials, int quantity, int orderId) {
@@ -44,8 +49,8 @@ public class OrderDetails {
     }
 
     public Material getMaterials() {
-        return materials;
-    }
+        return material;
+
 
     public void setMaterials(Material materials) {
         this.materials = materials;
@@ -57,7 +62,7 @@ public class OrderDetails {
                 "order_detail_id=" + orderDetailId +
                 ", order_id=" + orderId +
                 ", quantity=" + quantity +
-                ", materials=" + materials +
+                ", materials=" + material +
                 '}';
     }
 }

@@ -1,10 +1,8 @@
 package app.persistence;
 
-import app.entities.Materials;
-import app.entities.Materials;
 
 import app.entities.Material;
-
+import app.entities.Materials;
 import app.entities.OrderDetails;
 import app.exceptions.DatabaseException;
 
@@ -54,9 +52,10 @@ public class OrderDetailMapper {
                 int amount = rs.getInt("amount");
                 int length = rs.getInt("length");
                 int price = rs.getInt("price");
+
                 Material materials = new Material(materialId, name, description, unit, amount, length, price);
 
-                orderDetails.add(new OrderDetails(materials, quantity, orderId));
+                orderDetails.add(new OrderDetails(material, quantity, orderId));
             }
 
 
@@ -67,7 +66,6 @@ public class OrderDetailMapper {
 
     }
 
-
     public static void addOrderDetail(int orderId, Material materials, int quantity) throws DatabaseException {
         String sql = "INSERT INTO orderdetails (order_id, material_id, quantity) VALUES(?,?,?)";
 
@@ -75,7 +73,7 @@ public class OrderDetailMapper {
             PreparedStatement ps = connection.prepareStatement(sql)){
 
             ps.setInt(1, orderId);
-            ps.setInt(2, materials.getMaterialId());
+            ps.setInt(2, material.getMaterialId());
             ps.setInt(3, quantity);
 
             ps.executeUpdate();
