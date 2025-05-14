@@ -16,7 +16,8 @@ public class MaterialMapper {
     //Bruges til at hente materialelængder i Calculator
     public static List<Material> getMaterialsByLengths() throws DatabaseException {
         String sql = "SELECT * FROM materials ORDER BY length ASC";
-        List<Material> materialList = new ArrayList<>();
+
+        List<Material> materialsList = new ArrayList<>();
 
         try(Connection connection = connectionPool.getConnection();
             PreparedStatement ps = connection.prepareStatement(sql)){
@@ -31,7 +32,7 @@ public class MaterialMapper {
                 int length = rs.getInt("length");
                 int price = rs.getInt("price");
 
-                materialList.add(new Material(id, name, description, unit, amount, length, price));
+                materialsList.add(new Material(id, name, description, unit, amount, length, price));
             }
 
         } catch (SQLException e){

@@ -4,17 +4,22 @@ public class OrderDetails {
     int orderDetailId;
     int orderId;
     int quantity;
-   Material material;
+    Material material;
+    Material materials;
 
     public OrderDetails(int orderDetailId, int orderId, int quantity, Material material) {
+
+   
+
+    public OrderDetails(int orderDetailId, int orderId, int quantity, Material materials) {
         this.orderDetailId = orderDetailId;
         this.orderId = orderId;
         this.quantity = quantity;
         this.material = material;
     }
 
-    public OrderDetails(Material material, int quantity, int orderId) {
-        this.material = material;
+    public OrderDetails(Material materials, int quantity, int orderId) {
+        this.materials = materials;
         this.quantity = quantity;
         this.orderId = orderId;
     }
@@ -45,10 +50,10 @@ public class OrderDetails {
 
     public Material getMaterials() {
         return material;
-    }
 
-    public void setMaterials(Material material) {
-        this.material = material;
+
+    public void setMaterials(Material materials) {
+        this.materials = materials;
     }
 
     @Override

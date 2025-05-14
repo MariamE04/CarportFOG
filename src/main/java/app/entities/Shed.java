@@ -11,7 +11,7 @@ public class Shed {
         this.length = length;
     }
 
-    public Shed(int length, int width) {
+    public Shed(int width, int length) {
         this.length = length;
         this.width = width;
     }
@@ -38,6 +38,15 @@ public class Shed {
 
     public void setLength(int length) {
         this.length = length;
+    }
+
+    @Override
+    public String toString() {
+        return "Shed{" +
+                "shedId=" + shedId +
+                ", width=" + width +
+                ", length=" + length +
+                '}';
     }
 }
 

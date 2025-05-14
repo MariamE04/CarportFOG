@@ -72,12 +72,19 @@ public class Main {
 
         app.get("showOrder", ctx -> SvgController.showOrder(ctx));
 
+        app.post("/admin", ctx -> OrderController.updateOrder(ctx));
+
         app.get("/admin", ctx -> {
             OrderController.getAllOrders(ctx);
+            OrderController.updateOrder(ctx);
         });
 
         app.post("orderdetails", ctx -> OrderDetailController.getOrderDetailsByOrderNumber(ctx));
         app.get("orderdetails", ctx -> ctx.render("orderdetails"));
+
+        app.post("updateOrder", ctx -> OrderController.updateOrder(ctx));
+        app.post("editOrder", ctx -> OrderController.editOrder(ctx));
+        app.get("editOrder", ctx -> ctx.render("editOrder"));
 
 
         app.get("/quotes", QuoteController::getQuotesByUser);

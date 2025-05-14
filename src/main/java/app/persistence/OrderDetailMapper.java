@@ -1,6 +1,8 @@
 package app.persistence;
 
+
 import app.entities.Material;
+import app.entities.Materials;
 import app.entities.OrderDetails;
 import app.exceptions.DatabaseException;
 
@@ -43,7 +45,6 @@ public class OrderDetailMapper {
                 int id = rs.getInt("order_id");
                 int quantity = rs.getInt("quantity");
 
-
                 int materialId = rs.getInt("material_id");
                 String name = rs.getString("name");
                 String description = rs.getString("description");
@@ -51,7 +52,8 @@ public class OrderDetailMapper {
                 int amount = rs.getInt("amount");
                 int length = rs.getInt("length");
                 int price = rs.getInt("price");
-                Material material = new Material(materialId, name, description, unit, amount, length, price);
+
+                Material materials = new Material(materialId, name, description, unit, amount, length, price);
 
                 orderDetails.add(new OrderDetails(material, quantity, orderId));
             }
@@ -64,8 +66,7 @@ public class OrderDetailMapper {
 
     }
 
-
-    public static void addOrderDetail(int orderId, Material material, int quantity) throws DatabaseException {
+    public static void addOrderDetail(int orderId, Material materials, int quantity) throws DatabaseException {
         String sql = "INSERT INTO orderdetails (order_id, material_id, quantity) VALUES(?,?,?)";
 
         try(Connection connection = connectionPool.getConnection();
