@@ -18,7 +18,7 @@ public class Calculator {
         for (int i = 0; i < postCount; i++)
             materials.add(MaterialMapper.getPost());
         int rafterCount = rafterCalculator(width);
-        for (int i = 0; i < rafterCount; i++)
+        for (int i = 0; i < rafterCount; i += 15)
             materials.add(MaterialMapper.getRafter());
         List<Material> beams = beamCalculator(width);
         for (int i = 0; i < beams.size(); i++)
