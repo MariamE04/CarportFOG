@@ -22,6 +22,15 @@ public class Carport {
         this.shed = shed;
     }
 
+
+
+    public Carport(int width, int length, String roofType, int carportId) {
+        this.width = width;
+        this.length = length;
+        this.roofType = roofType;
+        this.carportId = carportId;
+    }
+
     public Carport(int width, int length) {
         this.width = width;
         this.length = length;
@@ -50,7 +59,6 @@ public class Carport {
     public void setLength(int length) {
         this.length = length;
     }
-
 
     public String getRoofType() {
         return roofType;

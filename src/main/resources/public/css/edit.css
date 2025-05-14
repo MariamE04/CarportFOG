@@ -1,0 +1,94 @@
+.edit-body{
+    margin-top: 10vh;
+    margin-right: 5vh;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+
+}
+
+.Carport-length {
+    background-color: #F0EFEF;
+    padding: 2vh;
+    border-radius: 2vh;
+}
+
+.Carport-width {
+    margin-top: 2vh;
+    background-color: #F0EFEF;
+    padding: 2vh;
+    border-radius: 2vh;
+    padding-bottom: 8vh;
+}
+
+.Price {
+    margin-top: 2vh;
+    background-color: #F0EFEF;
+    padding: 2vh;
+    border-radius: 2vh;
+    padding-bottom: 8vh;
+}
+
+.Carport-length label {
+
+font-weight: bold;
+font-size: 20px;
+}
+
+.Carport-length input{
+    margin-top: 4vh;
+    margin-left: 1vw;
+    margin-bottom: 6vh;
+    font-size: 10px;
+    font-style: italic;
+    padding: 1vh;
+    border: none;
+    border-bottom: 2px solid black;
+    outline: none;
+}
+
+.Carport-width label {
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.Carport-width input {
+    margin-top: 4vh;
+    margin-left: 1vw;
+    font-size: 10px;
+    font-style: italic;
+    padding: 1vh;
+    border: none;
+    border-bottom: 2px solid black;
+    outline: none;
+}
+
+.Price label{
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.Price input {
+    margin-top: 4vh;
+    margin-left: 1vw;
+    font-size: 10px;
+    font-style: italic;
+    padding: 1vh;
+    border: none;
+    border-bottom: 2px solid black;
+    outline: none;
+}
+
+.Save {
+    margin-left: 3.4vh;
+    background-color: #76D779;
+    padding: 2vh;
+    color: black;
+    border-radius: 8px;
+    margin-top: 4vh;
+}
+
+.Save:hover {
+    background-color: lightgreen;
+    font-weight: bold;
+}

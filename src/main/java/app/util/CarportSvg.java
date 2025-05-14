@@ -1,15 +1,27 @@
 package app.util;
 
+import app.entities.Material;
+
+import java.util.List;
+
 // bruges til at tegne en carport med SVG.
 public class CarportSvg {
     //dimensionerne på carporten
     private int width;
     private int length;
     private Svg carportSvg; // selve SVG-objektet, der tegnes på
+    private int postCount; // antal stolper
+    private int postSpace; // mellemrum mellem stolper
+    private int rafterCount; // antal spær
+    private List<Material> beams; // liste med remme
 
-    public CarportSvg(int width, int length) {
+    public CarportSvg(int width, int length, int postCount, int postSpace, int rafterCount, List<Material> beams) {
         this.width = width;
         this.length = length;
+        this.postCount = postCount;
+        this.postSpace = postSpace;
+        this.rafterCount = rafterCount;
+        this.beams = beams;
         //Opretter et Svg-objekt med lidt ekstra plads rundt om carporten.
         carportSvg = new Svg(0, 0, "0 0 " + (width + 50) + " " + (length + 50), (width + 50) + "px"); //carportSvg = new Svg(0, 0, "0 0 " + width + " " + length, "50%");
         //Tegner en stor hvid firkant som baggrund (selve carporten).
@@ -25,57 +37,54 @@ public class CarportSvg {
     //remme
     private void addBeams() {
         double beamHeight = 4.5; // pixel
-        double beamWidth = width; // hele bredden af carporten
+        double beamLength; // hele bredden af carporten
         double offsetFromTop = 35; // 35 pixel fra top og bund.
+        int beamCount = beams.size(); // Antal remme
+        double beamStart = 0; // hvor remmen placeres
 
-        // Øverste rem (nær toppen af carporten)
-        carportSvg.addRectangle(0, offsetFromTop, beamHeight, beamWidth,
-                "stroke-width:1px; stroke:#000000; fill: #ffffff");
+        while (beamCount > 0) {
+            beamLength = beams.get(beams.size() - beamCount).getLength();
 
-        // Nederste rem (nær bunden af carporten)
-        carportSvg.addRectangle(0, length - offsetFromTop - beamHeight, beamHeight, beamWidth,
-                "stroke-width:1px; stroke:#000000; fill: #ffffff");
+            // Øverste rem (nær toppen af carporten)
+            carportSvg.addRectangle(beamStart, offsetFromTop, beamHeight, beamLength,
+                    "stroke-width:1px; stroke:#000000; fill: #ffffff");
+
+            // Nederste rem (nær bunden af carporten)
+            carportSvg.addRectangle(beamStart, length - offsetFromTop - beamHeight, beamHeight, beamLength,
+                    "stroke-width:1px; stroke:#000000; fill: #ffffff");
+
+            beamCount -= 2;
+            beamStart += beamLength;
+        }
     }
 
     //spær
     private void addRafters() {
-        double spacing = 55.0;
+        double spacing = width/(rafterCount - 1.0);
         double rafterWidth = 4.5;
 
-        //For hver i, med 55 pixel mellemrum, tilføjes et spær (vertikal firkant).
-        for (double i = 0; i < width; i += spacing) {
+        //For hver i, tilføjes et spær (vertikal firkant).
+        for (double i = 0; i <= width; i += spacing) {
             carportSvg.addRectangle(i, 0, length, rafterWidth, "stroke:#000000; fill: #ffffff");
         }
     }
 
     //Stolper
     private void addPost() {
-        int stolpeBredde = 10; // Bredde af stolper
-        int stolpeHøjde = 10;   //højden af stolperne
-        int afstandMellemStolper = 200; // Afstand mellem stolper
-
-        // Beregner antallet af stolper baseret på bredden af carporten og afstanden mellem stolperne
-        // Antallet af stolper kan ikke være mindre end 2
-        int antalStolper = Math.max(2, (int) Math.ceil(width / (double) afstandMellemStolper));
-
-        //Startposition for stolperne
-        int start = 50; //50 px fra venstre kant af carporten
-
-        // Slutposition for stolperne
-        int end = width - 50; //50 px fra højre kant af carporten
-
-        // Beregner den præcise afstand mellem stolperne langs bredden
-        int afstandMellem = (end - start) / (antalStolper - 1);
+        int postDimension = 10; // Bredde og længde af stolper
+        int postsPlaced = 0; // Antal stolper placeret indtil videre
+        double x = 95; // Stolpes x-position
 
         // Itererer gennem antallet af stolper og placerer dem langs bredden
-        for (int i = 0; i < antalStolper; i++) {
-            int x = start + i * afstandMellem;  //Beregner x-positionen for hver stolpe, så de bliver jævnt fordelt langs bredden
-
+        while (postsPlaced < postCount) {
             // Stolper på den øverste rem (øverste linje)
-            carportSvg.addRectangle(x, 35 - stolpeHøjde / 2.0, stolpeBredde, stolpeHøjde, "stroke:#000000; fill: none;");
+            carportSvg.addRectangle(x, 35 - postDimension / 2.0, postDimension, postDimension, "stroke:#000000; fill: none;");
 
             // Stolper på den nederste rem (nederste linje)
-            carportSvg.addRectangle(x, length - 35 - stolpeHøjde / 2.0, stolpeBredde, stolpeHøjde, "stroke:#000000; fill: none;");
+            carportSvg.addRectangle(x, length - 35 - postDimension / 2.0, postDimension, postDimension, "stroke:#000000; fill: none;");
+            x += postSpace;
+            postsPlaced += 2;
+
         }
     }
 
