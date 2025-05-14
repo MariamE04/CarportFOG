@@ -2,6 +2,7 @@ package app.controllers;
 
 import app.entities.Carport;
 import app.entities.Material;
+import app.exceptions.DatabaseException;
 import app.persistence.CarportMapper;
 import app.util.Calculator;
 import app.util.CarportSvg;
@@ -24,22 +25,15 @@ public class SvgController {
                 return;
             }
 
-            CarportSvg carportSvg = Calculator.
+            CarportSvg carportSvg = Calculator.carportCalculator(carport.getWidth(), carport.getLength());
 
-            int width = carport.getWidth();
-            int length = carport.getLength();
-            int postCount = carport.getPostCount();
-            int postSpace = carport.getPostSpacing();
-            int rafterCount = carport.getRafterCount();
-            List<Material> beams = carport.getBeams();
 
             ctx.attribute("id", quoteId);
 
-            // Brug den udvidede constructor
-            CarportSvg svg = new CarportSvg(width, length, postCount, postSpace, rafterCount, beams);
-            String svgContent = svg.toString();
+            String svgContent = carportSvg.toString();
 
-            String pdfFilename = "public/pdf/quote_" + quoteId + "_carport_" + width + "x" + length + ".pdf";
+            String filename = "order_" + quoteId + "_carport_" + carport.getWidth() + "x" + carport.getLength() + ".pdf";
+            String pdfFilename = "src/main/resources/public/pdf/" + filename;
             SvgToPdfConverter converter = new SvgToPdfConverter();
 
             try {
@@ -52,11 +46,13 @@ public class SvgController {
             }
 
             ctx.attribute("svg", svgContent);
-            ctx.attribute("pdfFilename", pdfFilename.replace("public/", ""));
+            ctx.attribute("filename", filename);
             ctx.render("pay_quote.html");
 
         } catch (NumberFormatException | NullPointerException e) {
             ctx.status(400).result("Ugyldige eller manglende parametre.");
+        } catch (DatabaseException e) {
+            throw new RuntimeException(e);
         }
     }
 }

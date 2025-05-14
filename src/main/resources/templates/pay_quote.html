@@ -14,7 +14,7 @@
 
 <!-- Link til at downloade PDF -->
 <p>Download som PDF:
-    <a th:href="@{/${pdfFilename}}" download>Download PDF</a>
+    <a th:href="@{'/pdf/' + ${filename}}" download>Download PDF</a>
 </p>
 
 <!-- Knap til at gå tilbage -->

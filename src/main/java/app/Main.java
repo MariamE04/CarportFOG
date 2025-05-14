@@ -7,7 +7,12 @@ import app.persistence.*;
 
 import app.util.Calculator;
 import io.javalin.Javalin;
+import io.javalin.http.staticfiles.Location;
 import io.javalin.rendering.template.JavalinThymeleaf;
+
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
@@ -23,8 +28,7 @@ public class Main {
         // Initializing Javalin and Jetty webserver
 
         Javalin app = Javalin.create(config -> {
-            config.staticFiles.add("/public");
-
+            config.staticFiles.add("/public"); // where it is in your resources
             config.jetty.modifyServletContextHandler(handler ->  handler.setSessionHandler(SessionConfig.sessionConfig()));
             config.fileRenderer(new JavalinThymeleaf(ThymeleafConfig.templateEngine()));
         }).start(7070);
@@ -86,8 +90,16 @@ public class Main {
 
         app.get("/pdf/{filename}", ctx -> {
             String filename = ctx.pathParam("filename");
-            ctx.redirect("/public/pdf/" + filename);
+            Path filePath = Paths.get("public/pdf", filename);
+
+            if (Files.exists(filePath)) {
+                ctx.contentType("src/main/resources/public/pdf");
+                ctx.result(Files.newInputStream(filePath));
+            } else {
+                ctx.status(404).result("File not found");
+            }
         });
+
 
 
         // Rute til createCarport
