@@ -35,7 +35,7 @@ public class Order {
     public void priceSummation(){
         total_price = 0;
         for (OrderDetails detail : orderDetails) {
-            total_price += detail.getMaterials().getPrice()*detail.getMaterials().getAmount();
+            total_price += detail.getMaterials().getPrice()*detail.getMaterials().getLength()*detail.getMaterials().getAmount();
         }
     }
 
