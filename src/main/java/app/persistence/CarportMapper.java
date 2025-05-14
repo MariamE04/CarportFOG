@@ -52,11 +52,11 @@ public class CarportMapper {
             {
                 int width = rs.getInt("carport_width");
                 int length = rs.getInt("carport_length");
-                int height = rs.getInt("carport_height");
                 String roofType = rs.getString("roof_type");
+                int id = rs.getInt("carport_id");
                 //Tilføj shed her hvis skur skal med senere
 
-                 carport = new Carport(width, length, height, roofType);
+                 carport = new Carport(width, length, roofType, id);
             }
         }
         catch (SQLException e)
@@ -68,7 +68,7 @@ public class CarportMapper {
     }
 
     public static void updateCarport(int width, int length, int carportId) throws DatabaseException{
-        String sql = "update public.carports set width = ?, length = ? where task_id = ?";
+        String sql = "update public.carports set carport_width = ?, carport_length = ? where carport_id = ?";
 
         try (
                 Connection connection = connectionPool.getConnection();
@@ -90,6 +90,10 @@ public class CarportMapper {
         }
     }
 
+
+    public static void getCarportIdByOrderId(int order_id){
+        String sql = "select carports.carport_id  orders ON carports.carport_id = orders.carport_id where carport_id = ?";
+    }
 
     }
 

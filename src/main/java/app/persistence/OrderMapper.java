@@ -121,13 +121,12 @@ public class OrderMapper {
 
                 int carportWidth = rs.getInt("carport_width");
                 int carportLength = rs.getInt("carport_length");
-                int carportHeight = rs.getInt("carport_height");
                 int shedWidth = rs.getInt("carport_width");
                 int shedLength = rs.getInt("shed_length");
                 String roofType = rs.getString("roof_type");
                 Shed shed = new Shed(shedLength, shedWidth);
 
-                Carport carport = new Carport(carportId ,carportWidth, carportLength,carportHeight, roofType, shed);
+                Carport carport = new Carport(carportId ,carportWidth, carportLength, roofType, shed);
                 ordersList.add(new Order(id, localDate, price, paymentStatus, userId, quoteId, carport, shed));            }
 
         } catch (SQLException e){
