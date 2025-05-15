@@ -3,11 +3,12 @@ package app.persistence;
 import app.entities.User;
 import app.exceptions.DatabaseException;
 import org.junit.jupiter.api.*;
+
 import java.sql.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class DatabaseTest {
+class UserMapperTest {
     private static ConnectionPool connector;
 
     @BeforeAll
@@ -45,6 +46,7 @@ class DatabaseTest {
                                 "carport_width BIGINT NOT NULL, " +
                                 "carport_length BIGINT NOT NULL, " +
                                 "roof_type VARCHAR(255) NOT NULL, " +
+                                "user_id BIGINT REFERENCES test.users(user_id), " +
                                 "shed_id BIGINT REFERENCES test.sheds(shed_id));" +
 
                                 // QUOTES
@@ -54,15 +56,14 @@ class DatabaseTest {
                                 "valid_until_date DATE NOT NULL, " +
                                 "created_at_date DATE NOT NULL, " +
                                 "is_accepted BOOLEAN DEFAULT false, " +
-                                "is_visible BOOLEAN DEFAULT true);"+
+                                "order_id BIGINT, " +
+                                "is_visible BOOLEAN DEFAULT true);" +
 
 
                                 // ORDERS
                                 "CREATE TABLE IF NOT EXISTS test.orders (" +
                                 "order_id bigserial PRIMARY KEY, " +
-                                "user_id BIGINT NOT NULL REFERENCES test.users(user_id), " +
                                 "carport_id BIGINT NOT NULL REFERENCES test.carports(carport_id), " +
-                                "quote_id BIGINT NOT NULL REFERENCES test.quotes(quote_id), " +
                                 "order_date DATE NOT NULL, " +
                                 "status VARCHAR(50) NOT NULL, " +
                                 "total_price DOUBLE PRECISION NOT NULL);" +
@@ -105,10 +106,10 @@ class DatabaseTest {
             // Tilføj testdata
             stmt.execute("INSERT INTO test.users (email, password, role, phone_number) VALUES ('test@example.com', 'secret', 'admin', 12345678);");
             stmt.execute("INSERT INTO test.sheds (shed_width, shed_length) VALUES (200, 300);");
-            stmt.execute("INSERT INTO test.carports (carport_width, carport_length, roof_type, shed_id) VALUES (600, 700, 'flat', 1);");
+            stmt.execute("INSERT INTO test.carports (carport_width, carport_length, roof_type, shed_id, user_id) VALUES (600, 700, 'flat', 1,1);");
             stmt.execute("INSERT INTO test.quotes (final_price, valid_until_date, created_at_date, is_accepted, is_visible) VALUES (19999.99, '2025-12-31', '2025-01-01', false, true);");
             stmt.execute("INSERT INTO test.materials (name, description, unit, amount, length, price) VALUES ('wood beam', 'strong beam', 'pcs', 10, 240.5, 30.0);");
-            stmt.execute("INSERT INTO test.orders (user_id, carport_id, quote_id, order_date, status, total_price) VALUES (1, 1, 1, '2025-01-01', 'pending', 19999.99);");
+            stmt.execute("INSERT INTO test.orders (carport_id,order_date, status, total_price) VALUES (1, '2025-01-01', 'pending', 19999.99);");
             stmt.execute("INSERT INTO test.orderdetails (order_id, material_id, quantity) VALUES (1, 1, 5);");
 
         } catch (SQLException e) {
@@ -151,7 +152,7 @@ class DatabaseTest {
 
 
     @Test
-    void login(){
+    void login() {
         UserMapper.setConnectionPool(connector);
 
         String correctEmail = "test@example.com";
@@ -160,16 +161,15 @@ class DatabaseTest {
         try {
             User result = UserMapper.logIn(correctEmail, correctPassword);
 
-           assertNotNull(result, "Login should succeed for valid credentials.");
-           assertEquals(correctEmail, result.getEmail(), "Logged-in email should match the provided email.");
-           assertEquals("admin", result.getRole(), "Role should match the inserted value.");
+            assertNotNull(result, "Login should succeed for valid credentials.");
+            assertEquals(correctEmail, result.getEmail(), "Logged-in email should match the provided email.");
+            assertEquals("admin", result.getRole(), "Role should match the inserted value.");
 
         } catch (DatabaseException e) {
             fail("Login failed for valid credentials: " + e.getMessage());
             throw new RuntimeException(e);
         }
     }
-
 
 
     @Test
