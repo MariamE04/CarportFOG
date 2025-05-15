@@ -31,7 +31,7 @@ public class SvgController {
             String svgContent = carportSvg.toString();
 
             String filename = "order_" + quoteId + "_carport_" + carport.getWidth() + "x" + carport.getLength() + ".pdf";
-            String pdfFilename = "src/main/resources/public/pdf/" + filename;
+            String pdfFilename = "pdf/" + filename;
             SvgToPdfConverter converter = new SvgToPdfConverter();
 
             try {

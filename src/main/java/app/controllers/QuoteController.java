@@ -4,6 +4,7 @@ import app.entities.Quote;
 import app.entities.User;
 import app.exceptions.DatabaseException;
 import app.persistence.ConnectionPool;
+import app.persistence.OrderMapper;
 import app.persistence.QuoteMapper;
 import io.javalin.http.Context;
 
@@ -76,6 +77,9 @@ public class QuoteController {
                 QuoteMapper.updateQuoteAccepted(quoteId, true);
                 QuoteMapper.updateQuoteVisibility(quoteId, true);
 
+                // Opdater ordre status til godkendt
+                OrderMapper.updateOrderStatusByQuoteId(quoteId, "Godkendt", connectionPool);
+
                 // Redirect til betalingsside
                 ctx.redirect("/pay/" + quoteId);
                 return; // sørg for at vi ikke også kører redirect nedenfor
@@ -83,6 +87,10 @@ public class QuoteController {
             // brugeren afviser tilbuddet: opdateres quote som usynligt.
             } else if("reject".equals(response)) {
                 QuoteMapper.updateQuoteVisibility(quoteId,false );
+
+                // Opdater ordre status til afvist
+                OrderMapper.updateOrderStatusByQuoteId(quoteId, "Afvist", connectionPool);
+
             }
 
         } catch (DatabaseException e) {
@@ -102,19 +110,11 @@ public class QuoteController {
                 if (quote.isVisible() && !quote.isAccepted()
                         && quote.getDateCreated().plusDays(14).isBefore(LocalDate.now())) {
                     QuoteMapper.updateQuoteVisibility(quote.getQuoteId(), false);
-                    // evt: QuoteMapper.updateQuoteExpired(quote.getQuoteId(), true);
+                    OrderMapper.updateOrderStatusByQuoteId(quote.getQuoteId(), "Udløbet", connectionPool);
                 }
             }
         } catch (DatabaseException e) {
             System.out.println("Fejl i expirationDate: " + e.getMessage());
         }
     }
-
-    // Viser en side, hvor brugeren kan bekræfte betalingen
-    public static void showPaymentPage(Context ctx) {
-        int quoteId = Integer.parseInt(ctx.pathParam("id"));
-        ctx.attribute("quoteId", quoteId);
-        ctx.render("pay_quote.html");
-    }
-
 }
