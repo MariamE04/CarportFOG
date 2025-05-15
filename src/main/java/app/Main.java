@@ -93,7 +93,7 @@ public class Main {
 
         app.get("/pdf/{filename}", ctx -> {
             String filename = ctx.pathParam("filename");
-            String content = FileUtil.readFileFromResources("public/pdf/" + filename);
+            String content = FileUtil.readFileFromResources("pdf/" + filename);
             ctx.contentType("application/pdf");
             ctx.result(content);
         });
