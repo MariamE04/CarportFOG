@@ -1,5 +1,7 @@
 package app.persistence;
 
+import app.entities.Quote;
+import app.exceptions.DatabaseException;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -7,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 class QuoteMapperTest {
@@ -47,6 +50,7 @@ class QuoteMapperTest {
                                 "carport_width BIGINT NOT NULL, " +
                                 "carport_length BIGINT NOT NULL, " +
                                 "roof_type VARCHAR(255) NOT NULL, " +
+                                "user_id BIGINT REFERENCES test.users(user_id), " +
                                 "shed_id BIGINT REFERENCES test.sheds(shed_id));" +
 
                                 // QUOTES
@@ -56,15 +60,14 @@ class QuoteMapperTest {
                                 "valid_until_date DATE NOT NULL, " +
                                 "created_at_date DATE NOT NULL, " +
                                 "is_accepted BOOLEAN DEFAULT false, " +
-                                "is_visible BOOLEAN DEFAULT true);"+
+                                "order_id BIGINT, " +
+                                "is_visible BOOLEAN DEFAULT true);" +
 
 
                                 // ORDERS
                                 "CREATE TABLE IF NOT EXISTS test.orders (" +
                                 "order_id bigserial PRIMARY KEY, " +
-                                "user_id BIGINT NOT NULL REFERENCES test.users(user_id), " +
                                 "carport_id BIGINT NOT NULL REFERENCES test.carports(carport_id), " +
-                                "quote_id BIGINT NOT NULL REFERENCES test.quotes(quote_id), " +
                                 "order_date DATE NOT NULL, " +
                                 "status VARCHAR(50) NOT NULL, " +
                                 "total_price DOUBLE PRECISION NOT NULL);" +
@@ -107,17 +110,16 @@ class QuoteMapperTest {
             // Tilføj testdata
             stmt.execute("INSERT INTO test.users (email, password, role, phone_number) VALUES ('test@example.com', 'secret', 'admin', 12345678);");
             stmt.execute("INSERT INTO test.sheds (shed_width, shed_length) VALUES (200, 300);");
-            stmt.execute("INSERT INTO test.carports (carport_width, carport_length, roof_type, shed_id) VALUES (600, 700, 'flat', 1);");
+            stmt.execute("INSERT INTO test.carports (carport_width, carport_length, roof_type, shed_id, user_id) VALUES (600, 700, 'flat', 1,1);");
             stmt.execute("INSERT INTO test.quotes (final_price, valid_until_date, created_at_date, is_accepted, is_visible) VALUES (19999.99, '2025-12-31', '2025-01-01', false, true);");
             stmt.execute("INSERT INTO test.materials (name, description, unit, amount, length, price) VALUES ('wood beam', 'strong beam', 'pcs', 10, 240.5, 30.0);");
-            stmt.execute("INSERT INTO test.orders (user_id, carport_id, quote_id, order_date, status, total_price) VALUES (1, 1, 1, '2025-01-01', 'pending', 19999.99);");
+            stmt.execute("INSERT INTO test.orders (carport_id,order_date, status, total_price) VALUES (1, '2025-01-01', 'pending', 19999.99);");
             stmt.execute("INSERT INTO test.orderdetails (order_id, material_id, quantity) VALUES (1, 1, 5);");
 
         } catch (SQLException e) {
             fail("Test data setup failed: " + e.getMessage());
         }
     }
-
     @Test
     void testDatabaseConnection() throws SQLException {
         assertNotNull(connector.getConnection(), "Connection should not be null");
@@ -125,18 +127,53 @@ class QuoteMapperTest {
 
 
     @Test
-    void getQuotesByEmail() {
+    void getQuotesByEmail() throws DatabaseException {
+
+        QuoteMapper.setConnectionPool(connector);
+
+        String email = "test@example.com";
+
+        List<Quote> quotes = QuoteMapper.getQuotesByEmail(email);
+
+        assertFalse(quotes.isEmpty());
+
+        Quote firstQuote =quotes.get(0);
+
+        assertEquals(1, firstQuote.getQuoteId(), "Order ID should be 1" );
+        assertEquals(19999.99, firstQuote.getPrice(), 0.01);
+        assertTrue(firstQuote.isVisible());
     }
 
     @Test
     void updateQuoteAccepted() {
+        QuoteMapper.setConnectionPool(connector);
+
     }
 
     @Test
-    void updateQuoteVisibility() {
+    void updateQuoteVisibility() throws DatabaseException {
+        QuoteMapper.setConnectionPool(connector);
+
+        int id = 1;
+        boolean newIsVisible = true;
+
+        // Opdater synlighed
+        QuoteMapper.updateQuoteVisibility(id, newIsVisible);
+
+        // Hent quote fra databasen igen
+        Quote updatedQuote = QuoteMapper.getQuoteById(id);
+
+        // Bekræft at den er opdateret korrekt
+        assertTrue(updatedQuote.isVisible());
     }
 
+
     @Test
-    void getAllQuotes() {
+    void getAllQuotes() throws DatabaseException {
+        QuoteMapper.setConnectionPool(connector);
+
+        List<Quote> qoutes =QuoteMapper.getAllQuotes();
+
+        assertEquals(3, qoutes.size(), "There should be exactly 3 quotes");
     }
 }
