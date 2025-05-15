@@ -141,7 +141,7 @@ public class QuoteMapper {
 
             if (rs.next()) {
                 boolean isVisible = rs.getBoolean("is_visible");
-                quote = new Quote(id,isVisible);
+                quote = new Quote(id, isVisible);
             }
         } catch (SQLException e) {
             throw new DatabaseException("Error getting quote by id", e.getMessage());

@@ -108,12 +108,17 @@ class QuoteMapperTest {
             stmt.execute("DELETE FROM test.users;");
 
             // Tilføj testdata
-            stmt.execute("INSERT INTO test.users (email, password, role, phone_number) VALUES ('test@example.com', 'secret', 'admin', 12345678);");
+            stmt.execute("INSERT INTO test.users (user_id, email, password, role, phone_number) VALUES (1, 'test@example.com', 'secret', 'admin', 12345678);");
             stmt.execute("INSERT INTO test.sheds (shed_width, shed_length) VALUES (200, 300);");
             stmt.execute("INSERT INTO test.carports (carport_width, carport_length, roof_type, shed_id, user_id) VALUES (600, 700, 'flat', 1,1);");
-            stmt.execute("INSERT INTO test.quotes (final_price, valid_until_date, created_at_date, is_accepted, is_visible) VALUES (19999.99, '2025-12-31', '2025-01-01', false, true);");
-            stmt.execute("INSERT INTO test.materials (name, description, unit, amount, length, price) VALUES ('wood beam', 'strong beam', 'pcs', 10, 240.5, 30.0);");
+
             stmt.execute("INSERT INTO test.orders (carport_id,order_date, status, total_price) VALUES (1, '2025-01-01', 'pending', 19999.99);");
+
+            stmt.execute("INSERT INTO test.quotes (final_price, valid_until_date, created_at_date, is_accepted, is_visible, order_id) VALUES (19999.99, '2025-12-31', '2025-01-01', false, false, 1);");
+            stmt.execute("INSERT INTO test.quotes (final_price, valid_until_date, created_at_date, is_accepted, is_visible) VALUES (24000.99, '2025-12-31', '2025-01-01', true, true);");
+            stmt.execute("INSERT INTO test.quotes (final_price, valid_until_date, created_at_date, is_accepted, is_visible) VALUES (18000.99, '2025-12-31', '2025-01-01', false, true);");
+
+            stmt.execute("INSERT INTO test.materials (name, description, unit, amount, length, price) VALUES ('wood beam', 'strong beam', 'pcs', 10, 240.5, 30.0);");
             stmt.execute("INSERT INTO test.orderdetails (order_id, material_id, quantity) VALUES (1, 1, 5);");
 
         } catch (SQLException e) {
