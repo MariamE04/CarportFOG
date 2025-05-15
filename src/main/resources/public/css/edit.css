@@ -1,83 +1,51 @@
-.edit-body{
-    margin-top: 10vh;
-    margin-right: 5vh;
+
+.edit-container {
     display: flex;
+    gap: 4vw;
     flex-direction: row;
     justify-content: center;
-
+    align-items: flex-start;
 }
+    .form-row {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: flex-start;
+        gap: 2vw;
+        margin-bottom: 3vh;
+        flex-wrap: wrap; /* felter hopper ned hvis man minimere skærmen (#Responsivt come on) */
+    }
 
-.Carport-length {
+
+
+
+.edit-formbox {
     background-color: #F0EFEF;
     padding: 2vh;
-    border-radius: 2vh;
+    border-radius: 10px;
+    border: 2px solid black;
+    min-width: 200px;
 }
 
-.Carport-width {
-    margin-top: 2vh;
-    background-color: #F0EFEF;
-    padding: 2vh;
-    border-radius: 2vh;
-    padding-bottom: 8vh;
-}
 
-.Price {
-    margin-top: 2vh;
-    background-color: #F0EFEF;
-    padding: 2vh;
-    border-radius: 2vh;
-    padding-bottom: 8vh;
-}
-
-.Carport-length label {
+.edit-formbox label {
 
 font-weight: bold;
 font-size: 20px;
 }
 
-.Carport-length input{
-    margin-top: 4vh;
-    margin-left: 1vw;
-    margin-bottom: 6vh;
-    font-size: 10px;
+.edit-formbox input{
+    margin-top: 2vh;
+    font-size: 12px;
     font-style: italic;
     padding: 1vh;
     border: none;
     border-bottom: 2px solid black;
+    box-sizing: border-box;
     outline: none;
+    width: 100%;
 }
 
-.Carport-width label {
-    font-weight: bold;
-    font-size: 20px;
-}
-
-.Carport-width input {
-    margin-top: 4vh;
-    margin-left: 1vw;
-    font-size: 10px;
-    font-style: italic;
-    padding: 1vh;
-    border: none;
-    border-bottom: 2px solid black;
-    outline: none;
-}
-
-.Price label{
-    font-weight: bold;
-    font-size: 20px;
-}
-
-.Price input {
-    margin-top: 4vh;
-    margin-left: 1vw;
-    font-size: 10px;
-    font-style: italic;
-    padding: 1vh;
-    border: none;
-    border-bottom: 2px solid black;
-    outline: none;
-}
 
 .Save {
     margin-left: 3.4vh;
