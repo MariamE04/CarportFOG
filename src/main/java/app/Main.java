@@ -93,10 +93,11 @@ public class Main {
 
         app.get("/pdf/{filename}", ctx -> {
             String filename = ctx.pathParam("filename");
-            String content = FileUtil.readFileFromResources("pdf/" + filename);
+            byte[] pdfBytes = FileUtil.readFileBytesFromProjectRoot("pdf/" + filename);
             ctx.contentType("application/pdf");
-            ctx.result(content);
+            ctx.result(pdfBytes);
         });
+
 
         // Rute til createCarport
         app.get("createCarport", ctx ->{
