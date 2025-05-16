@@ -78,7 +78,7 @@ public class QuoteController {
                 QuoteMapper.updateQuoteVisibility(quoteId, true);
 
                 // Opdater ordre status til godkendt
-                OrderMapper.updateOrderStatusByQuoteId(quoteId, "Godkendt", connectionPool);
+                OrderMapper.updateOrderStatusByQuoteId(quoteId, "Godkendt");
 
                 // Redirect til betalingsside
                 ctx.redirect("/pay/" + quoteId);
@@ -89,7 +89,7 @@ public class QuoteController {
                 QuoteMapper.updateQuoteVisibility(quoteId,false );
 
                 // Opdater ordre status til afvist
-                OrderMapper.updateOrderStatusByQuoteId(quoteId, "Afvist", connectionPool);
+                OrderMapper.updateOrderStatusByQuoteId(quoteId, "Afvist");
 
             }
 
@@ -110,7 +110,7 @@ public class QuoteController {
                 if (quote.isVisible() && !quote.isAccepted()
                         && quote.getDateCreated().plusDays(14).isBefore(LocalDate.now())) {
                     QuoteMapper.updateQuoteVisibility(quote.getQuoteId(), false);
-                    OrderMapper.updateOrderStatusByQuoteId(quote.getQuoteId(), "Udløbet", connectionPool);
+                    OrderMapper.updateOrderStatusByQuoteId(quote.getQuoteId(), "Udløbet");
                 }
             }
         } catch (DatabaseException e) {

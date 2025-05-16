@@ -23,6 +23,11 @@
             this.isVisible = isVisible;
         }
 
+        public Quote(int quoteId, boolean isVisible) {
+            this.quoteId = quoteId;
+            this.isVisible = isVisible;
+        }
+
         public boolean isExpired() {
             return dateCreated.plusDays(14).isBefore(LocalDate.now());
         }

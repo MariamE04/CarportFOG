@@ -34,6 +34,11 @@ public class Order {
         this.shed = shed;
     }
 
+    public Order(int order_id, String status) {
+        this.order_id = order_id;
+        this.status = status;
+    }
+
     public int getOrder_id() {
         return order_id;
     }
