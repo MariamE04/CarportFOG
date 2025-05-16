@@ -2,6 +2,7 @@ package app.persistence;
 
 import app.entities.Carport;
 import app.entities.Order;
+import app.entities.Quote;
 import app.entities.Shed;
 import app.exceptions.DatabaseException;
 
@@ -136,7 +137,7 @@ public class OrderMapper {
         return ordersList;
     }
 
-    public static void updateOrderStatusByQuoteId(int quoteId, String status, ConnectionPool connectionPool) throws DatabaseException {
+    public static void updateOrderStatusByQuoteId(int quoteId, String status) throws DatabaseException {
         String sql = "UPDATE orders SET status = ? WHERE order_id = (SELECT order_id FROM quotes WHERE quote_id = ?)";
 
         try (Connection connection = connectionPool.getConnection();
@@ -151,5 +152,28 @@ public class OrderMapper {
         }
     }
 
+    public static Order getOrderId(int id) throws DatabaseException {
+        Order order = null;
+
+        String sql = "SELECT * FROM orders WHERE order_id = ?";
+
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
+
+            ps.setInt(1, id);
+
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                String status = rs.getString("status");
+                // Tilføj evt. andre felter som du har i Order-klassen
+                order = new Order(id, status); // Du skal have en constructor i Order-klassen til dette
+            }
+
+        } catch (SQLException e) {
+            throw new DatabaseException("Error getting order by id", e.getMessage());
+        }
+        return order;
+    }
 
 }

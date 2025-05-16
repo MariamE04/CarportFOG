@@ -114,7 +114,7 @@ class QuoteMapperTest {
 
             stmt.execute("INSERT INTO test.orders (carport_id,order_date, status, total_price) VALUES (1, '2025-01-01', 'pending', 19999.99);");
 
-            stmt.execute("INSERT INTO test.quotes (final_price, valid_until_date, created_at_date, is_accepted, is_visible, order_id) VALUES (19999.99, '2025-12-31', '2025-01-01', false, false, 1);");
+            stmt.execute("INSERT INTO test.quotes (final_price, valid_until_date, created_at_date, is_accepted, is_visible, order_id) VALUES (19999.99, '2025-12-31', '2025-01-01', false, true, 1);");
             stmt.execute("INSERT INTO test.quotes (final_price, valid_until_date, created_at_date, is_accepted, is_visible) VALUES (24000.99, '2025-12-31', '2025-01-01', true, true);");
             stmt.execute("INSERT INTO test.quotes (final_price, valid_until_date, created_at_date, is_accepted, is_visible) VALUES (18000.99, '2025-12-31', '2025-01-01', false, true);");
 
@@ -150,10 +150,21 @@ class QuoteMapperTest {
     }
 
     @Test
-    void updateQuoteAccepted() {
+    void updateQuoteAccepted() throws DatabaseException {
         QuoteMapper.setConnectionPool(connector);
 
+        int quoteId = 1;
+        boolean newAcceptedStatus = true;
+
+        // Opdater 'is_accepted' til true
+        QuoteMapper.updateQuoteAccepted(quoteId, newAcceptedStatus);
+
+        // Hent quote og tjek at det er opdateret
+        Quote updatedQuote = QuoteMapper.getQuoteById(quoteId);
+
+        assertTrue(updatedQuote.isAccepted(), "Quote should be marked as accepted");
     }
+
 
     @Test
     void updateQuoteVisibility() throws DatabaseException {
