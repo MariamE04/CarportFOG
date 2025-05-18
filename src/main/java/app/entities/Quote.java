@@ -23,9 +23,10 @@
             this.isVisible = isVisible;
         }
 
-        public Quote(int quoteId, boolean isVisible) {
+        public Quote(int quoteId, boolean isVisible, boolean isAccepted) {
             this.quoteId = quoteId;
             this.isVisible = isVisible;
+            this.isAccepted = isAccepted;
         }
 
         public boolean isExpired() {

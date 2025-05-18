@@ -18,6 +18,16 @@ public class SvgController {
         try { // Hent ID fra URL’en og lav det om til et heltal (fx "123" bliver til 123).
             int quoteId = Integer.parseInt(ctx.pathParam("id"));
 
+
+            // HENT QUOTE og tjek om det er accepteret
+            Quote quote = QuoteMapper.getQuoteById(quoteId);
+            if (!quote.isAccepted()) {
+                ctx.attribute("message", "Du skal betale for at få adgang til carport og PDF.");
+                ctx.render("quote_not_accepted.html");
+                return;
+            }
+
+
             // HENT carport fra databasen via quoteId (her er det en placeholder)
             Carport carport = CarportMapper.getCarportByQuoteId(quoteId);
             if (carport == null) {

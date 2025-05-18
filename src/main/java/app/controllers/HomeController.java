@@ -68,12 +68,12 @@ public class HomeController {
        // String role = ctx.attribute("role");
 
         try {
-            User userFromDB = UserMapper.logIn(email); // Ny metode du laver
+            User user = UserMapper.logIn(email); // Ny metode du laver
 
-            if (userFromDB != null && PasswordUtil.checkPassword(password, userFromDB.getPassword())) {
-                ctx.sessionAttribute("currentUser", userFromDB);
-                if ("admin".equals(userFromDB.getRole())) {
-                    ctx.sessionAttribute("admin", userFromDB);
+            if (user != null && PasswordUtil.checkPassword(password, user.getPassword())) {
+                ctx.sessionAttribute("currentUser", user);
+                if ("admin".equals(user.getRole())) {
+                    ctx.sessionAttribute("admin", user);
                     ctx.redirect("admin");
                 } else {
                     ctx.render("index.html");
