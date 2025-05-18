@@ -4,6 +4,7 @@ import app.entities.User;
 import app.exceptions.DatabaseException;
 import app.persistence.ConnectionPool;
 import app.persistence.UserMapper;
+import app.util.PasswordUtil;
 import io.javalin.http.Context;
 
 import java.util.logging.Logger;
@@ -35,7 +36,9 @@ public class HomeController {
                 return 0; // Indikerer at brugeren allerede findes
 
             } else { //Hvis brugeren ikke findes, forsøges sign-up via UserMapper.signUp.
-                int result = UserMapper.signUp(email, password,phoneNumber);
+                String hashedPassword = PasswordUtil.hashPassword(password);
+                int result = UserMapper.signUp(email, hashedPassword, phoneNumber);
+
 
                 if (result == 1) {
                     User newUser = new User(email, password); //En ny User oprettes
@@ -65,25 +68,21 @@ public class HomeController {
        // String role = ctx.attribute("role");
 
         try {
-            User loggedInUser = UserMapper.logIn(email, password);
-            //Kalder logIn-metoden i UserMapper, der returnerer en bruger, hvis login-oplysningerne er korrekte.
+            User userFromDB = UserMapper.logIn(email); // Ny metode du laver
 
-            if (loggedInUser != null) { //Hvis login er korrekt
-                ctx.sessionAttribute("currentUser", loggedInUser); //gemmes brugeren i sessionen som currentUser.
-
-                //Hvis brugeren er administrator, gemmes en admin-session og omdirigeres til admin-siden.
-                if ("admin".equals(loggedInUser.getRole())) {
-                    ctx.sessionAttribute("admin", loggedInUser);
-                    //System.out.println("TESTSTST DER VIRKER");
+            if (userFromDB != null && PasswordUtil.checkPassword(password, userFromDB.getPassword())) {
+                ctx.sessionAttribute("currentUser", userFromDB);
+                if ("admin".equals(userFromDB.getRole())) {
+                    ctx.sessionAttribute("admin", userFromDB);
                     ctx.redirect("admin");
-
-                } else { //Hvis det er en almindelig bruger, vises startpage.html.
+                } else {
                     ctx.render("index.html");
                 }
-            } else { //Hvis brugeren ikke findes, vises en fejlbesked på index.html.
+            } else {
                 ctx.attribute("message", "Fejl i enten e-mail eller password. Prøv igen.");
                 ctx.render("login.html");
             }
+
         } catch (DatabaseException e) { //Hvis der opstår en databasefejl under login, logges fejlen, og brugeren får en generisk fejlbesked.
             LOGGER.severe("Error during login: " + e.getMessage());
             ctx.status(500).result("Error during login.");
