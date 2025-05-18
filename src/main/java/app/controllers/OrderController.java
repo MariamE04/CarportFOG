@@ -5,14 +5,13 @@ import app.entities.Order;
 import app.entities.OrderDetails;
 import app.entities.User;
 import app.exceptions.DatabaseException;
-import app.persistence.CarportMapper;
-import app.persistence.ConnectionPool;
-import app.persistence.OrderDetailMapper;
-import app.persistence.OrderMapper;
+import app.persistence.*;
 import io.javalin.http.Context;
 import org.apache.batik.transcoder.TranscoderException;
 import org.jetbrains.annotations.NotNull;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.List;
 
 public class OrderController {
@@ -48,6 +47,11 @@ public class OrderController {
             int orderDetailId = Integer.parseInt(ctx.formParam("edit_orderDetailId"));
             OrderDetailMapper.updateQuantity(quantity ,orderDetailId);
 
+            //Update new materialLength
+            int materialLength = Integer.parseInt(ctx.formParam("chosenMaterialLength"));
+            int materialId = MaterialMapper.getMaterialIdByChosenLength(materialLength);
+            MaterialMapper.updateMaterialId(materialId);
+
             //Carport
             Carport carport = CarportMapper.getCarportById(carportId);
             ctx.attribute("carport", carport);
@@ -55,8 +59,6 @@ public class OrderController {
             //Price
             ctx.attribute("price", price);
 
-            //Update quantity
-            ctx.attribute("quantity");
 
             ctx.redirect("/admin");
 
@@ -79,12 +81,14 @@ public class OrderController {
             Carport carport = CarportMapper.getCarportById(carportId);
             System.out.println("Carport hentet"+carport);
 
-            //Vi har allerede lavet en attribute til orderDetails.
 
+            //Vi har allerede lavet en attribute til orderDetails.
+            //Her viser vi alle materialLengths
+            ArrayList<Integer> materialLength = MaterialMapper.getAllLengths();
 
 
             //Gjort attributes klar til HTML siden
-
+            ctx.attribute("materialLength", materialLength);
             ctx.attribute("carport", carport);
             ctx.attribute("price", price);
 

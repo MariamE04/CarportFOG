@@ -1,5 +1,6 @@
 package app.persistence;
 
+import app.entities.Carport;
 import app.entities.Material;
 import app.exceptions.DatabaseException;
 
@@ -12,6 +13,10 @@ import java.util.List;
 
 public class MaterialMapper {
     private static ConnectionPool connectionPool;
+
+    public static void setConnectionPool(ConnectionPool newConnectionPool) {
+        connectionPool = newConnectionPool;
+    }
 
     //Bruges til at hente materialelængder i Calculator
     public static List<Material> getMaterialsByLengths() throws DatabaseException {
@@ -41,8 +46,71 @@ public class MaterialMapper {
         return materialsList;
     }
 
-    public static void setConnectionPool(ConnectionPool newConnectionPool) {
-        connectionPool = newConnectionPool;
+    public static ArrayList<Integer> getAllLengths(){
+
+        ArrayList<Integer> getAllLengthsFromMaterials = new ArrayList<>();
+
+        String sql = "SELECT length FROM materials";
+        int materialLength;
+
+        try(Connection connection = connectionPool.getConnection();
+            PreparedStatement ps = connection.prepareStatement(sql)){
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()){
+                materialLength = rs.getInt("length");
+                getAllLengthsFromMaterials.add(materialLength);
+            }
+
+        }catch (SQLException e){
+            throw new RuntimeException();
+        }
+        return getAllLengthsFromMaterials;
+    }
+
+    public static int getMaterialIdByChosenLength(int materialLength) throws DatabaseException{
+
+        int materialId;
+
+        String sql = "select material_id from materials where length = ?";
+        try (
+                Connection connection = connectionPool.getConnection();
+                PreparedStatement ps = connection.prepareStatement(sql)
+        ){
+            ps.setInt(1, materialLength);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()){
+                materialId = rs.getInt("material_id");
+                return materialId;
+            }
+                throw new DatabaseException("Fejl i opdatering af ordre-detalje");
+            }
+
+        catch (SQLException e)
+        {
+            throw new DatabaseException("Fejl i opdatering af ordredetaljens material_id", e.getMessage());
+        }
+    }
+
+    public static void updateMaterialId(int materialId) throws DatabaseException{
+        String sql = "update orderdetail set material_id = ?";
+
+        try (
+                Connection connection = connectionPool.getConnection();
+                PreparedStatement ps = connection.prepareStatement(sql)
+        )
+        {
+            ps.setInt(1, materialId);
+            int rowsAffected = ps.executeUpdate();
+            if (rowsAffected != 1)
+            {
+                throw new DatabaseException("Fejl i opdatering af ordre-detalje");
+            }
+        }
+        catch (SQLException e)
+        {
+            throw new DatabaseException("Fejl i opdatering af ordredetaljens material_id", e.getMessage());
+        }
     }
 
 }

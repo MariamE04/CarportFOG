@@ -81,14 +81,15 @@ public class OrderDetailMapper {
         }
     }
 
-    public static void updateQuantity(int quantity, int orderDetailsId) throws DatabaseException{
+
+    public static void updateQuantity(int quantity, int orderDetailId) throws DatabaseException{
         String sql ="UPDATE orderdetails SET quantity = ? WHERE order_detail_id = ? ";
 
         try(Connection connection = connectionPool.getConnection();
             PreparedStatement ps = connection.prepareStatement(sql)){
 
             ps.setInt(1, quantity);
-            ps.setInt(2, orderDetailsId);
+            ps.setInt(2, orderDetailId);
 
 
             ps.executeUpdate();

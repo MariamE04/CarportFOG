@@ -37,8 +37,19 @@
                 <input type="number" name="chosen-quantity" th:text="${orderdetails.quantity}">
                 </div>
 
+            <div class="edit-formbox" th:each="orderdetails :${session.orderDetails}">
+            <label th:text="${orderdetails.material.name}"></label>
+                <select  name="materialLength" required>
+                    <option value="" disabled selected>Vælg længde
+                    </option>
+                    <option th:each="eachLength: ${materialLength}" th:value="${eachLength}"
+                            th:text="${eachLength}">
+                    </option>
+                </select>
+            </div>
             <input type="hidden" name="edit_carportId" th:value="${carport.carportId}"/>
             <input type="hidden" name="edit_orderDetailId" th:value="${orderdetails.orderDetailId}"/>
+            <input type="hidden" name="chosenMaterialLength" th:value="${eachLength}"/>
     <button class="Save" type="submit"  formaction="/admin">Gem ændringer</button>
 
         </div>
