@@ -60,8 +60,10 @@ public class OrderMapper {
     }
 
     public static List<Order> getAllOrders() throws DatabaseException{
-        String sql = "SELECT * FROM orders JOIN carports ON orders.carport_id = carports.carport_id\n" +
-                "LEFT JOIN sheds ON carports.shed_id = sheds.shed_id\n";
+        String sql = "SELECT * FROM orders " +
+                "JOIN carports ON orders.carport_id = carports.carport_id " +
+                "LEFT JOIN sheds ON carports.shed_id = sheds.shed_id " +
+                "LEFT JOIN quotes ON orders.order_id = quotes.order_id";
 
         List<Order> ordersList = new ArrayList<>();
 
