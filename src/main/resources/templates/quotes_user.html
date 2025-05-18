@@ -39,7 +39,7 @@
     <p>Pris: <span th:text="${quote.price}"></span> kr</p>
     <p>Gyldig indtil: <span th:text="${quote.validityPeriod}"></span></p>
 
-    <a th:href="@{'/quotes/' + ${quote.quoteId}}">Se detaljer</a>
+    <a th:href="@{'/pay/' + ${quote.quoteId}}">Se detaljer</a>
 
     <form th:action="@{'/quotes/' + ${quote.quoteId}}" method="post">
         <label><input type="radio" name="response" value="accept"> Betal</label>
@@ -57,7 +57,7 @@
     <div th:each="quote : ${quotes}" th:if="${quote.isAccepted}">
         <p>Pris: <span th:text="${quote.price}"></span> kr</p>
         <p>Bekræftet d. <span th:text="${quote.dateCreated}"></span></p>
-        <a th:href="@{'/quotes/' + ${quote.quoteId}}">Se detaljer</a>
+        <a th:href="@{'/pay/' + ${quote.quoteId}}">Se detaljer</a>
 
 
         <hr/>

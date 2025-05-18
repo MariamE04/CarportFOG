@@ -156,10 +156,9 @@ class UserMapperTest {
         UserMapper.setConnectionPool(connector);
 
         String correctEmail = "test@example.com";
-        String correctPassword = "secret";
 
         try {
-            User result = UserMapper.logIn(correctEmail, correctPassword);
+            User result = UserMapper.logIn(correctEmail);
 
             assertNotNull(result, "Login should succeed for valid credentials.");
             assertEquals(correctEmail, result.getEmail(), "Logged-in email should match the provided email.");
