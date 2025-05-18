@@ -3,11 +3,14 @@ package app;
 import app.config.SessionConfig;
 import app.config.ThymeleafConfig;
 import app.controllers.*;
+import app.entities.Quote;
 import app.persistence.*;
 
 import app.util.FileUtil;
 import io.javalin.Javalin;
 import io.javalin.rendering.template.JavalinThymeleaf;
+
+import java.util.Map;
 
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
@@ -83,21 +86,19 @@ public class Main {
 
 
         app.get("/quotes", QuoteController::getQuotesByUser);
-        app.post("/quotes/{id}", QuoteController::respondToQute);
+        app.post("/quotes/{id}", QuoteController::respondToQuote);
 
-        //app.get("/pay/{id}", QuoteController::showPaymentPage);
 
         // Ruter for at vise ordren og betale for carport
         app.get("/pay/{id}", SvgController::showOrder); // Rute til at vise og generere ordren
 
-
+        //rute der lytter efter links som /pdf/minfil.pdf
         app.get("/pdf/{filename}", ctx -> {
-            String filename = ctx.pathParam("filename");
-            byte[] pdfBytes = FileUtil.readFileBytesFromProjectRoot("pdf/" + filename);
-            ctx.contentType("application/pdf");
-            ctx.result(pdfBytes);
+            String filename = ctx.pathParam("filename"); // Henter filnavnet fra URL’en.
+            byte[] pdfBytes = FileUtil.readFileBytesFromProjectRoot("pdf/" + filename); //Bruger FileUtil-metode til at hente hele PDF-filen som bytes.
+            ctx.contentType("application/pdf"); //Fortæller browseren, at indholdet er en PDF.
+            ctx.result(pdfBytes); //Sender PDF’en som svar til browseren.
         });
-
 
         // Rute til createCarport
         app.get("createCarport", ctx ->{

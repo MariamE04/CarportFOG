@@ -63,7 +63,7 @@ public class QuoteController {
     }
 
     // Behandler svar på tilbud (accept eller afvis).
-    public static void respondToQute(Context ctx){
+    public static void respondToQuote(Context ctx){
 
         // Henter quoteId fra URL-stien (pathParam) og konverterer den til et heltal.
         int quoteId = Integer.parseInt(ctx.pathParam("id"));
