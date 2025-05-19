@@ -20,9 +20,7 @@ public class Calculator {
         int rafterCount = rafterCalculator(width);
         for (int i = 0; i < rafterCount; i += 15)
             materials.add(MaterialMapper.getRafter());
-        List<Material> beams = beamCalculator(width);
-        for (int i = 0; i < beams.size(); i++)
-            materials.add(beams.get(i));
+        materials.addAll(beamCalculator(width));
         return materials;
     }
 

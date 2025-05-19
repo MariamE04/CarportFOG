@@ -69,6 +69,7 @@ public class Main {
 
         app.get("/admin", ctx -> {
             OrderController.getAllOrders(ctx);
+            CarportController.adminOrderUpdater(ctx);
         });
 
         app.post("orderdetails", ctx -> OrderDetailController.getOrderDetailsByOrderNumber(ctx));
@@ -86,8 +87,6 @@ public class Main {
             ShedController.showShedWidthAndLength(ctx);
         });
 
-        app.post("createCarport", ctx ->{
-            CarportController.sendUserData(ctx);
-        });
+        app.post("createCarport", CarportController::sendUserData);
     }
 }

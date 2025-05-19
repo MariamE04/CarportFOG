@@ -3,6 +3,7 @@ package app.persistence;
 import app.entities.Carport;
 import app.entities.Order;
 import app.entities.Shed;
+import app.entities.User;
 import app.exceptions.DatabaseException;
 
 import java.sql.*;
@@ -88,7 +89,7 @@ public class OrderMapper {
                     shed = new Shed( shedId, shedLength, shedWidth);
                 }
 
-                Carport carport = new Carport(carportId, carportWidth, carportLength, roofType, shed);
+                Carport carport = new Carport(carportId, carportWidth, carportLength, roofType, shed, new User(userId));
 
                 ordersList.add(new Order(id, localDate, price, paymentStatus, userId, carport, shed));
             }
@@ -119,14 +120,14 @@ public class OrderMapper {
 
                 int carportWidth = rs.getInt("carport_width");
                 int carportLength = rs.getInt("carport_length");
-                int carportHeight = rs.getInt("carport_height");
                 int shedWidth = rs.getInt("carport_width");
                 int shedLength = rs.getInt("shed_length");
                 String roofType = rs.getString("roof_type");
                 Shed shed = new Shed(shedLength, shedWidth);
 
-                Carport carport = new Carport(carportId ,carportWidth, carportLength,carportHeight, roofType, shed);
-                ordersList.add(new Order(id, localDate, price, paymentStatus, userId, carport, shed));            }
+                Carport carport = new Carport(carportId, carportWidth, carportLength, roofType, shed, new User(userId));
+                ordersList.add(new Order(id, localDate, price, paymentStatus, userId, carport, shed));
+            }
 
         } catch (SQLException e){
             throw new DatabaseException("Fejl i at hente ordrene fra "+ userId + e.getMessage());
@@ -166,5 +167,31 @@ public class OrderMapper {
         } catch (SQLException e) {
             throw new DatabaseException("Kunne ikke opdatere quote: " + e.getMessage());
         }
+    }
+
+    public static List<Carport> getCarportsWithoutOrders() throws DatabaseException{
+        String sql = "SELECT * FROM carports LEFT JOIN orders ON carports.carport_id = orders.carport_id WHERE order_id IS NULL";
+
+        List<Carport> carportList = new ArrayList<>();
+
+        try(Connection connection = connectionPool.getConnection();
+            PreparedStatement ps = connection.prepareStatement(sql)){
+            ResultSet rs = ps.executeQuery();
+
+            while(rs.next()){
+                int id = rs.getInt("carport_id");
+                int carportWidth = rs.getInt("carport_width");
+                int carportLength = rs.getInt("carport_length");
+                String roofType = rs.getString("roof_type");
+                //int shed = rs.getInt("shed_id");
+                int user = rs.getInt("user_id");
+
+                carportList.add(new Carport(id, carportWidth, carportLength, roofType, null, new User(user)));
+            }
+
+        } catch (SQLException e){
+            throw new DatabaseException("Fejl i at hente tomme carporte" + e.getMessage());
+        }
+        return carportList;
     }
 }

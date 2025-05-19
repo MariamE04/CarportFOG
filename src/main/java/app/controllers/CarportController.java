@@ -64,6 +64,14 @@ public class CarportController {
         order.priceSummation();
         OrderMapper.updatePrice(order);
     }
+
+    public static void adminOrderUpdater(Context ctx) throws DatabaseException {
+        List<Carport> carports = OrderMapper.getCarportsWithoutOrders();
+        for (Carport carport : carports) {
+            interpretUserData(carport);
+        }
+        ctx.render("admin.html");
+    }
 }
 
 
