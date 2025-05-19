@@ -19,8 +19,8 @@ public class CarportMapper {
 
 
     public static void addWidthAndLength(Carport carport) throws DatabaseException {
-        String sql = "INSERT INTO public.carports (carport_width, carport_length, carport_height, roof_type, shed_id)"+
-                "VALUES(?,?,200,fladt,null)";
+        String sql = "INSERT INTO public.carports (carport_width, carport_length, carport_height, roof_type, shed_id, user_id)"+
+                "VALUES(?,?,200,fladt,null,?)";
 
 
         try(Connection connection = connectionPool.getConnection();
@@ -28,6 +28,7 @@ public class CarportMapper {
 
             ps.setInt(1, carport.getWidth());
             ps.setInt(2, carport.getLength());
+            ps.setInt(3, carport.getUser().getId());
 
             ps.executeUpdate();
 

@@ -6,20 +6,29 @@ public class Carport {
     int length;
     String roofType;
     Shed shed;
+    User user;
 
-    public Carport(int carportId, int width, int length, String roofType, Shed shed) {
+    public Carport(int carportId, int width, int length, String roofType, Shed shed, User user) {
         this.carportId = carportId;
         this.width = width;
         this.length = length;
         this.roofType = roofType;
         this.shed = shed;
+        this.user = user;
     }
 
-    public Carport(int width, int length, String roofType, Shed shed) {
+    public Carport(int width, int length, String roofType, Shed shed, User user) {
         this.width = width;
         this.length = length;
         this.roofType = roofType;
         this.shed = shed;
+        this.user = user;
+    }
+
+    public Carport(int width, int length, User user) {
+        this.width = width;
+        this.length = length;
+        this.user = user;
     }
 
 
@@ -75,6 +84,13 @@ public class Carport {
     public void setShed(Shed shed) {
         this.shed = shed;
     }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
 
     @Override
     public String toString() {
