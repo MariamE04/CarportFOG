@@ -53,17 +53,30 @@ public class CarportController {
     public static void interpretUserData(Carport carport) throws DatabaseException {
         Order order = new Order(LocalDate.now(), 0, "afventer betaling", carport.getUser().getId(), carport, null);
         OrderMapper.addOrder(order);
+
         List<Material> materials = Calculator.orderCalculator(carport.getWidth(), carport.getLength());
         List<OrderDetails> orderDetails = new ArrayList<>();
+
         int i = 0;
         for (Material material : materials) {
-            orderDetails.add(new OrderDetails(material, material.getAmount(), OrderMapper.getLatestOrderNr()));
-            OrderDetailMapper.addOrderDetail(orderDetails.get(i).getOrderId(), orderDetails.get(i).getMaterial(), orderDetails.get(i).getQuantity());
+            if (material != null) {
+                orderDetails.add(new OrderDetails(material, material.getAmount(), OrderMapper.getLatestOrderNr()));
+                OrderDetailMapper.addOrderDetail(
+                        orderDetails.get(i).getOrderId(),
+                        orderDetails.get(i).getMaterial(),
+                        orderDetails.get(i).getQuantity()
+                );
+                i++;
+            } else {
+                System.out.println("Et af materialerne var null og blev sprunget over.");
+            }
         }
+
         order.setOrderDetails(orderDetails);
         order.priceSummation();
         OrderMapper.updatePrice(order);
     }
+
 
     public static void adminOrderUpdater(Context ctx) throws DatabaseException {
         List<Carport> carports = OrderMapper.getCarportsWithoutOrders();

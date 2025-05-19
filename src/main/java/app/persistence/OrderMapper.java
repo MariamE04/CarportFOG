@@ -24,17 +24,16 @@ public class OrderMapper {
     }
 
     public static void addOrder(Order order) throws DatabaseException {
-        String sql = "INSERT INTO orders (user_id, carport_id, order_date, status, total_price) " +
-                "VALUES(?,?,?,?,?,?)";
+        String sql = "INSERT INTO orders (carport_id, order_date, status, total_price) " +
+                "VALUES(?,?,?,?)";
 
         try(Connection connection = connectionPool.getConnection();
             PreparedStatement ps = connection.prepareStatement(sql)){
 
-            ps.setInt(1, order.getOrder_id());
-            ps.setInt(2, order.getOrder_id());
-            ps.setDate(3, Date.valueOf(order.getDate_created()));
-            ps.setString(4, order.getStatus());
-            ps.setDouble(5, order.getTotal_price());
+            ps.setInt(1, order.getCarport().getCarportId());
+            ps.setDate(2, Date.valueOf(order.getDate_created()));
+            ps.setString(3, order.getStatus());
+            ps.setDouble(4, order.getTotal_price());
 
             ps.executeUpdate();
 
@@ -44,21 +43,24 @@ public class OrderMapper {
 
     }
 
-    public static int getLatestOrderNr() throws DatabaseException{
-        String sql = "SELECT order_nr FROM orders ORDER BY order_nr DESC";
-        int ordernumber;
+    public static int getLatestOrderNr() throws DatabaseException {
+        String sql = "SELECT order_id FROM orders ORDER BY order_id DESC";
 
-        try(Connection connection = connectionPool.getConnection();
-            PreparedStatement ps = connection.prepareStatement(sql)){
-            ResultSet rs = ps.executeQuery();
-            rs.next();
-            ordernumber = rs.getInt("order_nr");
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
 
-        }catch (SQLException e){
-            throw new RuntimeException();
+            if (rs.next()) {
+                return rs.getInt("order_id");
+            } else {
+                return 0; // Ingen ordrer endnu
+            }
+
+        } catch (SQLException e) {
+            throw new DatabaseException("Fejl i getLatestOrderNr", e.getMessage());
         }
-        return ordernumber;
     }
+
 
     public static List<Order> getAllOrders() throws DatabaseException{
         String sql = "SELECT * FROM orders " +
