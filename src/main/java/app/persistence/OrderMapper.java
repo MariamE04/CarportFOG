@@ -75,7 +75,7 @@ public class OrderMapper {
                 String paymentStatus = rs.getString("status");
                 int userId = rs.getInt("user_id");
                 int carportId = rs.getInt("carport_id");
-                int quoteId = rs.getInt("quote_id");
+                int quoteId = 0;
 
                 int carportWidth = rs.getInt("carport_width");
                 int carportLength = rs.getInt("carport_length");

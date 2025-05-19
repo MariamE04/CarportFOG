@@ -11,7 +11,7 @@ public class SvgController {
     public static void showOrder(Context ctx) {
         int width = Integer.parseInt(ctx.queryParam("width"));
         int length = Integer.parseInt(ctx.queryParam("length"));
-
+/*
         // Genererer SVG baseret på bredden og længden
         CarportSvg svg = new CarportSvg(width, length);
         String svgContent = svg.toString();
@@ -31,5 +31,8 @@ public class SvgController {
         // Returner SVG'en som en attribute til visning
         ctx.attribute("svg", svgContent);
         ctx.render("showOrder.html");
+    }
+
+ */
     }
 }

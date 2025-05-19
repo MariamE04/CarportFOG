@@ -31,6 +31,12 @@
 <h2>Mine tilbud</h2>
 
 <!-- Afventer bekræftelse -->
+<tr th:each="quotes : ${quotesList}">
+   <td th:text="${quotes.quote_id}"></td>
+    <td th:text="${quotes.final_price}"></td>
+
+
+</tr>
 
 <!-- Vis aktive tilbud, som ikke er accepteret, afvist eller udløbet -->
 <div th:each="quote : ${quotes}"

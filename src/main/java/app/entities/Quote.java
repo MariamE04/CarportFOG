@@ -11,6 +11,7 @@
         private boolean isAccepted;
         private boolean isVisible;
         private  boolean isExpired;
+        int order_id;
 
 
         public Quote(int quoteId, LocalDate validityPeriod, double price, LocalDate dateCreated, boolean isAccepted, boolean isVisible) {
@@ -20,6 +21,14 @@
             this.dateCreated = dateCreated;
             this.isAccepted = isAccepted;
             this.isVisible = isVisible;
+        }
+        public Quote(LocalDate validityPeriod, double price, int order_id){
+            this.validityPeriod = validityPeriod;
+            this.price = price;
+            this.dateCreated = LocalDate.now();
+            this.order_id = order_id;
+            this.isAccepted = false;
+            this.isVisible = true;
         }
 
         public boolean isExpired() {
@@ -75,4 +84,12 @@
             isVisible = visible;
         }
 
+
+        public int getOrder_id() {
+            return order_id;
+        }
+
+        public void setOrder_id(int order_id) {
+            this.order_id = order_id;
+        }
     }

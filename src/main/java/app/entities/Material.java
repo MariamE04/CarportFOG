@@ -7,9 +7,9 @@ public class Material {
     String unit;
     int amount;
     int length;
-    int price;
+    double price;
 
-    public Material(int materialId, String name, String description, String unit, int amount, int length, int price) {
+    public Material(int materialId, String name, String description, String unit, int amount, int length, double price) {
         this.materialId = materialId;
         this.name = name;
         this.description = description;
@@ -19,7 +19,7 @@ public class Material {
         this.price = price;
     }
 
-    public Material(int length, int amount, String unit, String description, int price, String name) {
+    public Material(int length, int amount, String unit, String description, double price, String name) {
         this.length = length;
         this.amount = amount;
         this.unit = unit;
@@ -76,11 +76,11 @@ public class Material {
         this.length = length;
     }
 
-    public int getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 
