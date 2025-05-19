@@ -21,7 +21,7 @@ import java.util.List;
 public class QuoteController {
 
     private static ConnectionPool connectionPool; //connectionPool holder en statisk reference til en databaseforbindelses-pulje.
-    private static Quote quote;
+   // private static Quote quote;
 
 
     //setConnectionPool gør det muligt at sætte connectionPool fra en anden del af programmet.
@@ -128,7 +128,6 @@ public class QuoteController {
     public static void addQuoteToDB(Context ctx) throws DatabaseException{
         int orderNumber = Integer.parseInt(ctx.formParam("orderNumber"));
 
-        //double totalPrice = Double.parseDouble(ctx.formParam("totalPrice"));
 
         double price = QuoteMapper.getPriceForQuoteByOrder(orderNumber);
         List<OrderDetails> orderDetails= OrderDetailMapper.getOrderDetailsByOrder(orderNumber);
@@ -144,10 +143,8 @@ public class QuoteController {
     }
 
     public static void getQuoteByOrderAndUser(Context ctx) throws DatabaseException{
-        System.out.println("hej med dig");
 
         //int orderNumber = Integer.parseInt(ctx.formParam("orderNumber"));
-        System.out.println("hej med dig");
 
         User currentUser = ctx.sessionAttribute("currentUser");
         int userId = currentUser.getId();
