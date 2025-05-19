@@ -31,7 +31,7 @@ public class Order {
         this.carport = carport;
         this.shed = shed;
     }
-  
+
     public Order(int order_id, String status) {
         this.order_id = order_id;
         this.status = status;
@@ -40,7 +40,7 @@ public class Order {
     public void priceSummation(){
         total_price = 0;
         for (OrderDetails detail : orderDetails) {
-            total_price += detail.getMaterials().getPrice()*detail.getMaterials().getLength()*detail.getMaterials().getAmount();
+            total_price += detail.getMaterial().getPrice()*detail.getMaterial().getLength()*detail.getMaterial().getAmount();
         }
     }
 
@@ -50,6 +50,7 @@ public class Order {
 
     public void setOrderDetails(List<OrderDetails> orderDetails) {
         this.orderDetails = orderDetails;
+    }
 
     public int getOrder_id() {
         return order_id;
@@ -115,9 +116,9 @@ public class Order {
                 ", total_price=" + total_price +
                 ", status='" + status + '\'' +
                 ", user_id=" + user_id +
-                ", quote_id=" + quote_id +
                 ", carport=" + carport +
                 ", shed=" + shed +
+                ", orderDetails=" + orderDetails +
                 '}';
     }
-}
+    }
