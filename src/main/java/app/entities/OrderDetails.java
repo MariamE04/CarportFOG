@@ -20,6 +20,9 @@ public class OrderDetails {
         this.orderId = orderId;
     }
 
+
+
+
     public int getOrderDetailId() {
         return orderDetailId;
     }

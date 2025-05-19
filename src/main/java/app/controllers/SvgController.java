@@ -15,9 +15,9 @@ import java.io.IOException;
 public class SvgController {
     // Metode til at vise og generere en ordre med SVG samt konvertering til PDF
     public static void showOrder(Context ctx) {
+
         try { // Hent ID fra URL’en og lav det om til et heltal (fx "123" bliver til 123).
             int quoteId = Integer.parseInt(ctx.pathParam("id"));
-
 
             // HENT QUOTE og tjek om det er accepteret
             Quote quote = QuoteMapper.getQuoteById(quoteId);
@@ -78,5 +78,8 @@ public class SvgController {
         } catch (DatabaseException e) {
             throw new RuntimeException(e);
         }
+    }
+
+ */
     }
 }

@@ -2,11 +2,13 @@ package app.controllers;
 
 import app.entities.Carport;
 import app.entities.Order;
+import app.entities.Quote;
 import app.entities.User;
 import app.exceptions.DatabaseException;
 import app.persistence.CarportMapper;
 import app.persistence.ConnectionPool;
 import app.persistence.OrderMapper;
+import app.persistence.QuoteMapper;
 import io.javalin.http.Context;
 import org.apache.batik.transcoder.TranscoderException;
 import org.jetbrains.annotations.NotNull;
@@ -15,6 +17,7 @@ import java.util.List;
 
 public class OrderController {
     private static ConnectionPool connectionPool;
+    private static Quote quote;
 
     public static void setConnectionPool(ConnectionPool newConnectionPool) {
         connectionPool = newConnectionPool;
@@ -22,11 +25,11 @@ public class OrderController {
 
     public static void getAllOrders(Context ctx) throws DatabaseException {
         List<Order> orders = OrderMapper.getAllOrders();
-
         ctx.attribute("orders", orders);
         ctx.render("admin.html");
 
     }
+
 
     public static void updateOrder(@NotNull Context ctx) {
         try {
