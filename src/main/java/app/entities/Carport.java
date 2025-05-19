@@ -32,7 +32,6 @@ public class Carport {
     }
 
 
-
     public Carport(int width, int length, String roofType, int carportId) {
         this.width = width;
         this.length = length;
@@ -92,6 +91,9 @@ public class Carport {
     public void setUser(User user) {
         this.user = user;
 
+
+    }
+
     @Override
     public String toString() {
         return "Carport{" +
@@ -100,6 +102,7 @@ public class Carport {
                 ", length=" + length +
                 ", roofType='" + roofType + '\'' +
                 ", shed=" + shed +
+                ", user=" + user +
                 '}';
     }
 }

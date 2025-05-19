@@ -58,7 +58,7 @@ public class CarportController {
         int i = 0;
         for (Material material : materials) {
             orderDetails.add(new OrderDetails(material, material.getAmount(), OrderMapper.getLatestOrderNr()));
-            OrderDetailMapper.addOrderDetail(orderDetails.get(i).getOrderId(), orderDetails.get(i).getMaterials(), orderDetails.get(i).getQuantity());
+            OrderDetailMapper.addOrderDetail(orderDetails.get(i).getOrderId(), orderDetails.get(i).getMaterial(), orderDetails.get(i).getQuantity());
         }
         order.setOrderDetails(orderDetails);
         order.priceSummation();
