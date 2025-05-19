@@ -49,25 +49,26 @@ public class UserMapper {
     }
 
     //Opretter en bruger med indtastede loginoplysninger.
-    public static User logIn(String email, String password) throws DatabaseException { //Statisk metode, så den kan kaldes uden at instantiere CupCakeMapper.
+    public static User logIn(String email) throws DatabaseException { //Statisk metode, så den kan kaldes uden at instantiere CupCakeMapper.
 
-        String sql = "SELECT * FROM users WHERE email = ? AND password = ?"; //SQL-sætning til at finde en bruger, hvis både email og kodeord passer.
+        String sql = "SELECT * FROM users WHERE email = ?"; //SQL-sætning til at finde en bruger, hvis både email og kodeord passer.
 
         try ( //Forbinder til databasen, sætter parametre og udfører forespørgslen.
                 Connection connection = connectionPool.getConnection();
                 PreparedStatement ps = connection.prepareStatement(sql);
         ) {
             ps.setString(1, email);
-            ps.setString(2, password);
-
             ResultSet rs = ps.executeQuery(); //eksekverer SELECT-sætningen og får et ResultSet
 
             if (rs.next()) {
+                int id = rs.getInt("user_id");
+                String hashedPassword = rs.getString("password");
                 long phoneNumber = rs.getLong("phone_number");
-                String role = rs.getString("role"); // <- Hent rollen fra databasen
+                String role = rs.getString("role");
 
-                User user = new User(email, password, phoneNumber);
-                user.setRole(role); // <- Sæt rollen i brugerobjektet
+                User user = new User(email, hashedPassword, phoneNumber);
+                user.setRole(role);
+                user.setId(id);
                 return user;
             } else {
                 return null;

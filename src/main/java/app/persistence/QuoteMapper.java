@@ -24,12 +24,13 @@ public class QuoteMapper {
     // Henter alle tilbud (quotes) for en bruger baseret på deres email.
     public static List<Quote> getQuotesByEmail(String email) throws DatabaseException {
         String sql = """
-        SELECT q.quote_id, q.final_price, q.valid_until_date, q.created_at_date, q.is_accepted, q.is_visible
-        FROM quotes q
-        JOIN orders o ON q.quote_id = o.quote_id
-        JOIN users u ON o.user_id = u.user_id
-        WHERE u.email = ?;
-        """;
+       SELECT q.quote_id, q.final_price, q.valid_until_date, q.created_at_date, q.is_accepted, q.is_visible
+       FROM quotes q
+       JOIN orders o ON q.order_id = o.order_id
+       JOIN carports c ON o.carport_id = c.carport_id
+       JOIN users u ON c.user_id = u.user_id
+       WHERE u.email = ?;
+       """;
 
         // Opretter en tom liste, som vil indeholde alle de hentede quotes.
         List<Quote> quoteList = new ArrayList<>();
@@ -126,8 +127,6 @@ public class QuoteMapper {
         return quoteList;
     }
 
-
-
     public static void addQuote(int orderId, Quote quote) throws DatabaseException{
         String sql = "INSERT INTO quotes (final_price, valid_until_date, created_at_date, is_accepted, is_visible, order_id)" +
                 "VALUES (?,?,?,?,?,?)";
@@ -216,4 +215,28 @@ public class QuoteMapper {
     /*
 
      */
+
+    public static Quote getQuoteById(int id) throws DatabaseException {
+        Quote quote = null;
+
+        String sql = "SELECT * FROM quotes WHERE quote_id = ?";
+
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
+
+            ps.setInt(1, id);
+
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                boolean isVisible = rs.getBoolean("is_visible");
+                boolean isAccepted = rs.getBoolean("is_accepted");
+                quote = new Quote(id, isVisible,isAccepted);
+            }
+        } catch (SQLException e) {
+            throw new DatabaseException("Error getting quote by id", e.getMessage());
+        }
+
+        return quote;
+    }
 }

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Betalingsside</title>
+</head>
+<body>
+
+<h1>Tak for din accept!</h1>
+<p>Her er din carport:</p>
+
+<!-- Vis SVG'en -->
+<div th:utext="${svg}"></div>
+
+<!-- Link til at downloade PDF -->
+<p>Download som PDF:
+    <a th:href="@{'/pdf/' + ${filename}}" download>Download PDF</a>
+</p>
+
+<!-- Knap til at gå tilbage -->
+<a href="/quotes">Gå tilbage til dine tilbud</a>
+
+</body>
+</html>
