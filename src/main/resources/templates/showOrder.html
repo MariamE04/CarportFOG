@@ -1,20 +1,20 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="da">
 <head>
     <meta charset="UTF-8">
-    <title>order</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Din Carport Ordre</title>
 </head>
-
 <body>
-    <h1>Show order #12143</h1>
-    <p>This is where we show the order details and the drawing when the customer has accepted the offer</p>
+<h1>Carport Ordre</h1>
+<h2>SVG Preview:</h2>
+<div>
+    <!-- Her vises SVG'en -->
+    {{svg}}
+</div>
 
-    <p>We want to inject a SVG drawing below:</p>
-
-    <div class="carport-svg-topview">
-        <div th:utext="${svg}"></div>
-
-    </div>
-
+<h2>Download PDF:</h2>
+<a href="/pdf/{{pdfFilename}}" target="_blank">Klik her for at downloade PDF</a>
 </body>
 </html>

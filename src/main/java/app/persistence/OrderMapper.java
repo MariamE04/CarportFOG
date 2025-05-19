@@ -2,6 +2,7 @@ package app.persistence;
 
 import app.entities.Carport;
 import app.entities.Order;
+import app.entities.Quote;
 import app.entities.Shed;
 import app.entities.User;
 import app.exceptions.DatabaseException;
@@ -60,8 +61,10 @@ public class OrderMapper {
     }
 
     public static List<Order> getAllOrders() throws DatabaseException{
-        String sql = "SELECT * FROM orders JOIN carports ON orders.carport_id = carports.carport_id\n" +
-                "LEFT JOIN sheds ON carports.shed_id = sheds.shed_id\n";
+        String sql = "SELECT * FROM orders " +
+                "JOIN carports ON orders.carport_id = carports.carport_id " +
+                "LEFT JOIN sheds ON carports.shed_id = sheds.shed_id " +
+                "LEFT JOIN quotes ON orders.order_id = quotes.order_id";
 
         List<Order> ordersList = new ArrayList<>();
 
@@ -120,6 +123,7 @@ public class OrderMapper {
 
                 int carportWidth = rs.getInt("carport_width");
                 int carportLength = rs.getInt("carport_length");
+
                 int shedWidth = rs.getInt("carport_width");
                 int shedLength = rs.getInt("shed_length");
                 String roofType = rs.getString("roof_type");
@@ -151,22 +155,43 @@ public class OrderMapper {
         }
     }
 
-    public static void updateQuoteAccepted(int quoteId, boolean accepted) throws DatabaseException {
+    public static void updateOrderStatusByQuoteId(int quoteId, String status) throws DatabaseException {
+        String sql = "UPDATE orders SET status = ? WHERE order_id = (SELECT order_id FROM quotes WHERE quote_id = ?)";
 
-        // SQL-forespørgsel til at opdatere is_accepted for et tilbud.
-        String sql = "UPDATE quotes SET is_accepted = ? WHERE quote_id = ?";
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
 
-        try (Connection connection = connectionPool.getConnection(); // Henter en forbindelse fra connection pool.
-             PreparedStatement ps = connection.prepareStatement(sql)) { // Forbereder SQL-forespørgslen.
-
-            ps.setBoolean(1, accepted);  // Sætter den nye værdi for is_accepted.
-            ps.setInt(2, quoteId);   // Sætter quote_id i forespørgslen.
-
-            ps.executeUpdate(); // Udfører opdateringen.
+            ps.setString(1, status);
+            ps.setInt(2, quoteId);
+            ps.executeUpdate();
 
         } catch (SQLException e) {
-            throw new DatabaseException("Kunne ikke opdatere quote: " + e.getMessage());
+            throw new DatabaseException("Fejl ved opdatering af order-status med quote_id: " + e.getMessage());
         }
+    }
+
+    public static Order getOrderId(int id) throws DatabaseException {
+        Order order = null;
+
+        String sql = "SELECT * FROM orders WHERE order_id = ?";
+
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
+
+            ps.setInt(1, id);
+
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                String status = rs.getString("status");
+                // Tilføj evt. andre felter som du har i Order-klassen
+                order = new Order(id, status); // Du skal have en constructor i Order-klassen til dette
+            }
+
+        } catch (SQLException e) {
+            throw new DatabaseException("Error getting order by id", e.getMessage());
+        }
+        return order;
     }
 
     public static List<Carport> getCarportsWithoutOrders() throws DatabaseException{

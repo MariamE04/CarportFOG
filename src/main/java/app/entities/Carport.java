@@ -31,6 +31,15 @@ public class Carport {
         this.user = user;
     }
 
+
+
+    public Carport(int width, int length, String roofType, int carportId) {
+        this.width = width;
+        this.length = length;
+        this.roofType = roofType;
+        this.carportId = carportId;
+    }
+
     public Carport(int width, int length) {
         this.width = width;
         this.length = length;
@@ -60,14 +69,6 @@ public class Carport {
         this.length = length;
     }
 
-    public int getHeight() {
-        return height;
-    }
-
-    public void setHeight(int height) {
-        this.height = height;
-    }
-
     public String getRoofType() {
         return roofType;
     }
@@ -90,5 +91,15 @@ public class Carport {
 
     public void setUser(User user) {
         this.user = user;
+
+    @Override
+    public String toString() {
+        return "Carport{" +
+                "carportId=" + carportId +
+                ", width=" + width +
+                ", length=" + length +
+                ", roofType='" + roofType + '\'' +
+                ", shed=" + shed +
+                '}';
     }
 }

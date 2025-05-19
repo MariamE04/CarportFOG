@@ -4,12 +4,14 @@ import app.entities.Quote;
 import app.entities.User;
 import app.exceptions.DatabaseException;
 import app.persistence.ConnectionPool;
+import app.persistence.OrderMapper;
 import app.persistence.QuoteMapper;
 import io.javalin.http.Context;
 
 import java.time.LocalDate;
 import java.util.Iterator;
 import java.util.List;
+
 
 public class QuoteController {
 
@@ -61,7 +63,7 @@ public class QuoteController {
     }
 
     // Behandler svar på tilbud (accept eller afvis).
-    public static void respondToQute(Context ctx){
+    public static void respondToQuote(Context ctx){
 
         // Henter quoteId fra URL-stien (pathParam) og konverterer den til et heltal.
         int quoteId = Integer.parseInt(ctx.pathParam("id"));
@@ -75,9 +77,20 @@ public class QuoteController {
                 QuoteMapper.updateQuoteAccepted(quoteId, true);
                 QuoteMapper.updateQuoteVisibility(quoteId, true);
 
+                // Opdater ordre status til godkendt
+                OrderMapper.updateOrderStatusByQuoteId(quoteId, "Godkendt");
+
+                // Redirect til betalingsside
+                ctx.redirect("/pay/" + quoteId);
+                return; // sørg for at vi ikke også kører redirect nedenfor
+
             // brugeren afviser tilbuddet: opdateres quote som usynligt.
             } else if("reject".equals(response)) {
                 QuoteMapper.updateQuoteVisibility(quoteId,false );
+
+                // Opdater ordre status til afvist
+                OrderMapper.updateOrderStatusByQuoteId(quoteId, "Afvist");
+
             }
 
         } catch (DatabaseException e) {
@@ -97,7 +110,7 @@ public class QuoteController {
                 if (quote.isVisible() && !quote.isAccepted()
                         && quote.getDateCreated().plusDays(14).isBefore(LocalDate.now())) {
                     QuoteMapper.updateQuoteVisibility(quote.getQuoteId(), false);
-                    // evt: QuoteMapper.updateQuoteExpired(quote.getQuoteId(), true);
+                    OrderMapper.updateOrderStatusByQuoteId(quote.getQuoteId(), "Udløbet");
                 }
             }
         } catch (DatabaseException e) {

@@ -15,6 +15,11 @@ public class CarportSvg {
     private int rafterCount; // antal spær
     private List<Material> beams; // liste med remme
 
+    public CarportSvg(int width, int length) {
+        this.width = width;
+        this.length = length;
+    }
+
     public CarportSvg(int width, int length, int postCount, int postSpace, int rafterCount, List<Material> beams) {
         this.width = width;
         this.length = length;
@@ -108,4 +113,5 @@ public class CarportSvg {
     public String toString() {
         return carportSvg.toString();
     }
+
 }

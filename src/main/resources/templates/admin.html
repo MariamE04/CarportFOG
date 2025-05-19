@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <title>Cupcake</title>
+    <title>FOG Admin</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="../public/css/admin.css" th:href="@{/css/admin.css}" rel="stylesheet"/>
@@ -28,7 +28,6 @@
 <body>
 
 <div class="orderContainer">
-    <form  method="post" action="orderdetails">
         <table class="ordre">
             <thead>
             <tr>
@@ -39,18 +38,87 @@
             <tbody>
             <tr th:each="order: ${orders}">
                 <td th:utext="${'Ordre nummer: ' + order.order_id  + '|  Dato: ' + order.date_created +'| <br> Bruger: ' + order.user_id}"></td>
-                <td th:utext="${'| <br> Carport H/L/B: ' + order.carport.height + order.carport.length + order.carport.width}">
+
+                <td th:utext="${'| <br> Carport L/B: ' + order.carport.length + order.carport.width}">
+
+
+                <td th:utext="${'| <br> Carport L/B: ' + order.carport.length + order.carport.width}">
+
                 </td>
                 <td th:if="${order.shed != null}" th:text="${'Skur L/B: ' + order.shed.length + order.shed.width}"></td>
 
 
                 <td>
-                    <button class="orderdetails-button" type="submit" name="orderNumber" th:value="${order.order_id}" formaction="orderdetails" >OrderDetail</button>
+                    <form class="editButton" method="post" action="editOrder" >
+                        <input type="hidden" name="carportId" th:value="${order.carport.carportId}" />
+                    <button type="submit">Rediger</button>
+                    </form>
+
+                    <form  method="post" action="orderdetails">
+                        <input type="hidden" name="orderNumber" th:value="${order.order_id}" />
+                    <button class="orderdetails-button" type="submit">OrderDetail</button>
+                        </form>
                 </td>
-            </tr>
+            </tr><!DOCTYPE html>
+            <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+            <head>
+                <title>Cupcake</title>
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <link href="../public/css/admin.css" th:href="@{/css/admin.css}" rel="stylesheet"/>
+            </head>
+
+            <!-- Banner  -->
+            <img class="fog-logo" src="../public/images/fog_logo.png" th:src="@{/images/fog_logo.png}">
+
+            <!-- Navigations menu laves i header      -->
+
+            <header>
+
+                <a class="indexOrder" href="admin.html" th:href="@{admin}">Ordre</a>
+
+                <!-- Vis brugerens email, hvis nogen er logget ind -->
+                <div class="user-info" th:if="${session.currentUser != null}">
+                    <span th:text="${session.currentUser.email}"></span>
+                </div>
+
+            </header>
+
+
+            <body>
+
+            <div class="orderContainer">
+                <form  method="post" action="orderdetails">
+                    <table class="ordre">
+                        <thead>
+                        <tr>
+                            <th>Ordre</th>
+                            <th>OrderDetails</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="order: ${orders}">
+                            <td th:utext="${'Ordre nummer: ' + order.order_id  + '|  Dato: ' + order.date_created +'| <br> Bruger: ' + order.user_id}"></td>
+                            <td th:utext="${'| <br> Carport H/L/B: ' + order.carport.length + order.carport.width}">
+
+                            </td>
+                            <td th:if="${order.shed != null}" th:text="${'Skur L/B: ' + order.shed.length + order.shed.width}"></td>
+
+
+                            <td>
+                                <button class="orderdetails-button" type="submit" name="orderNumber" th:value="${order.order_id}" formaction="orderdetails" >OrderDetail</button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </form>
+            </div>
+            </body>
+            </html>
             </tbody>
         </table>
-    </form>
+    <div><p class="error" th:unless="${#strings.isEmpty(message)}" th:text="${message}"></p></div>
 </div>
 </body>
 </html>

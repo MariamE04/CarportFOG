@@ -11,6 +11,7 @@
         private boolean isAccepted;
         private boolean isVisible;
         private  boolean isExpired;
+        private boolean isPaid;
 
 
         public Quote(int quoteId, LocalDate validityPeriod, double price, LocalDate dateCreated, boolean isAccepted, boolean isVisible) {
@@ -20,6 +21,12 @@
             this.dateCreated = dateCreated;
             this.isAccepted = isAccepted;
             this.isVisible = isVisible;
+        }
+
+        public Quote(int quoteId, boolean isVisible, boolean isAccepted) {
+            this.quoteId = quoteId;
+            this.isVisible = isVisible;
+            this.isAccepted = isAccepted;
         }
 
         public boolean isExpired() {
@@ -75,4 +82,8 @@
             isVisible = visible;
         }
 
+
+        public boolean isPaid() {
+            return isPaid;
+        }
     }

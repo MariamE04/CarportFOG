@@ -3,11 +3,15 @@ package app;
 import app.config.SessionConfig;
 import app.config.ThymeleafConfig;
 import app.controllers.*;
+import app.entities.Quote;
 import app.persistence.*;
 
-import app.util.Calculator;
+import app.util.FileUtil;
 import io.javalin.Javalin;
 import io.javalin.rendering.template.JavalinThymeleaf;
+
+import java.util.Map;
+
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
@@ -23,8 +27,7 @@ public class Main {
         // Initializing Javalin and Jetty webserver
 
         Javalin app = Javalin.create(config -> {
-            config.staticFiles.add("/public");
-
+            config.staticFiles.add("/public"); // where it is in your resources
             config.jetty.modifyServletContextHandler(handler ->  handler.setSessionHandler(SessionConfig.sessionConfig()));
             config.fileRenderer(new JavalinThymeleaf(ThymeleafConfig.templateEngine()));
         }).start(7070);
@@ -67,19 +70,36 @@ public class Main {
 
         app.get("showOrder", ctx -> SvgController.showOrder(ctx));
 
+        app.post("/admin", ctx -> OrderController.updateOrder(ctx));
+
         app.get("/admin", ctx -> {
             OrderController.getAllOrders(ctx);
             CarportController.adminOrderUpdater(ctx);
+            OrderController.updateOrder(ctx);
         });
 
         app.post("orderdetails", ctx -> OrderDetailController.getOrderDetailsByOrderNumber(ctx));
         app.get("orderdetails", ctx -> ctx.render("orderdetails"));
 
+        app.post("updateOrder", ctx -> OrderController.updateOrder(ctx));
+        app.post("editOrder", ctx -> OrderController.editOrder(ctx));
+        app.get("editOrder", ctx -> ctx.render("editOrder"));
+
 
         app.get("/quotes", QuoteController::getQuotesByUser);
-        app.post("/quotes/{id}", QuoteController::respondToQute);
+        app.post("/quotes/{id}", QuoteController::respondToQuote);
 
 
+        // Ruter for at vise ordren og betale for carport
+        app.get("/pay/{id}", SvgController::showOrder); // Rute til at vise og generere ordren
+
+        //rute der lytter efter links som /pdf/minfil.pdf
+        app.get("/pdf/{filename}", ctx -> {
+            String filename = ctx.pathParam("filename"); // Henter filnavnet fra URL’en.
+            byte[] pdfBytes = FileUtil.readFileBytesFromProjectRoot("pdf/" + filename); //Bruger FileUtil-metode til at hente hele PDF-filen som bytes.
+            ctx.contentType("application/pdf"); //Fortæller browseren, at indholdet er en PDF.
+            ctx.result(pdfBytes); //Sender PDF’en som svar til browseren.
+        });
 
         // Rute til createCarport
         app.get("createCarport", ctx ->{

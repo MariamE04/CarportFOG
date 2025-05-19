@@ -94,3 +94,21 @@ header {
 .orderdetails-button:hover {
     background-color: #4886ec;
 }
+
+/* Knap til rediger */
+.editButton Button{
+    margin-bottom: 2vh;
+    background-color: black;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 8px;
+    border-color: black;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.editButton Button:hover {
+    background-color: #454545;
+
+}
