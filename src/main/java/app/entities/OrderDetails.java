@@ -7,7 +7,7 @@ public class OrderDetails {
     Material material;
 
 
-    public OrderDetails(int orderDetailId, int orderId, int quantity, Material materials) {
+    public OrderDetails(int orderDetailId, int orderId, int quantity, Material material) {
         this.orderDetailId = orderDetailId;
         this.orderId = orderId;
         this.quantity = quantity;
@@ -48,7 +48,7 @@ public class OrderDetails {
         return material;
     }
 
-        public void setMaterial (Material material){
+    public void setMaterial (Material material){
             this.material = material;
         }
 
