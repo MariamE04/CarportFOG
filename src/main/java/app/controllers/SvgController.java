@@ -36,7 +36,7 @@ public class SvgController {
             }
 
             //Beregner og genererer en SVG-tegning ud fra bredden og længden. Det returnerer et objekt CarportSvg
-            CarportSvg carportSvg = Calculator.carportCalculator(carport.getWidth(), carport.getLength());
+            CarportSvg carportSvg = Calculator.svgCalculator(carport.getWidth(), carport.getLength());
 
             //Gemmer quoteId i ctx, så det kan bruges i din HTML-skabelon.
             ctx.attribute("id", quoteId);
