@@ -79,7 +79,4 @@ public class SvgController {
             throw new RuntimeException(e);
         }
     }
-
- */
-    }
 }

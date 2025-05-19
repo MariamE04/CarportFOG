@@ -67,7 +67,7 @@ public class HomeController {
         String password = ctx.formParam("password");
 
         try {
-            User user = UserMapper.logIn(email); // Ny metode du laver
+            User user = UserMapper.logIn(email);
 
             if (user != null && PasswordUtil.checkPassword(password, user.getPassword())) {
                 ctx.sessionAttribute("currentUser", user);

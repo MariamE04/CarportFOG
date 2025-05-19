@@ -99,7 +99,7 @@
 
         public void setOrder_id(int order_id) {
             this.order_id = order_id;
-
+        }
         public boolean isPaid() {
             return isPaid;
         }

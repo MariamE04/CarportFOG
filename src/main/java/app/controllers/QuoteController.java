@@ -28,7 +28,7 @@ public class QuoteController {
     public static void setConnectionPool(ConnectionPool newConnectionPool) {
         connectionPool = newConnectionPool;
     }
-/*
+
     //Henter tilbud for den aktuelle bruger baseret på sessionen
     public static void getQuotesByUser(Context ctx) {
         expirationDate();
@@ -43,7 +43,6 @@ public class QuoteController {
         }
 
         try {
-
             // Henter alle tilbud for brugeren via email.
             List<Quote> quotes = QuoteMapper.getQuotesByEmail(user.getEmail());
 
@@ -69,7 +68,6 @@ public class QuoteController {
         }
     }
 
- */
 
     // Behandler svar på tilbud (accept eller afvis).
     public static void respondToQuote(Context ctx){

@@ -93,11 +93,12 @@ public class Main {
         app.get("editOrder", ctx -> ctx.render("editOrder"));
 
 
-        //app.get("/quotes", QuoteController::getQuotesByUser);
+       app.get("/quotes", QuoteController::getQuotesByUser);
 
-        app.get("/quotes", ctx -> QuoteController.getQuoteByOrderAndUser(ctx));
+        //app.get("/quotes", ctx -> QuoteController.getQuoteByOrderAndUser(ctx));
 
-        app.post("/quotes/{id}", QuoteController::respondToQute);
+        app.post("/quotes/{id}", QuoteController::respondToQuote);
+
 
         //app.get("/quotes", QuoteController::getQuotesByUser);
         //app.post("/quotes/{id}", QuoteController::respondToQuote);
