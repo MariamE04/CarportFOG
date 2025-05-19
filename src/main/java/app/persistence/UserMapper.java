@@ -61,12 +61,14 @@ public class UserMapper {
             ResultSet rs = ps.executeQuery(); //eksekverer SELECT-sætningen og får et ResultSet
 
             if (rs.next()) {
+                int id = rs.getInt("user_id");
                 String hashedPassword = rs.getString("password");
                 long phoneNumber = rs.getLong("phone_number");
                 String role = rs.getString("role");
 
                 User user = new User(email, hashedPassword, phoneNumber);
                 user.setRole(role);
+                user.setId(id);
                 return user;
             } else {
                 return null;

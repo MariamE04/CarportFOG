@@ -41,7 +41,7 @@ public class HomeController {
 
 
                 if (result == 1) {
-                    User newUser = new User(email, password); //En ny User oprettes
+                    User newUser = new User(email, hashedPassword, phoneNumber); //En ny User oprettes
                     //huske, hvem der er logget ind.
                     ctx.sessionAttribute("currentUser", newUser); // Gemmer hele User-objektet i sessionen (currentUser).
                     ctx.attribute("message", "You have now been registered");
@@ -65,7 +65,6 @@ public class HomeController {
         //Henter email og password fra login-formularen.
         String email = ctx.formParam("email");
         String password = ctx.formParam("password");
-       // String role = ctx.attribute("role");
 
         try {
             User user = UserMapper.logIn(email); // Ny metode du laver
