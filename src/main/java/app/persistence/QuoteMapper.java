@@ -200,8 +200,6 @@ public class QuoteMapper {
                 int length = rs.getInt("length");
                 double price = rs.getDouble("price");
 
-
-
                     totalPrice += price*length*quantity*1.10;
 
             }

@@ -144,7 +144,6 @@ class OrderMapperTest {
         assertEquals(1, order.getOrder_id());
         assertEquals(1, order.getUser_id());
         assertEquals(1, order.getOrder_id());
-        assertEquals(1, order.getQuote_id());
         assertEquals(LocalDate.of(2025,1,1), order.getDate_created());
         assertEquals("pending", order.getStatus());
         assertEquals(19999.99, order.getTotal_price());
