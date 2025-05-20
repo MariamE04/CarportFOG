@@ -1,13 +1,12 @@
 package app.persistence;
 
+import app.entities.Material;
 import app.entities.Order;
+import app.entities.OrderDetails;
 import app.entities.Quote;
 import app.exceptions.DatabaseException;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -61,6 +60,7 @@ public class QuoteMapper {
         // Returnerer den liste af tilbud, der er hentet.
         return quoteList;
     }
+
 
     // Opdaterer status på et tilbud og markerer det som accepteret (is_accepted).
     public static void updateQuoteAccepted(int quoteId, boolean accepted) throws DatabaseException {
@@ -127,4 +127,111 @@ public class QuoteMapper {
         return quoteList;
     }
 
+    public static void addQuote(int orderId, Quote quote) throws DatabaseException{
+        String sql = "INSERT INTO quotes (final_price, valid_until_date, created_at_date, is_accepted, is_visible, order_id)" +
+                "VALUES (?,?,?,?,?,?)";
+
+        try(Connection connection = connectionPool.getConnection();
+        PreparedStatement ps = connection.prepareStatement(sql)){
+
+            ps.setDouble(1, quote.getPrice());
+            ps.setDate(2, Date.valueOf(quote.getValidityPeriod()));
+            ps.setDate(3, Date.valueOf(quote.getDateCreated()));
+            ps.setBoolean(4, quote.isAccepted());
+            ps.setBoolean(5, quote.isVisible());
+            ps.setInt(6, orderId);
+
+            ps.executeUpdate();
+
+        } catch (SQLException e){
+            throw new DatabaseException("Fejl med at tilføje tilbud til databasen", e.getMessage());
+        }
+    }
+
+    public static List<Quote> getQuoteByOrder(int user_id) throws DatabaseException{
+        List<Quote> quoteList = new ArrayList<>();
+        String sql ="SELECT * FROM quotes JOIN orders \n" +
+                "ON quotes.order_id=orders.order_id JOIN carports ON orders.carport_id= carports.carport_id\n" +
+                "WHERE carports.user_id = ? AND is_visible = true";
+
+        try(Connection connection = connectionPool.getConnection();
+            PreparedStatement ps = connection.prepareStatement(sql)){
+
+            ps.setInt(1, user_id);
+            ResultSet rs = ps.executeQuery();
+
+            if(rs.next()){
+              int quote_id =  rs.getInt("quote_id");
+               double final_price = rs.getDouble("final_price");
+               Date valid_until_date = rs.getDate("valid_until_date");
+               Date created_at_date = rs.getDate("created_at_date");
+               boolean is_accepted = rs.getBoolean("is_accepted");
+               boolean is_visible = rs.getBoolean("is_visible");
+
+               quoteList.add(new Quote(quote_id, valid_until_date.toLocalDate(), final_price, created_at_date.toLocalDate(), is_accepted, is_visible));
+
+
+            }
+
+        } catch (SQLException e){
+            throw new DatabaseException("Fejl med at hente tilbud ud fra ordre id", e.getMessage());
+        }
+        return quoteList;
+    }
+
+
+    public static double getPriceForQuoteByOrder(int order_id) throws DatabaseException{
+        double totalPrice = 0;
+        String sql = "SELECT *\n" +
+                "FROM orderdetails\n" +
+                "JOIN orders ON orderdetails.order_id = orders.order_id " +
+                "JOIN materials ON orderdetails.material_id = materials.material_id WHERE orders.order_id = ?";
+
+
+        try(Connection connection = connectionPool.getConnection();
+            PreparedStatement ps = connection.prepareStatement(sql)){
+
+            ps.setInt(1, order_id);
+
+            ResultSet rs = ps.executeQuery();
+
+            while(rs.next()){
+                int quantity = rs.getInt("quantity");
+                int length = rs.getInt("length");
+                double price = rs.getDouble("price");
+
+                    totalPrice += price*length*quantity*1.10;
+
+            }
+
+        }catch (SQLException e){
+            throw new DatabaseException("Fejl med at hente ordrer detaljerne ud fra ordre", e.getMessage());
+        }
+        return totalPrice;
+
+    }
+
+    public static Quote getQuoteById(int id) throws DatabaseException {
+        Quote quote = null;
+
+        String sql = "SELECT * FROM quotes WHERE quote_id = ?";
+
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
+
+            ps.setInt(1, id);
+
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                boolean isVisible = rs.getBoolean("is_visible");
+                boolean isAccepted = rs.getBoolean("is_accepted");
+                quote = new Quote(id, isVisible,isAccepted);
+            }
+        } catch (SQLException e) {
+            throw new DatabaseException("Error getting quote by id", e.getMessage());
+        }
+
+        return quote;
+    }
 }

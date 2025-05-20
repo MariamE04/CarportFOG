@@ -1,10 +1,15 @@
 package app.controllers;
 
+import app.entities.Material;
+import app.entities.OrderDetails;
 import app.entities.Quote;
 import app.entities.User;
 import app.exceptions.DatabaseException;
 import app.persistence.ConnectionPool;
+
+import app.persistence.OrderDetailMapper;
 import app.persistence.OrderMapper;
+
 import app.persistence.QuoteMapper;
 import io.javalin.http.Context;
 
@@ -16,6 +21,8 @@ import java.util.List;
 public class QuoteController {
 
     private static ConnectionPool connectionPool; //connectionPool holder en statisk reference til en databaseforbindelses-pulje.
+   // private static Quote quote;
+
 
     //setConnectionPool gør det muligt at sætte connectionPool fra en anden del af programmet.
     public static void setConnectionPool(ConnectionPool newConnectionPool) {
@@ -36,7 +43,6 @@ public class QuoteController {
         }
 
         try {
-
             // Henter alle tilbud for brugeren via email.
             List<Quote> quotes = QuoteMapper.getQuotesByEmail(user.getEmail());
 
@@ -62,8 +68,9 @@ public class QuoteController {
         }
     }
 
+
     // Behandler svar på tilbud (accept eller afvis).
-    public static void respondToQute(Context ctx){
+    public static void respondToQuote(Context ctx){
 
         // Henter quoteId fra URL-stien (pathParam) og konverterer den til et heltal.
         int quoteId = Integer.parseInt(ctx.pathParam("id"));
@@ -78,7 +85,7 @@ public class QuoteController {
                 QuoteMapper.updateQuoteVisibility(quoteId, true);
 
                 // Opdater ordre status til godkendt
-                OrderMapper.updateOrderStatusByQuoteId(quoteId, "Godkendt", connectionPool);
+                OrderMapper.updateOrderStatusByQuoteId(quoteId, "Godkendt");
 
                 // Redirect til betalingsside
                 ctx.redirect("/pay/" + quoteId);
@@ -89,7 +96,7 @@ public class QuoteController {
                 QuoteMapper.updateQuoteVisibility(quoteId,false );
 
                 // Opdater ordre status til afvist
-                OrderMapper.updateOrderStatusByQuoteId(quoteId, "Afvist", connectionPool);
+                OrderMapper.updateOrderStatusByQuoteId(quoteId, "Afvist");
 
             }
 
@@ -110,11 +117,42 @@ public class QuoteController {
                 if (quote.isVisible() && !quote.isAccepted()
                         && quote.getDateCreated().plusDays(14).isBefore(LocalDate.now())) {
                     QuoteMapper.updateQuoteVisibility(quote.getQuoteId(), false);
-                    OrderMapper.updateOrderStatusByQuoteId(quote.getQuoteId(), "Udløbet", connectionPool);
+                    OrderMapper.updateOrderStatusByQuoteId(quote.getQuoteId(), "Udløbet");
                 }
             }
         } catch (DatabaseException e) {
             System.out.println("Fejl i expirationDate: " + e.getMessage());
         }
     }
+
+    public static void addQuoteToDB(Context ctx) throws DatabaseException{
+        int orderNumber = Integer.parseInt(ctx.formParam("orderNumber"));
+
+
+        double price = QuoteMapper.getPriceForQuoteByOrder(orderNumber);
+        List<OrderDetails> orderDetails= OrderDetailMapper.getOrderDetailsByOrder(orderNumber);
+
+
+        LocalDate validityPeriod = LocalDate.now().plusDays(14);
+
+        Quote quote = new Quote(validityPeriod, price, orderNumber);
+        QuoteMapper.addQuote(orderNumber, quote);
+
+        ctx.attribute("quote", quote);
+        ctx.redirect("/admin");
+    }
+
+    /*public static void getQuoteByOrderAndUser(Context ctx) throws DatabaseException{
+
+        //int orderNumber = Integer.parseInt(ctx.formParam("orderNumber"));
+
+        User currentUser = ctx.sessionAttribute("currentUser");
+        int userId = currentUser.getId();
+
+        List<Quote> quotesList=  QuoteMapper.getQuoteByOrder(userId);
+
+        ctx.attribute("quotesList", quotesList);
+        ctx.render("quotes_user.html");
+
+    }*/
 }

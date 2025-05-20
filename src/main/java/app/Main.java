@@ -10,6 +10,7 @@ import io.javalin.Javalin;
 import io.javalin.rendering.template.JavalinThymeleaf;
 
 
+
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
@@ -67,12 +68,20 @@ public class Main {
 
         app.get("showOrder", ctx -> SvgController.showOrder(ctx));
 
-        app.post("/admin", ctx -> OrderController.updateOrder(ctx));
+        app.post("/admin", ctx -> {
+            OrderController.updateOrder(ctx);
+            //QuoteController.addQuoteToDB(ctx);
+        });
+
+        app.post("/addQuote", ctx -> QuoteController.addQuoteToDB(ctx));
 
         app.get("/admin", ctx -> {
             OrderController.getAllOrders(ctx);
+            CarportController.adminOrderUpdater(ctx);
             OrderController.updateOrder(ctx);
+
         });
+
 
         app.post("orderdetails", ctx -> OrderDetailController.getOrderDetailsByOrderNumber(ctx));
         app.get("orderdetails", ctx -> ctx.render("orderdetails"));
@@ -83,20 +92,24 @@ public class Main {
 
 
 
-        app.get("/quotes", QuoteController::getQuotesByUser);
-        app.post("/quotes/{id}", QuoteController::respondToQute);
+       app.get("/quotes", QuoteController::getQuotesByUser);
 
-        //app.get("/pay/{id}", QuoteController::showPaymentPage);
+        //app.get("/quotes", ctx -> QuoteController.getQuoteByOrderAndUser(ctx));
+
+        app.post("/quotes/{id}", QuoteController::respondToQuote);
+
+
+        //app.get("/quotes", QuoteController::getQuotesByUser);
 
         // Ruter for at vise ordren og betale for carport
         app.get("/pay/{id}", SvgController::showOrder); // Rute til at vise og generere ordren
 
-
+        //rute der lytter efter links som /pdf/minfil.pdf
         app.get("/pdf/{filename}", ctx -> {
-            String filename = ctx.pathParam("filename");
-            String content = FileUtil.readFileFromResources("pdf/" + filename);
-            ctx.contentType("application/pdf");
-            ctx.result(content);
+            String filename = ctx.pathParam("filename"); // Henter filnavnet fra URL’en.
+            byte[] pdfBytes = FileUtil.readFileBytesFromProjectRoot("pdf/" + filename); //Bruger FileUtil-metode til at hente hele PDF-filen som bytes.
+            ctx.contentType("application/pdf"); //Fortæller browseren, at indholdet er en PDF.
+            ctx.result(pdfBytes); //Sender PDF’en som svar til browseren.
         });
 
         // Rute til createCarport
@@ -105,8 +118,6 @@ public class Main {
             ShedController.showShedWidthAndLength(ctx);
         });
 
-        app.post("createCarport", ctx ->{
-            CarportController.sendOrder(ctx);
-        });
+        app.post("createCarport", CarportController::sendUserData);
     }
 }

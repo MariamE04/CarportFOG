@@ -27,6 +27,9 @@ public class OrderDetails {
         this.orderId = orderId;
     }
 
+
+
+
     public int getOrderDetailId() {
         return orderDetailId;
     }
@@ -55,7 +58,7 @@ public class OrderDetails {
         return material;
     }
 
-        public void setMaterial (Material material){
+    public void setMaterial (Material material){
             this.material = material;
         }
 

@@ -144,7 +144,6 @@ class OrderMapperTest {
         assertEquals(1, order.getOrder_id());
         assertEquals(1, order.getUser_id());
         assertEquals(1, order.getOrder_id());
-        assertEquals(1, order.getQuote_id());
         assertEquals(LocalDate.of(2025,1,1), order.getDate_created());
         assertEquals("pending", order.getStatus());
         assertEquals(19999.99, order.getTotal_price());
@@ -154,10 +153,6 @@ class OrderMapperTest {
 
         Shed shed1 = ordersList.get(1).getShed();
         assertNull(shed1);
-
-
-
-
     }
 
     @Test
@@ -166,6 +161,28 @@ class OrderMapperTest {
         assertThrows(DatabaseException.class, () -> orderMapper.getAllOrders());
 
     }
+
+
+    @Test
+    void updateOrderStatusByQuoteId() throws DatabaseException {
+        // Arrange
+        OrderMapper.setConnectionPool(connector);
+
+        int orderId = 1;
+        String expectedStatus = "bekræftet";
+
+        // Act: Opdater status i databasen
+        OrderMapper.updateOrderStatusByQuoteId(orderId, expectedStatus);
+
+        // Assert: Hent order_id og Order-objektet og tjek status
+        OrderMapper.updateOrderStatusByQuoteId(orderId, expectedStatus);
+
+        Order order = OrderMapper.getOrderId(orderId);
+
+        assertEquals(expectedStatus, order.getStatus());
+    }
+
+
 
     /*
     @Test
@@ -180,7 +197,6 @@ class OrderMapperTest {
     }
 
      */
-
 
 }
 

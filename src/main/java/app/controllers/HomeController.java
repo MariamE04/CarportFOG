@@ -4,6 +4,7 @@ import app.entities.User;
 import app.exceptions.DatabaseException;
 import app.persistence.ConnectionPool;
 import app.persistence.UserMapper;
+import app.util.PasswordUtil;
 import io.javalin.http.Context;
 
 import java.util.logging.Logger;
@@ -25,6 +26,25 @@ public class HomeController {
             String password = ctx.formParam("password");
             long phoneNumber = Long.parseLong(ctx.formParam("phoneNumber"));
 
+            String phoneNumberStr = ctx.formParam("phoneNumber"); // Hent som String
+
+            // Valider telefonnummer som String (8 cifre)
+            if (!phoneNumberValidity(phoneNumberStr)) {
+                ctx.attribute("message", "Telefonnummer skal være præcis 8 cifre.");
+                ctx.render("signup.html");
+                return 0;
+            }
+
+            // Valider password
+            if (!passwordValidity(password)) {
+                ctx.attribute("message", "Password skal være mellem 3 og 10 tegn.");
+                ctx.render("signup.html");
+                return 0;
+            }
+
+            long phoneNumber1 = Long.parseLong(phoneNumberStr); // Konverter først efter validering
+
+
             User user = new User(email, password, phoneNumber); //Opretter et User-objekt med de indtastede oplysninger.
             boolean userExists = UserMapper.userExists(user); //Kalder userExists fra UserMapper for at tjekke, om brugeren allerede findes i databasen.
 
@@ -35,10 +55,12 @@ public class HomeController {
                 return 0; // Indikerer at brugeren allerede findes
 
             } else { //Hvis brugeren ikke findes, forsøges sign-up via UserMapper.signUp.
-                int result = UserMapper.signUp(email, password,phoneNumber);
+                String hashedPassword = PasswordUtil.hashPassword(password);
+                int result = UserMapper.signUp(email, hashedPassword, phoneNumber);
+
 
                 if (result == 1) {
-                    User newUser = new User(email, password); //En ny User oprettes
+                    User newUser = new User(email, hashedPassword, phoneNumber); //En ny User oprettes
                     //huske, hvem der er logget ind.
                     ctx.sessionAttribute("currentUser", newUser); // Gemmer hele User-objektet i sessionen (currentUser).
                     ctx.attribute("message", "You have now been registered");
@@ -62,31 +84,40 @@ public class HomeController {
         //Henter email og password fra login-formularen.
         String email = ctx.formParam("email");
         String password = ctx.formParam("password");
-       // String role = ctx.attribute("role");
 
         try {
-            User loggedInUser = UserMapper.logIn(email, password);
-            //Kalder logIn-metoden i UserMapper, der returnerer en bruger, hvis login-oplysningerne er korrekte.
+            User user = UserMapper.logIn(email);
 
-            if (loggedInUser != null) { //Hvis login er korrekt
-                ctx.sessionAttribute("currentUser", loggedInUser); //gemmes brugeren i sessionen som currentUser.
-
-                //Hvis brugeren er administrator, gemmes en admin-session og omdirigeres til admin-siden.
-                if ("admin".equals(loggedInUser.getRole())) {
-                    ctx.sessionAttribute("admin", loggedInUser);
-                    //System.out.println("TESTSTST DER VIRKER");
+            if (user != null && PasswordUtil.checkPassword(password, user.getPassword())) {
+                ctx.sessionAttribute("currentUser", user);
+                if ("admin".equals(user.getRole())) {
+                    ctx.sessionAttribute("admin", user);
                     ctx.redirect("admin");
-
-                } else { //Hvis det er en almindelig bruger, vises startpage.html.
+                } else {
                     ctx.render("index.html");
                 }
-            } else { //Hvis brugeren ikke findes, vises en fejlbesked på index.html.
+            } else {
                 ctx.attribute("message", "Fejl i enten e-mail eller password. Prøv igen.");
                 ctx.render("login.html");
             }
+
         } catch (DatabaseException e) { //Hvis der opstår en databasefejl under login, logges fejlen, og brugeren får en generisk fejlbesked.
             LOGGER.severe("Error during login: " + e.getMessage());
             ctx.status(500).result("Error during login.");
         }
+    }
+
+    // Tjekker om password er mellem 3 og 10 tegn
+    private static boolean passwordValidity(String password) {
+        if (password == null) return false;
+        int length = password.length();
+        return length >= 3 && length <= 10;
+    }
+
+    // Tjekker om telefonnummer er præcis 8 cifre og kun tal
+    private static boolean phoneNumberValidity(String phoneNumber1) {
+        if (phoneNumber1 == null) return false;
+        return phoneNumber1.matches("\\d{8}"); //betyder: Returner true hvis phoneNumber1 indeholder præcis 8 cifre, ellers false.
+        //Strengen skal bestå af præcis 8 cifre.
     }
 }

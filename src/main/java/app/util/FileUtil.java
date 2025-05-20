@@ -1,23 +1,17 @@
 package app.util;
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.stream.Collectors;
+
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 public class FileUtil {
 
-    public static String readFileFromResources(String resourcePath) {
-        ClassLoader classLoader = FileUtil.class.getClassLoader();
-        try (InputStream inputStream = classLoader.getResourceAsStream(resourcePath)) {
-            if (inputStream == null) {
-                throw new IllegalArgumentException("File not found: " + resourcePath);
-            }
+    public static byte[] readFileBytesFromProjectRoot(String relativePath) {
 
-            return new BufferedReader(new InputStreamReader(inputStream))
-                    .lines()
-                    .collect(Collectors.joining("\n"));
+        try { //Opretter en filsti med Paths.get(relativePath)
+            return Files.readAllBytes(Paths.get(relativePath)); //Læser hele filen som bytes med Files.readAllBytes(...)
+
         } catch (Exception e) {
-            throw new RuntimeException("Error reading file: " + resourcePath, e);
+            throw new RuntimeException("Error reading file: " + relativePath, e);
         }
     }
 }
