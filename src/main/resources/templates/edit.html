@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <title>FOG Admin</title>
@@ -10,29 +9,53 @@
 </head>
 
 <body>
-<div class="edit-body">
+
     <form method="post">
 
-        <div class="Carport-length">
+        <div class="edit-container">
+
+        <div class="edit-formbox">
         <label>Carport Længde</label> <br>
         <input type="number" name="carport-length" th:value="${carport.length}">
         </div>
 
 
-        <div class="Carport-width">
+        <div class="edit-formbox">
         <label>Carport Bredde</label> <br>
         <input type="number" name="carport-width" th:value="${carport.width}">
         </div>
 
-        <div class="Price">
+        <div class="edit-formbox">
         <label class="Price-title">Pris ialt</label> <br>
-        <input class="Price-input" type="number" name="price" th:value="${price}">
+        <input class="Price-input" type="number" name="editPrice" th:value="${price}">
         </div>
 
-    <input type="hidden" name="edit_carportId" th:value="${carport.carportId}"/>
+            <div th:each="orderdetails :${session.orderDetailsEdit}">
+            <div class="edit-formbox">
+
+                <label th:text="${orderdetails.material.name}"></label>
+                <input type="number" name="chosen-quantity" th:value="${orderdetails.quantity}">
+                </div>
+
+            <div class="edit-formbox">
+            <label th:text="${orderdetails.material.name}"></label>
+                <select name="chosenMaterialLengthAndName" required>
+                    <option value="" disabled selected>Vælg længde
+                    </option>
+                    <option th:each="eachLength: ${materialLengthAndNames}" th:value="${eachLength}"
+                            th:text="${eachLength}">
+                    </option>
+                </select>
+            </div>
+                <input type="hidden" name="orderNumber-update" th:value="${orderdetails.orderId}"/>
+            <input type="hidden" name="edit_carportId" th:value="${carport.carportId}"/>
+            <input type="hidden" name="edit_orderDetailId" th:value="${orderdetails.orderDetailId}"/>
+            </div>
+
     <button class="Save" type="submit"  formaction="/admin">Gem ændringer</button>
 
+        </div>
     </form>
-</div>
+
 </body>
 </html>

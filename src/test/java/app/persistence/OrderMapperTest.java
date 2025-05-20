@@ -136,7 +136,7 @@ class OrderMapperTest {
 
     @Test
     void testGetAllOrder() throws DatabaseException{
-        List<Order> ordersList = orderMapper.getAllOrders();
+        List<Order> ordersList = OrderMapper.getAllOrders();
         assertEquals(2, ordersList.size());
 
         Order order = ordersList.getFirst();

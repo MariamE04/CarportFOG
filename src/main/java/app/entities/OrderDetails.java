@@ -14,6 +14,13 @@ public class OrderDetails {
         this.material = material;
     }
 
+    public OrderDetails(Material material, int quantity, int orderId, int orderDetailId) {
+        this.material = material;
+        this.quantity = quantity;
+        this.orderId = orderId;
+        this.orderDetailId = orderDetailId;
+    }
+
     public OrderDetails(Material material, int quantity, int orderId) {
         this.material = material;
         this.quantity = quantity;

@@ -41,7 +41,6 @@ public class OrderDetailMapper {
             ResultSet rs = ps.executeQuery();
 
             while(rs.next()){
-                int id = rs.getInt("order_id");
                 int quantity = rs.getInt("quantity");
 
                 int materialId = rs.getInt("material_id");
@@ -51,10 +50,11 @@ public class OrderDetailMapper {
                 int amount = rs.getInt("amount");
                 int length = rs.getInt("length");
                 int price = rs.getInt("price");
+                int orderDetailId = rs.getInt("order_detail_id");
 
                 Material material = new Material(materialId, name, description, unit, amount, length, price);
 
-                orderDetails.add(new OrderDetails(material, quantity, orderId));
+                orderDetails.add(new OrderDetails(material, quantity, orderId, orderDetailId));
             }
 
 
@@ -79,6 +79,24 @@ public class OrderDetailMapper {
         } catch (SQLException e){
             throw new DatabaseException(e.getMessage());
         }
+    }
+
+
+    public static void updateQuantity(int quantity, int orderDetailId) throws DatabaseException{
+        String sql ="UPDATE orderdetails SET quantity = ? WHERE order_detail_id = ? ";
+
+        try(Connection connection = connectionPool.getConnection();
+            PreparedStatement ps = connection.prepareStatement(sql)){
+
+            ps.setInt(1, quantity);
+            ps.setInt(2, orderDetailId);
+
+
+            ps.executeUpdate();
+        } catch (SQLException e){
+            throw new DatabaseException(e.getMessage());
+        }
+
     }
 
 }

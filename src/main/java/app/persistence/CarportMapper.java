@@ -11,7 +11,11 @@ import java.util.List;
 public class CarportMapper {
 
     //Vores ConnectionPool instans
-    private static ConnectionPool connectionPool;
+   private static ConnectionPool connectionPool;
+
+   public CarportMapper(ConnectionPool connectionPool){
+       this.connectionPool = connectionPool;
+   }
 
     public static void setConnectionPool(ConnectionPool newConnectionPool){
         connectionPool = newConnectionPool;
@@ -115,9 +119,5 @@ public class CarportMapper {
         }
     }
 
-
-    public static void getCarportIdByOrderId(int order_id){
-        String sql = "select carports.carport_id  orders ON carports.carport_id = orders.carport_id where carport_id = ?";
-    }
 
     }

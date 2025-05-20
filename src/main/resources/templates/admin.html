@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <title>FOG Admin</title>
@@ -43,8 +43,10 @@
 
                 <td th:utext="${'| <br> Carport L/B: ' + order.carport.length + order.carport.width}">
 
+                <td th:utext="${'| <br> Pris: ' + order.total_price}">
 
                 <td th:text="${'Status:' + order.status}">
+
 
                 </td>
                 <td th:if="${order.shed != null}" th:text="${'Skur L/B: ' + order.shed.length + order.shed.width}"></td>
@@ -54,12 +56,18 @@
 
                 <td>
                     <form class="editButton" method="post" action="editOrder" >
+
+                        <input type="hidden" name="carportId" th:value="${order.carport.carportId}" />
+                        <input type="hidden" name="orderNumber-edit" th:value="${order.order_id}">
+                    <button type="submit">Rediger</button>
+
                         <input type="hidden" name="carportId" th:value="${order.carport.carportId}"/>
                         <button type="submit"
                                 th:disabled="${order.status == 'Afvist' or order.status == 'Godkendt' or order.status == 'Uløbet'}"
                                 th:classappend="${order.status == 'Afvist' or order.status == 'Godkendt' or order.status == 'Uløbet'} ? ' disabled-button' : ''">
                             Rediger
                         </button>
+
                     </form>
 
                     <form  method="post" action="orderdetails">
@@ -78,9 +86,13 @@
                         <p th:text="${order.order_id}"></p>
                     </form>
                 </td>
-
             </tr>
-            </table>
+
+
+            </tbody>
+        </table>
+    <div><p class="error" th:unless="${#strings.isEmpty(message)}" th:text="${message}"></p></div>
+
 </div>
 </body>
 </html>

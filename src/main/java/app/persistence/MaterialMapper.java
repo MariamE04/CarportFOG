@@ -1,5 +1,6 @@
 package app.persistence;
 
+import app.entities.Carport;
 import app.entities.Material;
 import app.exceptions.DatabaseException;
 
@@ -12,6 +13,10 @@ import java.util.List;
 
 public class MaterialMapper {
     private static ConnectionPool connectionPool;
+
+    public static void setConnectionPool(ConnectionPool newConnectionPool) {
+        connectionPool = newConnectionPool;
+    }
 
     //Bruges til at hente materialelængder i Calculator
     public static List<Material> getMaterialsByLengths() throws DatabaseException {
@@ -41,6 +46,81 @@ public class MaterialMapper {
         return materialsList;
     }
 
+    public static ArrayList<String> getAllLengthsAndNames(){
+
+        ArrayList<String> getAllLengthsFromMaterials = new ArrayList<>();
+
+        String sql = "SELECT length, name FROM materials";
+        int materialLength;
+        String materialName;
+        try(Connection connection = connectionPool.getConnection();
+            PreparedStatement ps = connection.prepareStatement(sql)){
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()){
+                materialLength = rs.getInt("length");
+                materialName = rs.getString("name");
+
+                String total = materialLength+":"+materialName;
+
+                getAllLengthsFromMaterials.add(total);
+            }
+
+        }catch (SQLException e){
+            e.printStackTrace();
+            throw new RuntimeException();
+        }
+        return getAllLengthsFromMaterials;
+    }
+
+    public static int getMaterialIdByChosenLengthAndName(int materialLength, String materialName) throws DatabaseException{
+
+        int materialId;
+
+        String sql = "select material_id from materials where length = ? and name = ?";
+        try (
+                Connection connection = connectionPool.getConnection();
+                PreparedStatement ps = connection.prepareStatement(sql)
+        ){
+            ps.setInt(1, materialLength);
+            ps.setString(2,materialName);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()){
+                materialId = rs.getInt("material_id");
+                return materialId;
+            }
+                throw new DatabaseException("Fejl i opdatering af ordre-detalje");
+            }
+
+        catch (SQLException e)
+        {
+            throw new DatabaseException("Fejl i opdatering af ordredetaljens material_id", e.getMessage());
+        }
+    }
+
+    public static void updateMaterialId(int materialId, int orderDetailId) throws DatabaseException{
+        String sql = "update orderdetails set material_id = ? where order_detail_id = ? ";
+
+        try (
+                Connection connection = connectionPool.getConnection();
+                PreparedStatement ps = connection.prepareStatement(sql)
+        )
+        {
+            ps.setInt(1, materialId);
+            ps.setInt(2, orderDetailId);
+
+            int rowsAffected = ps.executeUpdate();
+            if (rowsAffected != 1)
+            {
+                throw new DatabaseException("Fejl - Ingen rækker blev opdateret...");
+            }
+
+        }
+        catch (SQLException e)
+        {
+            throw new DatabaseException("Fejl i opdatering af ordredetaljens material_id", e.getMessage());
+        }
+      
     //Bruges til at hente stolper
     public static Material getPost() throws DatabaseException {
         String sql = "SELECT * FROM materials WHERE name = '97x97 mm. trykimp. Stolpe'";
@@ -93,8 +173,6 @@ public class MaterialMapper {
         return null;
     }
 
-    public static void setConnectionPool(ConnectionPool newConnectionPool) {
-        connectionPool = newConnectionPool;
     }
 
 }
