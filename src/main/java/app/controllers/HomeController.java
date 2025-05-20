@@ -26,6 +26,25 @@ public class HomeController {
             String password = ctx.formParam("password");
             long phoneNumber = Long.parseLong(ctx.formParam("phoneNumber"));
 
+            String phoneNumberStr = ctx.formParam("phoneNumber"); // Hent som String
+
+            // Valider telefonnummer som String (8 cifre)
+            if (!phoneNumberValidity(phoneNumberStr)) {
+                ctx.attribute("message", "Telefonnummer skal være præcis 8 cifre.");
+                ctx.render("signup.html");
+                return 0;
+            }
+
+            // Valider password
+            if (!passwordValidity(password)) {
+                ctx.attribute("message", "Password skal være mellem 3 og 10 tegn.");
+                ctx.render("signup.html");
+                return 0;
+            }
+
+            long phoneNumber1 = Long.parseLong(phoneNumberStr); // Konverter først efter validering
+
+
             User user = new User(email, password, phoneNumber); //Opretter et User-objekt med de indtastede oplysninger.
             boolean userExists = UserMapper.userExists(user); //Kalder userExists fra UserMapper for at tjekke, om brugeren allerede findes i databasen.
 
@@ -86,5 +105,19 @@ public class HomeController {
             LOGGER.severe("Error during login: " + e.getMessage());
             ctx.status(500).result("Error during login.");
         }
+    }
+
+    // Tjekker om password er mellem 3 og 10 tegn
+    private static boolean passwordValidity(String password) {
+        if (password == null) return false;
+        int length = password.length();
+        return length >= 3 && length <= 10;
+    }
+
+    // Tjekker om telefonnummer er præcis 8 cifre og kun tal
+    private static boolean phoneNumberValidity(String phoneNumber1) {
+        if (phoneNumber1 == null) return false;
+        return phoneNumber1.matches("\\d{8}"); //betyder: Returner true hvis phoneNumber1 indeholder præcis 8 cifre, ellers false.
+        //Strengen skal bestå af præcis 8 cifre.
     }
 }

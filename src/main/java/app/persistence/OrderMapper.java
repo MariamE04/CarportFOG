@@ -108,39 +108,6 @@ public class OrderMapper {
         return ordersList;
     }
 
-    public static List<Order> getOrdersByUserId(int userId) throws DatabaseException{
-        String sql = "SELECT * FROM orders WHERE user_id = ?";
-        List<Order> ordersList = new ArrayList<>();
-
-        try(Connection connection = connectionPool.getConnection();
-            PreparedStatement ps = connection.prepareStatement(sql)){
-
-            ps.setInt(1, userId);
-            ResultSet rs = ps.executeQuery();
-            while(rs.next()){
-                int id = rs.getInt("order_id");
-                LocalDate localDate = LocalDate.parse(rs.getString("order_date"));
-                Double price = rs.getDouble("total_price");
-                String paymentStatus = rs.getString("status");
-                int carportId = rs.getInt("carportId");
-
-                int carportWidth = rs.getInt("carport_width");
-                int carportLength = rs.getInt("carport_length");
-
-                int shedWidth = rs.getInt("carport_width");
-                int shedLength = rs.getInt("shed_length");
-                String roofType = rs.getString("roof_type");
-                Shed shed = new Shed(shedLength, shedWidth);
-
-                Carport carport = new Carport(carportId, carportWidth, carportLength, roofType, shed, new User(userId));
-                ordersList.add(new Order(id, localDate, price, paymentStatus, userId, carport, shed));
-            }
-
-        } catch (SQLException e){
-            throw new DatabaseException("Fejl i at hente ordrene fra "+ userId + e.getMessage());
-        }
-        return ordersList;
-    }
 
     public static void updatePrice(Order order) throws DatabaseException{
         String sql = "UPDATE orders SET total_price = ? WHERE order_id = ?";
@@ -222,4 +189,5 @@ public class OrderMapper {
         }
         return carportList;
     }
+
 }
