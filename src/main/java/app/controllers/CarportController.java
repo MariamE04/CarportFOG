@@ -51,7 +51,7 @@ public class CarportController {
     }
 
     public static void interpretUserData(Carport carport) throws DatabaseException {
-        Order order = new Order(LocalDate.now(), 0, "afventer betaling", carport.getUser().getId(), carport, null);
+        Order order = new Order(LocalDate.now(), 0, "Afventer betaling", carport.getUser().getId(), carport, null);
         OrderMapper.addOrder(order);
 
         List<Material> materials = Calculator.orderCalculator(carport.getWidth(), carport.getLength());

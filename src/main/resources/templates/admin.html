@@ -36,22 +36,30 @@
             </tr>
             </thead>
             <tbody>
-            <tr th:each="order: ${orders}">
-                <td th:utext="${'Ordre nummer: ' + order.order_id  + '|  Dato: ' + order.date_created +'| <br> Bruger: ' + order.user_id}"></td>
+            <tr th:each="order: ${orders}"
+                th:classappend="${order.status == 'Afvist' or order.status == 'Godkendt' or order.status == 'Uløbet'} ? 'grå-order' : ''">
+
+            <td th:utext="${'Ordre nummer: ' + order.order_id  + '|  Dato: ' + order.date_created +'| <br> Bruger: ' + order.user_id}"></td>
 
                 <td th:utext="${'| <br> Carport L/B: ' + order.carport.length + order.carport.width}">
 
 
-                <td th:utext="${'| <br> Carport L/B: ' + order.carport.length + order.carport.width}">
+                <td th:text="${'Status:' + order.status}">
 
                 </td>
                 <td th:if="${order.shed != null}" th:text="${'Skur L/B: ' + order.shed.length + order.shed.width}"></td>
 
+                <!-- Hvis der IKKE er et skur -->
+                <td th:unless="${order.shed != null}">Ingen skur</td>
 
                 <td>
                     <form class="editButton" method="post" action="editOrder" >
-                        <input type="hidden" name="carportId" th:value="${order.carport.carportId}" />
-                    <button type="submit">Rediger</button>
+                        <input type="hidden" name="carportId" th:value="${order.carport.carportId}"/>
+                        <button type="submit"
+                                th:disabled="${order.status == 'Afvist' or order.status == 'Godkendt' or order.status == 'Uløbet'}"
+                                th:classappend="${order.status == 'Afvist' or order.status == 'Godkendt' or order.status == 'Uløbet'} ? ' disabled-button' : ''">
+                            Rediger
+                        </button>
                     </form>
 
                     <form  method="post" action="orderdetails">
@@ -59,17 +67,20 @@
                     <button class="orderdetails-button" type="submit">OrderDetail</button>
                         </form>
 
-                    <form  method="post" action="addQuote">
+                    <!-- Send tilbud til kunde knap -->
+                    <form method="post" action="addQuote">
                         <input type="hidden" name="orderNumber" th:value="${order.order_id}">
-                        <button type="submit" class="orderdetails-button">Send tilbud til kunde</button>
+                        <button type="submit" class="orderdetails-button send-tilbud-button"
+                                th:disabled="${order.status == 'Afvist' or order.status == 'Godkendt' or order.status == 'Uløbet'}"
+                                th:classappend="${order.status == 'Afvist' or order.status == 'Godkendt' or order.status == 'Uløbet'} ? ' disabled-button' : ''">
+                            Send tilbud til kunde
+                        </button>
                         <p th:text="${order.order_id}"></p>
-                        </form>
+                    </form>
                 </td>
 
             </tr>
             </table>
-
-
 </div>
 </body>
 </html>

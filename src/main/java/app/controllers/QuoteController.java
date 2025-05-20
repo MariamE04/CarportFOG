@@ -142,7 +142,7 @@ public class QuoteController {
         ctx.redirect("/admin");
     }
 
-    public static void getQuoteByOrderAndUser(Context ctx) throws DatabaseException{
+    /*public static void getQuoteByOrderAndUser(Context ctx) throws DatabaseException{
 
         //int orderNumber = Integer.parseInt(ctx.formParam("orderNumber"));
 
@@ -154,5 +154,5 @@ public class QuoteController {
         ctx.attribute("quotesList", quotesList);
         ctx.render("quotes_user.html");
 
-    }
+    }*/
 }

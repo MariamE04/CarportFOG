@@ -210,9 +210,6 @@ public class QuoteMapper {
         return totalPrice;
 
     }
-    /*
-
-     */
 
     public static Quote getQuoteById(int id) throws DatabaseException {
         Quote quote = null;
