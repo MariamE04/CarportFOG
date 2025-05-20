@@ -13,23 +13,21 @@ public class Order {
     Carport carport;
     Shed shed;
 
-    public Order(int order_id, LocalDate date_created, double total_price, String status, int user_id, int quote_id, Carport carport, Shed shed) {
+    public Order(int order_id, LocalDate date_created, double total_price, String status, int user_id, Carport carport, Shed shed) {
         this.order_id = order_id;
         this.date_created = date_created;
         this.total_price = total_price;
         this.status = status;
         this.user_id = user_id;
-        this.quote_id = quote_id;
         this.carport = carport;
         this.shed = shed;
     }
 
-    public Order(LocalDate date_created, double total_price, String status, int user_id, int quote_id, Carport carport, Shed shed) {
+    public Order(LocalDate date_created, double total_price, String status, int user_id, Carport carport, Shed shed) {
         this.date_created = date_created;
         this.total_price = total_price;
         this.status = status;
         this.user_id = user_id;
-        this.quote_id = quote_id;
         this.carport = carport;
         this.shed = shed;
     }

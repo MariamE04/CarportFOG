@@ -31,6 +31,7 @@ public class OrderController {
 
     public static void updateOrder(@NotNull Context ctx) {
         try {
+            System.out.println("updateMetode | orderNumber-edit param: " + ctx.formParam("orderNumber-update"));
 
             //Update Carport
             int carportId = Integer.parseInt(ctx.formParam("edit_carportId"));
@@ -38,26 +39,36 @@ public class OrderController {
             int length = Integer.parseInt(ctx.formParam("carport-length"));
             CarportMapper.updateCarport(width, length, carportId);
 
+
             //Update Price
-            //TODO Lav en update til price når vi kan beregne prisen
-            int price = 1;
+            int orderNumber = Integer.parseInt(ctx.formParam("orderNumber-update"));
+            double totalPrice = Double.parseDouble(ctx.formParam("editPrice"));
+            OrderMapper.updateOrderPrice(totalPrice, orderNumber);
+
 
             //Update Quantity
             int quantity = Integer.parseInt(ctx.formParam("chosen-quantity"));
             int orderDetailId = Integer.parseInt(ctx.formParam("edit_orderDetailId"));
+            System.out.println("OrderDetail Number i UpdateMetode: "+orderDetailId);
             OrderDetailMapper.updateQuantity(quantity ,orderDetailId);
 
             //Update new materialLength
-            int materialLength = Integer.parseInt(ctx.formParam("chosenMaterialLength"));
-            int materialId = MaterialMapper.getMaterialIdByChosenLength(materialLength);
-            MaterialMapper.updateMaterialId(materialId);
+            String materialLengthAndNamesFromHtml = ctx.formParam("chosenMaterialLengthAndName");
+            String[] materialLengthAndName = materialLengthAndNamesFromHtml.split(":");
+
+            int materialLength = Integer.parseInt(materialLengthAndName[0]);
+            String materialName = materialLengthAndName[1];
+
+            int materialId = MaterialMapper.getMaterialIdByChosenLengthAndName(materialLength, materialName);
+            System.out.println("Material ID: "+materialId);
+            MaterialMapper.updateMaterialId(materialId, orderDetailId);
 
             //Carport
             Carport carport = CarportMapper.getCarportById(carportId);
             ctx.attribute("carport", carport);
 
             //Price
-            ctx.attribute("price", price);
+            //ctx.attribute("price", totalPrice);
 
 
             ctx.redirect("/admin");
@@ -65,30 +76,38 @@ public class OrderController {
 
 
         } catch (DatabaseException | NumberFormatException e) {
+            System.out.println("Fejl i updateOrder catch block");
             ctx.attribute("message", e.getMessage());
             ctx.render("admin.html");
         }
     }
 
     public static void editOrder(@NotNull Context ctx) throws DatabaseException{
+        System.out.println("editMetode | orderNumber-edit param: " + ctx.formParam("orderNumber-edit"));
 
-        //todo: Laver pris her, men skal ændres til at hente fra et sted
-            int price = 0;
+        //Henter orderNumber fra admin.html
+            int orderNumber = Integer.parseInt(ctx.formParam("orderNumber-edit"));
+            double price = OrderMapper.getPrice(orderNumber);
 
             //Henter carportId her fra admin.html
             int carportId = Integer.parseInt(ctx.formParam("carportId"));
-            System.out.println(carportId);
             Carport carport = CarportMapper.getCarportById(carportId);
-            System.out.println("Carport hentet"+carport);
 
 
-            //Vi har allerede lavet en attribute til orderDetails.
+
+            //OrderDetails
+        List<OrderDetails> orderDetailsEdit =  OrderDetailMapper.getOrderDetailsByOrder(orderNumber);
+        ctx.sessionAttribute("orderDetailsEdit", orderDetailsEdit);
+            if(orderDetailsEdit.isEmpty()){
+                System.out.println("OrderDetails liste er tom");
+            }
+
             //Her viser vi alle materialLengths
-            ArrayList<Integer> materialLength = MaterialMapper.getAllLengths();
+            ArrayList<String> materialLengthAndNames = MaterialMapper.getAllLengthsAndNames();
 
 
             //Gjort attributes klar til HTML siden
-            ctx.attribute("materialLength", materialLength);
+            ctx.attribute("materialLengthAndNames", materialLengthAndNames);
             ctx.attribute("carport", carport);
             ctx.attribute("price", price);
 

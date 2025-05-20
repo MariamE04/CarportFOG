@@ -5,6 +5,7 @@ import app.entities.Order;
 import app.entities.Shed;
 import app.exceptions.DatabaseException;
 
+import javax.xml.crypto.Data;
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -75,7 +76,6 @@ public class OrderMapper {
                 String paymentStatus = rs.getString("status");
                 int userId = rs.getInt("user_id");
                 int carportId = rs.getInt("carport_id");
-                int quoteId = rs.getInt("quote_id");
 
                 int carportWidth = rs.getInt("carport_width");
                 int carportLength = rs.getInt("carport_length");
@@ -91,7 +91,7 @@ public class OrderMapper {
 
                 Carport carport = new Carport(carportId, carportWidth, carportLength, roofType, shed);
 
-                ordersList.add(new Order(id, localDate, price, paymentStatus, userId, quoteId, carport, shed));
+                ordersList.add(new Order(id, localDate, price, paymentStatus, userId, carport, shed));
             }
 
             System.out.println("Har hentet størrelsen på listen her" + ordersList.size());
@@ -117,7 +117,6 @@ public class OrderMapper {
                 Double price = rs.getDouble("total_price");
                 String paymentStatus = rs.getString("status");
                 int carportId = rs.getInt("carportId");
-                int quoteId = rs.getInt("quoteId");
 
                 int carportWidth = rs.getInt("carport_width");
                 int carportLength = rs.getInt("carport_length");
@@ -128,7 +127,7 @@ public class OrderMapper {
                 Shed shed = new Shed(shedLength, shedWidth);
 
                 Carport carport = new Carport(carportId ,carportWidth, carportLength, roofType, shed);
-                ordersList.add(new Order(id, localDate, price, paymentStatus, userId, quoteId, carport, shed));            }
+                ordersList.add(new Order(id, localDate, price, paymentStatus, userId, carport, shed));            }
 
         } catch (SQLException e){
             throw new DatabaseException("Fejl i at hente ordrene fra "+ userId + e.getMessage());
@@ -148,6 +147,41 @@ public class OrderMapper {
 
         } catch (SQLException e) {
             throw new DatabaseException("Fejl ved opdatering af order-status med quote_id: " + e.getMessage());
+        }
+    }
+
+    public static double getPrice(int orderId) throws DatabaseException{
+        double price = 0;
+
+        String sql = "SELECT total_price FROM orders WHERE order_id = ?";
+
+
+        try(Connection connection = connectionPool.getConnection();
+            PreparedStatement ps = connection.prepareStatement(sql)){
+
+            ps.setInt(1, orderId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                 price += rs.getDouble("total_price");
+            }
+        } catch (SQLException e){
+            throw new DatabaseException("Fejl i at hente ordrene fra "+ orderId + e.getMessage());
+        }
+        return price;
+    }
+
+    public static void updateOrderPrice(double totalPrice, int orderId) throws DatabaseException {
+        String sql = "UPDATE orders SET total_price = ? WHERE order_id =  ?";
+
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
+
+            ps.setDouble(1, totalPrice);
+            ps.setInt(2, orderId);
+            ps.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new DatabaseException("Fejl ved opdatering af totalPrice i order: " + e.getMessage());
         }
     }
 
