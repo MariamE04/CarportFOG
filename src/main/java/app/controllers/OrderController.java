@@ -70,7 +70,9 @@ public class OrderController {
             ctx.attribute("carport", carport);
             ctx.attribute("price", price);
             ctx.render("edit.html");
+    }
 
+    public static void showOrderByStatus(){
 
     }
 
