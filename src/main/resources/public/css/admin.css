@@ -112,3 +112,22 @@ header {
     background-color: #454545;
 
 }
+
+.send-tilbud-button {
+    margin-top: 10px; /* Justér efter behov */
+}
+
+.grå-order {
+    color: #888888;       /* grå tekst */
+    background-color: #f0f0f0; /* valgfri: lys baggrund */
+    font-style: italic;   /* valgfri: gør teksten lidt mere dæmpet */
+}
+
+.disabled-button {
+    background-color: #ccc !important;
+    color: #666 !important;
+    cursor: not-allowed;
+    pointer-events: none;
+    opacity: 0.6;
+}
+
