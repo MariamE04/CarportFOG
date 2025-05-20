@@ -123,7 +123,7 @@ public class MaterialMapper {
              PreparedStatement ps = connection.prepareStatement(sql)) {
 
             ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
+            if (rs.next()) {
                 int id = rs.getInt("material_id");
                 String name = rs.getString("name");
                 String description = rs.getString("description");
@@ -150,7 +150,7 @@ public class MaterialMapper {
             PreparedStatement ps = connection.prepareStatement(sql)){
 
             ResultSet rs = ps.executeQuery();
-            while(rs.next()){
+            if(rs.next()){
                 int id = rs.getInt("material_id");
                 String name = rs.getString("name");
                 String description = rs.getString("description");
