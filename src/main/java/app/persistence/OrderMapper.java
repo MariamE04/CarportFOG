@@ -6,6 +6,7 @@ import app.entities.Quote;
 import app.entities.Shed;
 import app.entities.User;
 import app.exceptions.DatabaseException;
+import org.apache.xpath.operations.Or;
 
 import java.sql.*;
 import java.time.LocalDate;
@@ -63,10 +64,19 @@ public class OrderMapper {
 
 
     public static List<Order> getAllOrders() throws DatabaseException{
-        String sql = "SELECT * FROM orders " +
-                "JOIN carports ON orders.carport_id = carports.carport_id " +
-                "LEFT JOIN sheds ON carports.shed_id = sheds.shed_id " +
-                "LEFT JOIN quotes ON orders.order_id = quotes.order_id";
+        String sql = "SELECT * FROM orders\n" +
+                "LEFT JOIN carports ON orders.carport_id = carports.carport_id\n" +
+                "LEFT JOIN sheds ON carports.shed_id = sheds.shed_id\n" +
+                "LEFT JOIN quotes ON orders.order_id = quotes.order_id\n" +
+                "ORDER BY\n" +
+                "  CASE\n" +
+                "    WHEN status = 'Afventer betaling' THEN 1\n" +
+                "    WHEN status = 'Afvist' THEN 2\n" +
+                "    WHEN status = 'Godkendt' THEN 3\n" +
+                "    WHEN status = 'Uløbet' THEN 4\n" +
+                "    ELSE 5\n" +
+                "  END;\n";
+
 
         List<Order> ordersList = new ArrayList<>();
 
@@ -189,5 +199,4 @@ public class OrderMapper {
         }
         return carportList;
     }
-
-}
+    }

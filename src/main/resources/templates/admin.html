@@ -42,7 +42,7 @@
                 <td th:utext="${'| <br> Carport L/B: ' + order.carport.length + order.carport.width}">
 
 
-                <td th:utext="${'| <br> Carport L/B: ' + order.carport.length + order.carport.width}">
+                <td th:text="${'Status:' + order.status}">
 
                 </td>
                 <td th:if="${order.shed != null}" th:text="${'Skur L/B: ' + order.shed.length + order.shed.width}"></td>
