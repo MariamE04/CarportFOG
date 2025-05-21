@@ -76,9 +76,9 @@ public class Main {
         app.post("/addQuote", ctx -> QuoteController.addQuoteToDB(ctx));
 
         app.get("/admin", ctx -> {
-            OrderController.getAllOrders(ctx);
             CarportController.adminOrderUpdater(ctx);
             OrderController.updateOrder(ctx);
+            OrderController.getAllOrders(ctx);
 
         });
 

@@ -35,13 +35,10 @@ public class OrderDetailController {
         ctx.sessionAttribute("orderDetails", orderDetails);
         //ctx.sessionAttribute("totalPrice", totalPrice);
         ctx.render("orderdetails");
-        for (OrderDetails orderd: orderDetails){
+        /*for (OrderDetails orderd: orderDetails){
             System.out.println(orderd);
-        }
+        }*/
     }
-
-
-
 }
 
 
