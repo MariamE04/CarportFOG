@@ -69,25 +69,26 @@ public class CarportController {
 
         int i = 0;
         for (Material material : materials) {
-            if (material != null) {
-                if (i > 0 && material.getMaterialId() == orderDetails.get(orderDetails.size() - 1).getMaterial().getMaterialId()) {
-                    orderDetails.get(orderDetails.size() - 1).setQuantity(orderDetails.get(orderDetails.size() - 1).getQuantity() + 1);
-                }
-                else {
-                    if (i > 0) {
-                        OrderDetailMapper.addOrderDetail(
-                                orderDetails.get(orderDetails.size() - 1).getOrderId(),
-                                orderDetails.get(orderDetails.size() - 1).getMaterial(),
-                                orderDetails.get(orderDetails.size() - 1).getQuantity()
-                        );
-                    }
-                    orderDetails.add(new OrderDetails(material, material.getAmount(), OrderMapper.getLatestOrderNr()));
-                }
-                i++;
-            } else {
-                System.out.println("Et af materialerne var null og blev sprunget over.");
+            if (i > 0 && material.getMaterialId() == orderDetails.get(orderDetails.size() - 1).getMaterial().getMaterialId()) {
+                orderDetails.get(orderDetails.size() - 1).setQuantity(orderDetails.get(orderDetails.size() - 1).getQuantity() + 1);
             }
+            else {
+                if (i > 0) {
+                    OrderDetailMapper.addOrderDetail(
+                            orderDetails.get(orderDetails.size() - 1).getOrderId(),
+                            orderDetails.get(orderDetails.size() - 1).getMaterial(),
+                            orderDetails.get(orderDetails.size() - 1).getQuantity()
+                    );
+                }
+                orderDetails.add(new OrderDetails(material, material.getAmount(), OrderMapper.getLatestOrderNr()));
+            }
+            i++;
         }
+        OrderDetailMapper.addOrderDetail(
+                orderDetails.get(orderDetails.size() - 1).getOrderId(),
+                orderDetails.get(orderDetails.size() - 1).getMaterial(),
+                orderDetails.get(orderDetails.size() - 1).getQuantity()
+        );
 
         order.setOrderDetails(orderDetails);
         order.priceSummation();
