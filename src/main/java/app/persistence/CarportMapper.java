@@ -1,5 +1,5 @@
 package app.persistence;
-
+    
 import app.entities.Carport;
 import app.entities.Quote;
 import app.exceptions.DatabaseException;
