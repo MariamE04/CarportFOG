@@ -43,7 +43,7 @@
 
                 <td th:utext="${'Carport L/B: ' + order.carport.length + order.carport.width}">
 
-                <td th:utext="${'Pris: ' + order.total_price}">
+                <td th:utext="${'Pris: ' + order.twoDecimals()}">
 
                 <td th:text="${'Status:' + order.status}">
 

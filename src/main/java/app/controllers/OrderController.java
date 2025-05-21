@@ -19,6 +19,7 @@ import org.apache.batik.transcoder.TranscoderException;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Array;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,8 +37,8 @@ public class OrderController {
         app.post("updateOrder", ctx -> OrderController.updateOrder(ctx));
         app.post("/admin", ctx -> OrderController.updateOrder(ctx));
         app.get("/admin", ctx -> {
-            OrderController.getAllOrders(ctx);
             CarportController.adminOrderUpdater(ctx);
+            OrderController.getAllOrders(ctx);
         });
        //Er det nødvendigt? app.get("/admin", ctx -> OrderController.updateOrder(ctx));
 

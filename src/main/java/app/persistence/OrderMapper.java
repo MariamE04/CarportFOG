@@ -229,7 +229,6 @@ public class OrderMapper {
                 int carportWidth = rs.getInt("carport_width");
                 int carportLength = rs.getInt("carport_length");
                 String roofType = rs.getString("roof_type");
-                String email = rs.getString("email");
                 //int shed = rs.getInt("shed_id");
                 int user = rs.getInt("user_id");
 

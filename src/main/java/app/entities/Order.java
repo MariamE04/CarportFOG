@@ -1,5 +1,6 @@
 package app.entities;
 
+import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -40,8 +41,13 @@ public class Order {
     public void priceSummation(){
         total_price = 0;
         for (OrderDetails detail : orderDetails) {
-            total_price += detail.getMaterial().getPrice()*detail.getMaterial().getLength()*detail.getMaterial().getAmount();
+            total_price += detail.getMaterial().getPrice()/100*detail.getMaterial().getLength()*detail.getMaterial().getAmount();
         }
+    }
+
+    public String twoDecimals(){
+        DecimalFormat df = new DecimalFormat("0.00");
+        return df.format(total_price);
     }
 
     public List<OrderDetails> getOrderDetails() {
