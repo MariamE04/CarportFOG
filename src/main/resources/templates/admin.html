@@ -39,7 +39,7 @@
             <tr th:each="order: ${orders}"
                 th:classappend="${order.status == 'Afvist' or order.status == 'Godkendt' or order.status == 'Uløbet'} ? 'grå-order' : ''">
 
-            <td th:utext="${'Ordre nummer: ' + order.order_id  +'<br>  Dato: ' + order.date_created +' <br> Bruger: ' + order.user_id}"></td>
+            <td th:utext="${'Ordre nummer: ' + order.order_id  +'<br>  Dato: ' + order.date_created +' <br> Bruger: '+order.carport.user.email +' <br> BrugerID: '+ order.user_id}"></td>
 
                 <td th:utext="${'Carport L/B: ' + order.carport.length + order.carport.width}">
 
