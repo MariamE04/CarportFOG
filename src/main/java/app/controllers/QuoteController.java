@@ -137,7 +137,9 @@ public class QuoteController {
 
 
         double price = QuoteMapper.getPriceForQuoteByOrder(orderNumber);
-        List<OrderDetails> orderDetails= OrderDetailMapper.getOrderDetailsByOrder(orderNumber);
+
+
+        //List<OrderDetails> orderDetails= OrderDetailMapper.getOrderDetailsByOrder(orderNumber);
 
 
         LocalDate validityPeriod = LocalDate.now().plusDays(14);

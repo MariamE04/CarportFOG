@@ -180,7 +180,7 @@ public class QuoteMapper {
     }
 
 
-    public static double getPriceForQuoteByOrder(int order_id) throws DatabaseException{
+    public static double getPriceForQuoteByOrder1(int order_id) throws DatabaseException{
         double totalPrice = 0;
         String sql = "SELECT *\n" +
                 "FROM orderdetails\n" +
@@ -209,6 +209,32 @@ public class QuoteMapper {
         }
         return totalPrice;
 
+    }
+
+
+    public static double getPriceForQuoteByOrder(int order_id) throws DatabaseException{
+        double totalPrice = 0;
+
+        String sql = "SELECT total_price FROM orders WHERE order_id = ?";
+
+
+        try(Connection connection = connectionPool.getConnection();
+            PreparedStatement ps = connection.prepareStatement(sql)){
+
+            ps.setInt(1, order_id);
+
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()){
+
+                return rs.getDouble("total_price");
+            }
+
+        }catch (SQLException e){
+            throw new DatabaseException("Fejl med at hente ordrer detaljerne ud fra ordre", e.getMessage());
+        }
+
+        return 0;
     }
 
     public static Quote getQuoteById(int id) throws DatabaseException {

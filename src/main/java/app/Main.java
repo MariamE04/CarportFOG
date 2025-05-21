@@ -28,7 +28,7 @@ public class Main {
             config.staticFiles.add("/public"); // where it is in your resources
             config.jetty.modifyServletContextHandler(handler ->  handler.setSessionHandler(SessionConfig.sessionConfig()));
             config.fileRenderer(new JavalinThymeleaf(ThymeleafConfig.templateEngine()));
-        }).start(7070);
+        }).start(7071);
 
         HomeController.setConnectionPool(connectionPool);
         UserMapper.setConnectionPool(connectionPool);
