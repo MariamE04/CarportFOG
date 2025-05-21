@@ -60,13 +60,18 @@ public class CarportController {
         int i = 0;
         for (Material material : materials) {
             if (material != null) {
-                orderDetails.add(new OrderDetails(material, material.getAmount(), OrderMapper.getLatestOrderNr()));
-                OrderDetailMapper.addOrderDetail(
-                        orderDetails.get(i).getOrderId(),
-                        orderDetails.get(i).getMaterial(),
-                        orderDetails.get(i).getQuantity()
-                );
-                i++;
+                if (i > 0 && !orderDetails.isEmpty() && material.getMaterialId() == materials.get(i - 1).getMaterialId()) {
+                    orderDetails.get(orderDetails.size()).setQuantity(orderDetails.get(orderDetails.size()).getQuantity() + 1);
+                }
+                else {
+                    orderDetails.add(new OrderDetails(material, material.getAmount(), OrderMapper.getLatestOrderNr()));
+                    OrderDetailMapper.addOrderDetail(
+                            orderDetails.get(i).getOrderId(),
+                            orderDetails.get(i).getMaterial(),
+                            orderDetails.get(i).getQuantity()
+                    );
+                    i++;
+                }
             } else {
                 System.out.println("Et af materialerne var null og blev sprunget over.");
             }
