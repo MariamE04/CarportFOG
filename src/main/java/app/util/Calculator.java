@@ -68,7 +68,7 @@ public class Calculator {
                 lengthExceeded = false;
             }
         }
-        if (lengthExceeded == true){
+        if (lengthExceeded){
             for (Material material : allMaterials) {
                 if (material.getLength() >= width /2 && material.getLength() <= currentBeam.getLength()) {
                     currentBeam = material;
