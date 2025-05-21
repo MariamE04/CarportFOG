@@ -69,6 +69,7 @@ public class OrderMapper {
                 "LEFT JOIN carports ON orders.carport_id = carports.carport_id\n" +
                 "LEFT JOIN sheds ON carports.shed_id = sheds.shed_id\n" +
                 "LEFT JOIN quotes ON orders.order_id = quotes.order_id\n" +
+                "JOIN users ON carports.carport_id = users.user_id\n" +
                 "ORDER BY\n" +
                 "  CASE\n" +
                 "    WHEN status = 'Afventer betaling' THEN 1\n" +
@@ -91,6 +92,7 @@ public class OrderMapper {
                 Double price = rs.getDouble("total_price");
                 String paymentStatus = rs.getString("status");
                 int userId = rs.getInt("user_id");
+                String email = rs.getString("email");
                 int carportId = rs.getInt("carport_id");
 
                 int carportWidth = rs.getInt("carport_width");
@@ -105,7 +107,7 @@ public class OrderMapper {
                     shed = new Shed( shedId, shedLength, shedWidth);
                 }
 
-                Carport carport = new Carport(carportId, carportWidth, carportLength, roofType, shed, new User(userId));
+                Carport carport = new Carport(carportId, carportWidth, carportLength, roofType, shed, new User(userId, email));
 
                 ordersList.add(new Order(id, localDate, price, paymentStatus, userId, carport, shed));
             }
@@ -227,6 +229,7 @@ public class OrderMapper {
                 int carportWidth = rs.getInt("carport_width");
                 int carportLength = rs.getInt("carport_length");
                 String roofType = rs.getString("roof_type");
+                String email = rs.getString("email");
                 //int shed = rs.getInt("shed_id");
                 int user = rs.getInt("user_id");
 
