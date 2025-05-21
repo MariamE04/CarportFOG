@@ -5,6 +5,7 @@ import app.exceptions.DatabaseException;
 import app.persistence.ConnectionPool;
 import app.persistence.UserMapper;
 import app.util.PasswordUtil;
+import io.javalin.Javalin;
 import io.javalin.http.Context;
 
 import java.util.logging.Logger;
@@ -17,6 +18,19 @@ public class HomeController {
     //setConnectionPool gør det muligt at sætte connectionPool fra en anden del af programmet.
     public static void setConnectionPool(ConnectionPool newConnectionPool) {
         connectionPool = newConnectionPool;
+    }
+
+    public static void addRoutes(Javalin app){
+        //Viser startsiden.
+        app.get("startpage", ctx -> ctx.render("startpage.html"));
+
+        // Rute til sign-up
+        app.post("/signUp", ctx -> HomeController.signUpUser(ctx)); //POST: Opretter ny bruger.
+        app.get("/signUp", ctx -> ctx.render("/signUp.html")); //GET: Viser formularen.
+
+        // Rute til login
+        app.post("/login", ctx -> HomeController.userLogIn(ctx)); //POST: Logger brugeren ind.
+        app.get("/login", ctx -> ctx.render("login.html")); //Viser login-formularen (her: index.html).
     }
 
     //Håndterer brugerregistrering

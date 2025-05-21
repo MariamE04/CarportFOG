@@ -13,6 +13,7 @@ import app.persistence.ConnectionPool;
 import app.persistence.OrderDetailMapper;
 import app.persistence.OrderMapper;
 import app.persistence.QuoteMapper;
+import io.javalin.Javalin;
 import io.javalin.http.Context;
 import org.jetbrains.annotations.NotNull;
 
@@ -23,6 +24,11 @@ public class OrderDetailController {
 
     public static void setConnectionPool(ConnectionPool newConnectionPool){
         connectionPool = newConnectionPool;
+    }
+
+    public static void addRoutes(Javalin app) {
+        app.post("orderdetails", ctx -> OrderDetailController.getOrderDetailsByOrderNumber(ctx));
+        app.get("orderdetails", ctx -> ctx.render("orderdetails"));
     }
 
     public static void getOrderDetailsByOrderNumber(Context ctx) throws DatabaseException {

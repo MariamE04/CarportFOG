@@ -13,6 +13,7 @@ import app.persistence.CarportMapper;
 import app.persistence.ConnectionPool;
 import app.persistence.OrderMapper;
 import app.persistence.QuoteMapper;
+import io.javalin.Javalin;
 import io.javalin.http.Context;
 import org.apache.batik.transcoder.TranscoderException;
 import org.jetbrains.annotations.NotNull;
@@ -23,10 +24,24 @@ import java.util.List;
 
 public class OrderController {
     private static ConnectionPool connectionPool;
-    private static Quote quote;
+
 
     public static void setConnectionPool(ConnectionPool newConnectionPool) {
         connectionPool = newConnectionPool;
+    }
+
+    public static void addRoutes(Javalin app){
+        app.post("editOrder", ctx -> OrderController.editOrder(ctx));
+        app.get("editOrder", ctx -> ctx.render("editOrder"));
+        app.post("updateOrder", ctx -> OrderController.updateOrder(ctx));
+        app.post("/admin", ctx -> OrderController.updateOrder(ctx));
+        app.get("/admin", ctx -> {
+            OrderController.getAllOrders(ctx);
+            CarportController.adminOrderUpdater(ctx);
+        });
+       //Er det nødvendigt? app.get("/admin", ctx -> OrderController.updateOrder(ctx));
+
+
     }
 
     public static void getAllOrders(Context ctx) throws DatabaseException {
