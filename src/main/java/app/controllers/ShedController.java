@@ -4,6 +4,7 @@ import app.entities.Shed;
 import app.exceptions.DatabaseException;
 import app.persistence.ConnectionPool;
 import app.persistence.ShedMapper;
+import io.javalin.Javalin;
 import io.javalin.http.Context;
 
 import java.util.ArrayList;
@@ -16,6 +17,10 @@ public class ShedController {
     public static void setConnectionPool(ConnectionPool newConnectionPool) {
         connectionPool = newConnectionPool;
     }
+
+    public static void addRoutes(Javalin app) {
+    }
+
 
     public static void showShedWidthAndLength(Context ctx){
 

@@ -7,6 +7,7 @@ import app.persistence.ConnectionPool;
 import app.persistence.OrderDetailMapper;
 import app.persistence.OrderMapper;
 import app.util.Calculator;
+import io.javalin.Javalin;
 import io.javalin.http.Context;
 
 import java.time.LocalDate;
@@ -19,6 +20,15 @@ public class CarportController {
 
     public static void setConnectionPool(ConnectionPool newConnectionPool) {
         connectionPool = newConnectionPool;
+    }
+
+    public static void addRoutes(Javalin app){
+        app.get("createCarport", ctx -> {
+            CarportController.showWidthAndLength(ctx);
+            ShedController.showShedWidthAndLength(ctx);
+        });
+
+        app.post("createCarport", CarportController::sendUserData);
     }
 
     public static void showWidthAndLength(Context ctx){

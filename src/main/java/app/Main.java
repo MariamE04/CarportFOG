@@ -8,7 +8,7 @@ import app.persistence.*;
 import app.util.FileUtil;
 import io.javalin.Javalin;
 import io.javalin.rendering.template.JavalinThymeleaf;
-
+import org.apache.commons.io.output.QueueOutputStream;
 
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
@@ -44,80 +44,19 @@ public class Main {
 
         QuoteMapper.setConnectionPool(connectionPool);
         QuoteController.setConnectionPool(connectionPool);
+        SvgController.setConnectionPool(connectionPool);
 
 
 
         // Routing
         app.get("/", ctx -> ctx.redirect("/index"));
         app.get("/index", ctx -> ctx.render("index.html"));
-
-        //Rute til ordre
-        //app.get("admin", ctx -> ctx.render("admin"));
-
-        //Viser startsiden.
-        app.get("startpage", ctx -> ctx.render("startpage.html"));
-
-        // Rute til sign-up
-        app.post("/signUp", ctx -> HomeController.signUpUser(ctx)); //POST: Opretter ny bruger.
-        app.get("/signUp", ctx -> ctx.render("/signUp.html")); //GET: Viser formularen.
-
-        // Rute til login
-        app.post("/login", ctx -> HomeController.userLogIn(ctx)); //POST: Logger brugeren ind.
-        app.get("/login", ctx -> ctx.render("login.html")); //Viser login-formularen (her: index.html).
-
-
-        app.get("showOrder", ctx -> SvgController.showOrder(ctx));
-
-        app.post("/admin", ctx -> {
-            OrderController.updateOrder(ctx);
-            //QuoteController.addQuoteToDB(ctx);
-        });
-
-        app.post("/addQuote", ctx -> QuoteController.addQuoteToDB(ctx));
-
-        app.get("/admin", ctx -> {
-            CarportController.adminOrderUpdater(ctx);
-            OrderController.updateOrder(ctx);
-            OrderController.getAllOrders(ctx);
-
-        });
-
-
-        app.post("orderdetails", ctx -> OrderDetailController.getOrderDetailsByOrderNumber(ctx));
-        app.get("orderdetails", ctx -> ctx.render("orderdetails"));
-
-        app.post("editOrder", ctx -> OrderController.editOrder(ctx));
-        app.get("editOrder", ctx -> ctx.render("editOrder"));
-        app.post("updateOrder", ctx -> OrderController.updateOrder(ctx));
-
-
-
-       app.get("/quotes", QuoteController::getQuotesByUser);
-
-        //app.get("/quotes", ctx -> QuoteController.getQuoteByOrderAndUser(ctx));
-
-        app.post("/quotes/{id}", QuoteController::respondToQuote);
-
-
-        //app.get("/quotes", QuoteController::getQuotesByUser);
-
-        // Ruter for at vise ordren og betale for carport
-        app.get("/pay/{id}", SvgController::showOrder); // Rute til at vise og generere ordren
-
-        //rute der lytter efter links som /pdf/minfil.pdf
-        app.get("/pdf/{filename}", ctx -> {
-            String filename = ctx.pathParam("filename"); // Henter filnavnet fra URL’en.
-            byte[] pdfBytes = FileUtil.readFileBytesFromProjectRoot("pdf/" + filename); //Bruger FileUtil-metode til at hente hele PDF-filen som bytes.
-            ctx.contentType("application/pdf"); //Fortæller browseren, at indholdet er en PDF.
-            ctx.result(pdfBytes); //Sender PDF’en som svar til browseren.
-        });
-
-        // Rute til createCarport
-        app.get("createCarport", ctx ->{
-            CarportController.showWidthAndLength(ctx);
-            ShedController.showShedWidthAndLength(ctx);
-        });
-
-        app.post("createCarport", CarportController::sendUserData);
+        HomeController.addRoutes(app);
+        SvgController.addRoutes(app);
+        CarportController.addRoutes(app);
+        ShedController.addRoutes(app);
+        QuoteController.addRoutes(app);
+        OrderController.addRoutes(app);
+        OrderDetailController.addRoutes(app);
     }
 }

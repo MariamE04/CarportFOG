@@ -4,15 +4,40 @@ import app.entities.Carport;
 import app.entities.Quote;
 import app.exceptions.DatabaseException;
 import app.persistence.CarportMapper;
+import app.persistence.ConnectionPool;
 import app.persistence.QuoteMapper;
 import app.util.Calculator;
 import app.util.CarportSvg;
+import app.util.FileUtil;
 import app.util.SvgToPdfConverter;
+import io.javalin.Javalin;
 import io.javalin.http.Context;
 import org.apache.batik.transcoder.TranscoderException;
 import java.io.IOException;
 
 public class SvgController {
+
+    private static ConnectionPool connectionPool;
+
+    public static void setConnectionPool(ConnectionPool newConnectionPool) {
+        connectionPool = newConnectionPool;
+    }
+
+    public static void addRoutes(Javalin app){
+        app.get("showOrder", ctx -> SvgController.showOrder(ctx));
+
+        // Ruter for at vise ordren og betale for carport
+        app.get("/pay/{id}", SvgController::showOrder);
+
+        //rute der lytter efter links som /pdf/minfil.pdf
+        app.get("/pdf/{filename}", ctx -> {
+            String filename = ctx.pathParam("filename"); // Henter filnavnet fra URL’en.
+            byte[] pdfBytes = FileUtil.readFileBytesFromProjectRoot("pdf/" + filename); //Bruger FileUtil-metode til at hente hele PDF-filen som bytes.
+            ctx.contentType("application/pdf"); //Fortæller browseren, at indholdet er en PDF.
+            ctx.result(pdfBytes); //Sender PDF’en som svar til browseren.
+        });
+    }
+
     // Metode til at vise og generere en ordre med SVG samt konvertering til PDF
     public static void showOrder(Context ctx) {
 

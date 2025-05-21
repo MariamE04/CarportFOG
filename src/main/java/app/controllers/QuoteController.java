@@ -11,6 +11,7 @@ import app.persistence.OrderDetailMapper;
 import app.persistence.OrderMapper;
 
 import app.persistence.QuoteMapper;
+import io.javalin.Javalin;
 import io.javalin.http.Context;
 
 import java.time.LocalDate;
@@ -27,6 +28,12 @@ public class QuoteController {
     //setConnectionPool gør det muligt at sætte connectionPool fra en anden del af programmet.
     public static void setConnectionPool(ConnectionPool newConnectionPool) {
         connectionPool = newConnectionPool;
+    }
+
+    public static void addRoutes(Javalin app){
+        app.post("/addQuote", ctx -> QuoteController.addQuoteToDB(ctx));
+        app.get("/quotes", QuoteController::getQuotesByUser);
+        app.post("/quotes/{id}", QuoteController::respondToQuote);
     }
 
     //Henter tilbud for den aktuelle bruger baseret på sessionen
