@@ -76,9 +76,9 @@ public class CarportController {
                 else {
                     if (i > 0) {
                         OrderDetailMapper.addOrderDetail(
-                                orderDetails.get(i).getOrderId(),
-                                orderDetails.get(i).getMaterial(),
-                                orderDetails.get(i).getQuantity()
+                                orderDetails.get(orderDetails.size() - 1).getOrderId(),
+                                orderDetails.get(orderDetails.size() - 1).getMaterial(),
+                                orderDetails.get(orderDetails.size() - 1).getQuantity()
                         );
                     }
                     orderDetails.add(new OrderDetails(material, material.getAmount(), OrderMapper.getLatestOrderNr()));
