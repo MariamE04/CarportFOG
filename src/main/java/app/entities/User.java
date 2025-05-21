@@ -33,10 +33,14 @@
             this.password = password;
         }
 
-    public User(int id) {
-        this.id = id;
+    public User(int id, String email) {
+            this.id = id;
+            this.email = email;
     }
 
+        public User(int id) {
+            this.id = id;
+        }
 
         public int getId() {
             return id;
