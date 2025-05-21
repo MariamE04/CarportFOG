@@ -82,8 +82,8 @@ public class CarportController {
                         );
                     }
                     orderDetails.add(new OrderDetails(material, material.getAmount(), OrderMapper.getLatestOrderNr()));
-                    i++;
                 }
+                i++;
             } else {
                 System.out.println("Et af materialerne var null og blev sprunget over.");
             }
