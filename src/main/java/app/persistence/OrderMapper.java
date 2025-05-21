@@ -69,7 +69,7 @@ public class OrderMapper {
                 "LEFT JOIN carports ON orders.carport_id = carports.carport_id\n" +
                 "LEFT JOIN sheds ON carports.shed_id = sheds.shed_id\n" +
                 "LEFT JOIN quotes ON orders.order_id = quotes.order_id\n" +
-                "JOIN users ON carports.carport_id = users.user_id\n" +
+                "JOIN users ON carports.user_id = users.user_id\n" +
                 "ORDER BY\n" +
                 "  CASE\n" +
                 "    WHEN status = 'Afventer betaling' THEN 1\n" +
