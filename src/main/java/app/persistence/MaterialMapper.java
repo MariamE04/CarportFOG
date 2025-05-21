@@ -19,8 +19,8 @@ public class MaterialMapper {
     }
 
     //Bruges til at hente materialelængder i Calculator
-    public static List<Material> getMaterialsByLengths() throws DatabaseException {
-        String sql = "SELECT * FROM materials ORDER BY length ASC";
+    public static List<Material> getBeamsByLengths() throws DatabaseException {
+        String sql = "SELECT * FROM materials WHERE material_id < 4 ORDER BY length ASC";
 
         List<Material> materialsList = new ArrayList<>();
 

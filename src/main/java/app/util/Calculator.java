@@ -60,7 +60,7 @@ public class Calculator {
     private static List<Material> beamCalculator(int width) throws DatabaseException {
         List<Material> beamsList = new ArrayList<>();
         boolean lengthExceeded = true;
-        List<Material> allMaterials = MaterialMapper.getMaterialsByLengths();
+        List<Material> allMaterials = MaterialMapper.getBeamsByLengths();
         Material currentBeam = allMaterials.get(0);
         for (Material material : allMaterials) {
             if (material.getLength() >= width && material.getLength() <= currentBeam.getLength()) {
