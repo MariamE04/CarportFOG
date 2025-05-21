@@ -99,4 +99,13 @@ public class OrderDetailMapper {
 
     }
 
+    public static OrderDetails orderDetailsToUser(){
+
+
+        //Skal retunere retunere et og kun et Orderdetail objekt
+        //Hente
+
+        return null;
+    }
+
 }
