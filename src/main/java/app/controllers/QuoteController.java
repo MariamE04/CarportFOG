@@ -5,7 +5,6 @@ import app.entities.OrderDetails;
 import app.entities.Quote;
 import app.entities.User;
 import app.exceptions.DatabaseException;
-import app.persistence.ConnectionPool;
 
 import app.persistence.OrderDetailMapper;
 import app.persistence.OrderMapper;
@@ -21,15 +20,6 @@ import java.util.List;
 
 
 public class QuoteController {
-
-    private static ConnectionPool connectionPool; //connectionPool holder en statisk reference til en databaseforbindelses-pulje.
-   // private static Quote quote;
-
-
-    //setConnectionPool gør det muligt at sætte connectionPool fra en anden del af programmet.
-    public static void setConnectionPool(ConnectionPool newConnectionPool) {
-        connectionPool = newConnectionPool;
-    }
 
     public static void addRoutes(Javalin app){
         app.post("/addQuote", ctx -> QuoteController.addQuoteToDB(ctx));

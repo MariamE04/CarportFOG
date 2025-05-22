@@ -10,7 +10,6 @@ import app.entities.Quote;
 import app.entities.User;
 import app.exceptions.DatabaseException;
 import app.persistence.CarportMapper;
-import app.persistence.ConnectionPool;
 import app.persistence.OrderMapper;
 import app.persistence.QuoteMapper;
 import io.javalin.Javalin;
@@ -24,12 +23,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class OrderController {
-    private static ConnectionPool connectionPool;
-
-
-    public static void setConnectionPool(ConnectionPool newConnectionPool) {
-        connectionPool = newConnectionPool;
-    }
 
     public static void addRoutes(Javalin app){
         app.post("editOrder", ctx -> OrderController.editOrder(ctx));
@@ -137,10 +130,5 @@ public class OrderController {
 
             ctx.render("edit.html");
     }
-
-    public static void showOrderByStatus(){
-
-    }
-
 }
 

@@ -2,7 +2,6 @@ package app.controllers;
 
 import app.entities.User;
 import app.exceptions.DatabaseException;
-import app.persistence.ConnectionPool;
 import app.persistence.UserMapper;
 import app.util.PasswordUtil;
 import io.javalin.Javalin;
@@ -13,12 +12,6 @@ import java.util.logging.Logger;
 //HomeController er ansvarlig for at håndtere HTTP-forespørgsler relateret til brugerregistrering og login.
 public class HomeController {
     private static final Logger LOGGER = Logger.getLogger(HomeController.class.getName()); //LOGGER bruges til at logge fejl og information.
-    private static ConnectionPool connectionPool; //connectionPool holder en statisk reference til en databaseforbindelses-pulje.
-
-    //setConnectionPool gør det muligt at sætte connectionPool fra en anden del af programmet.
-    public static void setConnectionPool(ConnectionPool newConnectionPool) {
-        connectionPool = newConnectionPool;
-    }
 
     public static void addRoutes(Javalin app){
         //Viser startsiden.

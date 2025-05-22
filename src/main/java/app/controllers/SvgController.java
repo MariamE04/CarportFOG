@@ -17,12 +17,6 @@ import java.io.IOException;
 
 public class SvgController {
 
-    private static ConnectionPool connectionPool;
-
-    public static void setConnectionPool(ConnectionPool newConnectionPool) {
-        connectionPool = newConnectionPool;
-    }
-
     public static void addRoutes(Javalin app){
         app.get("showOrder", ctx -> SvgController.showOrder(ctx));
 

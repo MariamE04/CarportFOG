@@ -3,16 +3,14 @@ package app.util;
 
 import app.entities.Material;
 import app.exceptions.DatabaseException;
-import app.persistence.ConnectionPool;
 import app.persistence.MaterialMapper;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Calculator {
-    private static ConnectionPool connectionPool;
 
-    public static List<Material> orderCalculator(int width, int length) throws DatabaseException {
+    public static List<Material> orderCalculator(int width) throws DatabaseException {
         List<Material> materials = new ArrayList<>();
         int postCount = postCounter(width);
         for (int i = 0; i < postCount; i++)
@@ -43,8 +41,7 @@ public class Calculator {
 
     private static int postSpace(int width){
         int postCount = postCounter(width);
-        int space = (width - 130)/(postCount/2) - 1;
-        return space;
+        return (width - 130)/(postCount/2) - 1;
     }
 
     private static int rafterCalculator(int width){
@@ -82,9 +79,5 @@ public class Calculator {
             beamsList.add(currentBeam);
         }
         return  beamsList;
-    }
-
-    public static void setConnectionPool(ConnectionPool newConnectionPool) {
-        connectionPool = newConnectionPool;
     }
 }

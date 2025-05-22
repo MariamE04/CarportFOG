@@ -3,7 +3,6 @@ package app.controllers;
 import app.entities.*;
 import app.exceptions.DatabaseException;
 import app.persistence.CarportMapper;
-import app.persistence.ConnectionPool;
 import app.persistence.OrderDetailMapper;
 import app.persistence.OrderMapper;
 import app.util.Calculator;
@@ -15,12 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CarportController {
-
-    private static ConnectionPool connectionPool;
-
-    public static void setConnectionPool(ConnectionPool newConnectionPool) {
-        connectionPool = newConnectionPool;
-    }
 
     public static void addRoutes(Javalin app){
         app.get("createCarport", ctx -> {
@@ -65,7 +58,7 @@ public class CarportController {
         OrderMapper.addOrder(order);
         order.setOrder_id(OrderMapper.getLatestOrderNr());
 
-        List<Material> materials = Calculator.orderCalculator(carport.getWidth(), carport.getLength());
+        List<Material> materials = Calculator.orderCalculator(carport.getWidth());
         List<OrderDetails> orderDetails = new ArrayList<>();
 
         int i = 0;

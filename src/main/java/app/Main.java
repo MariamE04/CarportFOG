@@ -30,23 +30,13 @@ public class Main {
             config.fileRenderer(new JavalinThymeleaf(ThymeleafConfig.templateEngine()));
         }).start(7071);
 
-        HomeController.setConnectionPool(connectionPool);
         UserMapper.setConnectionPool(connectionPool);
         OrderMapper.setConnectionPool(connectionPool);
         OrderDetailMapper.setConnectionPool(connectionPool);
-        OrderDetailController.setConnectionPool(connectionPool);
-
-        CarportController.setConnectionPool(connectionPool);
         CarportMapper.setConnectionPool(connectionPool);
-        ShedController.setConnectionPool(connectionPool);
         ShedMapper.setConnectionPool(connectionPool);
         MaterialMapper.setConnectionPool(connectionPool);
-
         QuoteMapper.setConnectionPool(connectionPool);
-        QuoteController.setConnectionPool(connectionPool);
-        SvgController.setConnectionPool(connectionPool);
-
-
 
         // Routing
         app.get("/", ctx -> ctx.redirect("/index"));
