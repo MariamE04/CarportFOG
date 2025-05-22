@@ -1,31 +1,21 @@
 package app.persistence;
     
 import app.entities.Carport;
-import app.entities.Quote;
 import app.exceptions.DatabaseException;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
 
 public class CarportMapper {
-
     //Vores ConnectionPool instans
-   private static ConnectionPool connectionPool;
-
-   public CarportMapper(ConnectionPool connectionPool){
-       this.connectionPool = connectionPool;
-   }
+    private static ConnectionPool connectionPool;
 
     public static void setConnectionPool(ConnectionPool newConnectionPool){
         connectionPool = newConnectionPool;
     }
 
-
-    public static void addWidthAndLength(Carport carport) throws DatabaseException {
+    public static void addCarport(Carport carport) throws DatabaseException {
         String sql = "INSERT INTO public.carports (carport_width, carport_length, roof_type, shed_id, user_id)"+
                 "VALUES(?,?,'fladt',null,?)";
-
 
         try(Connection connection = connectionPool.getConnection();
             PreparedStatement ps = connection.prepareStatement(sql)){
@@ -36,10 +26,9 @@ public class CarportMapper {
 
             ps.executeUpdate();
 
-        }catch (SQLException e){
+        } catch (SQLException e){
             throw new DatabaseException("Fejl med at indsætte carport mål", e.getMessage());
         }
-
     }
 
     public static Carport getCarportByQuoteId(int quoteId) {
@@ -59,6 +48,7 @@ public class CarportMapper {
                 int length = rs.getInt("carport_length");
                 return new Carport(width, length);
             }
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -88,12 +78,12 @@ public class CarportMapper {
                  carport = new Carport(width, length, roofType, id);
             }
         }
+
         catch (SQLException e)
         {
             throw new DatabaseException("Fejl ved hentning af carport med id = " + carportId, e.getMessage());
         }
         return carport;
-
     }
 
     public static void updateCarport(int width, int length, int carportId) throws DatabaseException{
@@ -113,11 +103,10 @@ public class CarportMapper {
                 throw new DatabaseException("Fejl i opdatering af carport");
             }
         }
+
         catch (SQLException e)
         {
             throw new DatabaseException("Fejl i opdatering af carports mål", e.getMessage());
         }
     }
-
-
-    }
+}

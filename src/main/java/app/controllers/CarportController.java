@@ -65,7 +65,7 @@ public class CarportController {
 
                 //Inserts to database
                 Carport carport = new Carport(width, length, ctx.sessionAttribute("currentUser"));
-                CarportMapper.addWidthAndLength(carport);
+                CarportMapper.addCarport(carport);
             }
 
         } catch (DatabaseException e) {
@@ -107,7 +107,7 @@ public class CarportController {
 
         order.setOrderDetails(orderDetails);
         order.priceSummation();
-        OrderMapper.updatePrice(order);
+        OrderMapper.updatePrice(order.getOrder_id(), order.getTotal_price());
     }
 
     public static void adminOrderUpdater(Context ctx) throws DatabaseException {

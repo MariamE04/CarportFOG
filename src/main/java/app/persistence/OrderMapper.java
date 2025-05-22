@@ -17,10 +17,6 @@ import java.util.List;
 public class OrderMapper {
     private static ConnectionPool connectionPool;
 
-    public OrderMapper(ConnectionPool connectionPool){
-        this.connectionPool = connectionPool;
-    }
-
     public static void setConnectionPool(ConnectionPool newConnectionPool) {
         connectionPool = newConnectionPool;
     }
@@ -39,10 +35,9 @@ public class OrderMapper {
 
             ps.executeUpdate();
 
-        }catch (SQLException e){
+        } catch (SQLException e){
             throw new DatabaseException("Fejl med at indsætte ordreren", e.getMessage());
         }
-
     }
 
     public static int getLatestOrderNr() throws DatabaseException {
@@ -63,8 +58,7 @@ public class OrderMapper {
         }
     }
 
-
-    public static List<Order> getAllOrders() throws DatabaseException{
+    public static List<Order> getAllOrders() throws DatabaseException {
         String sql = "SELECT * FROM orders\n" +
                 "LEFT JOIN carports ON orders.carport_id = carports.carport_id\n" +
                 "LEFT JOIN sheds ON carports.shed_id = sheds.shed_id\n" +
@@ -78,7 +72,6 @@ public class OrderMapper {
                 "    WHEN status = 'Uløbet' THEN 4\n" +
                 "    ELSE 5\n" +
                 "  END;\n";
-
 
         List<Order> ordersList = new ArrayList<>();
 
@@ -120,18 +113,14 @@ public class OrderMapper {
         return ordersList;
     }
 
-
-    public static void updatePrice(Order order) throws DatabaseException{
+    public static void updatePrice(int id, double price) throws DatabaseException {
         String sql = "UPDATE orders SET total_price = ? WHERE order_id = ?";
 
         try (Connection connection = connectionPool.getConnection(); // Henter en forbindelse fra connection pool.
              PreparedStatement ps = connection.prepareStatement(sql)) { // Forbereder SQL-forespørgslen.
 
-            ps.setDouble(1, order.getTotal_price());  // Sætter den nye pris.
-            ps.setInt(2, order.getOrder_id());   // Sætter order_id i forespørgslen.
-
-            //Carport carport = new Carport(carportId ,carportWidth, carportLength, roofType, shed);
-            //ordersList.add(new Order(id, localDate, price, paymentStatus, userId, carport, shed));            }
+            ps.setDouble(1, price);  // Sætter den nye pris.
+            ps.setInt(2, id);   // Sætter order_id i forespørgslen.
 
             ps.executeUpdate(); // Udfører opdateringen.
 
@@ -155,12 +144,10 @@ public class OrderMapper {
         }
     }
 
-
-    public static double getPrice(int orderId) throws DatabaseException{
+    public static double getPrice(int orderId) throws DatabaseException {
         double price = 0;
 
         String sql = "SELECT total_price FROM orders WHERE order_id = ?";
-
 
         try(Connection connection = connectionPool.getConnection();
             PreparedStatement ps = connection.prepareStatement(sql)){
@@ -170,25 +157,11 @@ public class OrderMapper {
             if (rs.next()) {
                  price += rs.getDouble("total_price");
             }
+
         } catch (SQLException e){
             throw new DatabaseException("Fejl i at hente ordrene fra "+ orderId + e.getMessage());
         }
         return price;
-    }
-
-    public static void updateOrderPrice(double totalPrice, int orderId) throws DatabaseException {
-        String sql = "UPDATE orders SET total_price = ? WHERE order_id =  ?";
-
-        try (Connection connection = connectionPool.getConnection();
-             PreparedStatement ps = connection.prepareStatement(sql)) {
-
-            ps.setDouble(1, totalPrice);
-            ps.setInt(2, orderId);
-            ps.executeUpdate();
-
-        } catch (SQLException e) {
-            throw new DatabaseException("Fejl ved opdatering af totalPrice i order: " + e.getMessage());
-        }
     }
 
     public static Order getOrderId(int id) throws DatabaseException {
@@ -240,4 +213,4 @@ public class OrderMapper {
         }
         return carportList;
     }
-    }
+}

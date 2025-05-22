@@ -34,7 +34,6 @@ public class Main {
         OrderMapper.setConnectionPool(connectionPool);
         OrderDetailMapper.setConnectionPool(connectionPool);
         CarportMapper.setConnectionPool(connectionPool);
-        ShedMapper.setConnectionPool(connectionPool);
         MaterialMapper.setConnectionPool(connectionPool);
         QuoteMapper.setConnectionPool(connectionPool);
 

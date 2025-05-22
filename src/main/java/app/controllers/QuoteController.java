@@ -128,7 +128,7 @@ public class QuoteController {
         int orderNumber = Integer.parseInt(ctx.formParam("orderNumber"));
 
 
-        double price = QuoteMapper.getPriceForQuoteByOrder(orderNumber);
+        double price = OrderMapper.getPrice(orderNumber);
 
 
         //List<OrderDetails> orderDetails= OrderDetailMapper.getOrderDetailsByOrder(orderNumber);

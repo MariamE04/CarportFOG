@@ -53,7 +53,6 @@ public class Calculator {
         return count;
     }
 
-
     private static List<Material> beamCalculator(int width) throws DatabaseException {
         List<Material> beamsList = new ArrayList<>();
         boolean lengthExceeded = true;

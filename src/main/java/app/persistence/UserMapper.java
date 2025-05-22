@@ -11,11 +11,6 @@ import java.sql.SQLException;
 
 //Klassen UserMapper bruges til at håndtere databaseoperationer relateret til brugere.
 public class UserMapper {
-
-    //Dependency injection
-    //Gør det muligt at sætte forbindelsen udefra (fx fra Main),
-    // så UserMapper kan bruge den til at snakke med databasen.
-
     private static ConnectionPool connectionPool; //Privat statisk attribut, som holder en forbindelse til databasen.
 
     public static void setConnectionPool(ConnectionPool newConnectionPool) {
@@ -79,7 +74,6 @@ public class UserMapper {
         }
     }
 
-
     public static boolean userExists(User user) throws DatabaseException {
         String sql = "SELECT 1 FROM users WHERE email = ?"; //Tjekker om en bruger med den angivne email allerede findes.
 
@@ -95,29 +89,4 @@ public class UserMapper {
             throw new DatabaseException("Error checking if user exists.", e.getMessage());
         }
     }
-
-
-   /* public static ArrayList<User> getAllUsers(User user) throws DatabaseException {
-
-        ArrayList<User> allUsers = new ArrayList<>();
-        String sql = "SELECT * FROM public.users";
-
-        try (
-                Connection connection = connectionPool.getConnection();
-                PreparedStatement ps = connection.prepareStatement(sql)) {
-                ResultSet rs = ps.executeQuery();
-
-                while (rs.next()) {
-                   String email = rs.getString("email");
-                    String password = rs.getString("password");
-                    int balance = rs.getInt("balance");
-
-                    allUsers.add(new User(email, password));
-                }
-        } catch (SQLException e) {
-            throw new DatabaseException("Fejl, kunne ikke hente alle kunderne |"+e.getMessage());
-        }
-        return allUsers;
-    }*/
-
 }

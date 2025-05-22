@@ -13,13 +13,8 @@ import java.sql.Statement;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.fail;
 
-         class CarportMapper {
+    class CarportMapper {
         private static ConnectionPool connector;
-        public static CarportMapper carportMapper;
-        private static Carport carport;
-
-
-
 
         @BeforeAll
         static void setUpDatabase() {
