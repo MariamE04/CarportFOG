@@ -137,10 +137,4 @@ import static org.junit.jupiter.api.Assertions.fail;
         void testDatabaseConnection() throws SQLException {
             assertNotNull(connector.getConnection(), "Connection should not be null");
         }
-
-             @Test
-             void addWidthAndLength(Carport carport){
-                CarportMapper.setConnectionPool(connector);
-        }
-
 }
