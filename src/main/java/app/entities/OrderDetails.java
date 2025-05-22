@@ -6,7 +6,6 @@ public class OrderDetails {
     int quantity;
     Material material;
 
-
     public OrderDetails(int orderDetailId, int orderId, int quantity, Material material) {
         this.orderDetailId = orderDetailId;
         this.orderId = orderId;
@@ -26,9 +25,6 @@ public class OrderDetails {
         this.quantity = quantity;
         this.orderId = orderId;
     }
-
-
-
 
     public int getOrderDetailId() {
         return orderDetailId;
@@ -62,15 +58,14 @@ public class OrderDetails {
             this.material = material;
         }
 
-
-        @Override
-        public String toString () {
-            return "OrderDetails{" +
-                    "orderDetailId=" + orderDetailId +
-                    ", orderId=" + orderId +
-                    ", quantity=" + quantity +
-                    ", material=" + material +
-                    '}';
-        }
+    @Override
+    public String toString () {
+        return "OrderDetails{" +
+                "orderDetailId=" + orderDetailId +
+                ", orderId=" + orderId +
+                ", quantity=" + quantity +
+                ", material=" + material +
+                '}';
     }
+}
 
