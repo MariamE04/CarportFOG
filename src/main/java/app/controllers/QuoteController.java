@@ -15,6 +15,7 @@ import io.javalin.Javalin;
 import io.javalin.http.Context;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -34,6 +35,7 @@ public class QuoteController {
         app.post("/addQuote", ctx -> QuoteController.addQuoteToDB(ctx));
         app.get("/quotes", QuoteController::getQuotesByUser);
         app.post("/quotes/{id}", QuoteController::respondToQuote);
+        //app.get("/pay/{id}", ctx -> QuoteController.getOrderDetailsByOrderId(ctx));
     }
 
     //Henter tilbud for den aktuelle bruger baseret på sessionen
@@ -137,7 +139,9 @@ public class QuoteController {
 
 
         double price = QuoteMapper.getPriceForQuoteByOrder(orderNumber);
-        List<OrderDetails> orderDetails= OrderDetailMapper.getOrderDetailsByOrder(orderNumber);
+
+
+        //List<OrderDetails> orderDetails= OrderDetailMapper.getOrderDetailsByOrder(orderNumber);
 
 
         LocalDate validityPeriod = LocalDate.now().plusDays(14);
@@ -148,6 +152,14 @@ public class QuoteController {
         ctx.attribute("quote", quote);
         ctx.redirect("/admin");
     }
+
+public static void getOrderDetailsByOrderId(Context ctx) throws DatabaseException{
+    int quoteId = Integer.parseInt(ctx.pathParam("id"));
+    List<OrderDetails> orderDetails= QuoteMapper.getOrderDetailsByQuoteId(quoteId);
+    ctx.attribute("orderDetails", orderDetails);
+    ctx.render("pay_quote.html");
+
+}
 
     /*public static void getQuoteByOrderAndUser(Context ctx) throws DatabaseException{
 

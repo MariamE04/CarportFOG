@@ -39,3 +39,21 @@ button:disabled {
     cursor: not-allowed;
     pointer-events: none; /* Deaktiverer knappen */
 }
+
+.orderdetails-table{
+    border-collapse: collapse;
+    font-size: 1.2rem;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    min-width: 400px;
+}
+
+
+.orderdetails-table td, .orderdetails-table th{
+    border: 1px solid #ddd;
+    padding: 10px;
+}
+
+.orderdetails-table tr:nth-child(even){
+    background-color: silver;
+}
