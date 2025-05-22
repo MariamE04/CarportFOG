@@ -44,8 +44,13 @@ public class CarportController {
         List<Shed> shedWidthAndLength = new ArrayList<>();
         int i = 240;
         while(i<=780){
-            shedWidthAndLength.add(new Shed(i,i));
-            i = i+60;
+            if (i <= 600) {
+                shedWidthAndLength.add(new Shed(i, i));
+            }
+            else {
+                shedWidthAndLength.add(new Shed(i, 600));
+            }
+            i = i + 60;
         }
         ctx.attribute("shedWidthAndLength", shedWidthAndLength);
         ctx.render("createCarport.html");
@@ -105,7 +110,6 @@ public class CarportController {
         OrderMapper.updatePrice(order);
     }
 
-
     public static void adminOrderUpdater(Context ctx) throws DatabaseException {
         List<Carport> carports = OrderMapper.getCarportsWithoutOrders();
         for (Carport carport : carports) {
@@ -113,7 +117,7 @@ public class CarportController {
         }
         ctx.render("admin.html");
     }
-    }
+}
 
 
 
