@@ -43,6 +43,9 @@ public class CarportSvg {
         double beamStart = 0; // hvor remmen placeres
 
         if (beamCount == 2){
+            if (beamLength > length)
+                beamLength = length;
+
             // Øverste rem (nær toppen af carporten)
             carportSvg.addRectangle(beamStart, offsetFromTop, beamHeight, beamLength,
                     "stroke-width:1px; stroke:#000000; fill: #ffffff");
