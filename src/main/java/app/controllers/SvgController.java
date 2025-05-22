@@ -27,7 +27,10 @@ public class SvgController {
         app.get("showOrder", ctx -> SvgController.showOrder(ctx));
 
         // Ruter for at vise ordren og betale for carport
-        app.get("/pay/{id}", SvgController::showOrder);
+        app.get("/pay/{id}", ctx ->  {
+            SvgController.showOrder(ctx);
+        QuoteController.getOrderDetailsByOrderId(ctx);
+        });
 
         //rute der lytter efter links som /pdf/minfil.pdf
         app.get("/pdf/{filename}", ctx -> {
@@ -78,6 +81,7 @@ public class SvgController {
             //Opretter en konverter, som kan lave SVG om til PDF.
             SvgToPdfConverter converter = new SvgToPdfConverter();
 
+
             try {
                 //Konverterer SVG-tekst til PDF og gemmer den i pdf/-mappen.
                 converter.convertSvgToPdf(svgContent, pdfFilename);
@@ -88,6 +92,8 @@ public class SvgController {
                 ctx.status(500).result("Fejl ved konvertering til PDF.");
                 return;
             }
+
+
 
             //Gemmer SVG-indholdet og filnavnet, så HTML’en kan bruge dem.
             ctx.attribute("svg", svgContent);

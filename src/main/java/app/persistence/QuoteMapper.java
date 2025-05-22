@@ -260,4 +260,83 @@ public class QuoteMapper {
 
         return quote;
     }
+
+    public static List<OrderDetails> getOrderDetailsByOrder(int orderId) throws DatabaseException {
+        List<OrderDetails> orderDetails = new ArrayList<>();
+        String sql = "SELECT *\n" +
+                "FROM orderdetails\n" +
+                "JOIN orders ON orderdetails.order_id = orders.order_id " +
+                "JOIN materials ON orderdetails.material_id = materials.material_id " +
+                "JOIN quotes ON orderdetails.order_id = quotes.order_id " +
+                "WHERE orders.order_id = ?";
+
+
+        try(Connection connection = connectionPool.getConnection();
+            PreparedStatement ps = connection.prepareStatement(sql)){
+
+            ps.setInt(1, orderId);
+
+            ResultSet rs = ps.executeQuery();
+
+            while(rs.next()){
+                int quantity = rs.getInt("quantity");
+
+                int materialId = rs.getInt("material_id");
+                String name = rs.getString("name");
+                String description = rs.getString("description");
+                String unit = rs.getString("unit");
+                int amount = rs.getInt("amount");
+                int length = rs.getInt("length");
+                int price = rs.getInt("price");
+                int orderDetailId = rs.getInt("order_detail_id");
+
+                Material material = new Material(materialId, name, description, unit, amount, length, price);
+
+                orderDetails.add(new OrderDetails(material, quantity, orderId, orderDetailId));
+            }
+
+
+        }catch (SQLException e){
+            throw new DatabaseException("Fejl med at hente ordrer detaljerne ud fra ordre", e.getMessage());
+        }
+        return orderDetails;
+
+    }
+
+    public static List<OrderDetails> getOrderDetailsByQuoteId(int quoteId) throws DatabaseException{
+        List<OrderDetails> orderDetails = new ArrayList<>();
+        String sql ="SELECT * FROM orderdetails JOIN materials ON orderdetails.material_id = materials.material_id\n" +
+                "JOIN quotes ON orderdetails.order_id = quotes.order_id WHERE quote_id = ?";
+
+        try(Connection connection = connectionPool.getConnection();
+        PreparedStatement ps = connection.prepareStatement(sql)){
+
+            ps.setInt(1, quoteId);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                int quantity = rs.getInt("quantity");
+
+                int materialId = rs.getInt("material_id");
+                String name = rs.getString("name");
+                String description = rs.getString("description");
+                String unit = rs.getString("unit");
+                int amount = rs.getInt("amount");
+                int length = rs.getInt("length");
+                int price = rs.getInt("price");
+                int orderDetailId = rs.getInt("order_detail_id");
+                int orderId = rs.getInt("order_id");
+
+                Material material = new Material(materialId, name, description, unit, amount, length, price);
+
+                orderDetails.add(new OrderDetails(material, quantity, orderId, orderDetailId));
+            }
+
+        } catch (SQLException e){
+            throw new DatabaseException("Fejl ved at hente ordre ud fra quote-id", e.getMessage());
+
+        }
+        return orderDetails;
+    }
+
 }
