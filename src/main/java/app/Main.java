@@ -44,7 +44,6 @@ public class Main {
         HomeController.addRoutes(app);
         SvgController.addRoutes(app);
         CarportController.addRoutes(app);
-        ShedController.addRoutes(app);
         QuoteController.addRoutes(app);
         OrderController.addRoutes(app);
         OrderDetailController.addRoutes(app);

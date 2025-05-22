@@ -18,7 +18,7 @@ public class CarportController {
     public static void addRoutes(Javalin app){
         app.get("createCarport", ctx -> {
             CarportController.showWidthAndLength(ctx);
-            ShedController.showShedWidthAndLength(ctx);
+            CarportController.showShedWidthAndLength(ctx);
         });
 
         app.post("createCarport", CarportController::sendUserData);
@@ -28,12 +28,28 @@ public class CarportController {
             List<Carport> widthAndLength = new ArrayList<>();
             int i = 240;
             while(i<=780){
-                widthAndLength.add(new Carport(i,i));
-                i = i+60;
+                if (i <= 600) {
+                    widthAndLength.add(new Carport(i, i));
+                }
+                else {
+                    widthAndLength.add(new Carport(i, 600));
+                }
+                i = i + 60;
             }
             ctx.attribute("widthAndLength", widthAndLength);
             ctx.render("createCarport.html");
         }
+
+    public static void showShedWidthAndLength(Context ctx){
+        List<Shed> shedWidthAndLength = new ArrayList<>();
+        int i = 240;
+        while(i<=780){
+            shedWidthAndLength.add(new Shed(i,i));
+            i = i+60;
+        }
+        ctx.attribute("shedWidthAndLength", shedWidthAndLength);
+        ctx.render("createCarport.html");
+    }
 
     public static void sendUserData(Context ctx){
         try {
