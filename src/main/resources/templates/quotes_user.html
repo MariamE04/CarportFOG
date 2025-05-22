@@ -42,7 +42,7 @@
 <div th:each="quote : ${quotes}"
      th:if="${!quote.accepted} and ${quote.visible} and !${quote.isExpired}">
 
-    <p>Pris: <span th:text="${quote.price}"></span> kr</p>
+    <p>Pris: <span th:text="${quote.twoDecimals()}"></span> kr</p>
     <p>Gyldig indtil: <span th:text="${quote.validityPeriod}"></span></p>
 
     <a th:href="@{'/pay/' + ${quote.quoteId}}">Se detaljer</a>
@@ -61,7 +61,7 @@
 <section>
     <h3>Bekræftede tilbud</h3>
     <div th:each="quote : ${quotes}" th:if="${quote.isAccepted}">
-        <p>Pris: <span th:text="${quote.price}"></span> kr</p>
+        <p>Pris: <span th:text="${quote.twoDecimals()}"></span> kr</p>
         <p>Bekræftet d. <span th:text="${quote.dateCreated}"></span></p>
         <a th:href="@{'/pay/' + ${quote.quoteId}}">Se detaljer</a>
 

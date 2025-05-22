@@ -41,7 +41,7 @@ public class Calculator {
 
     private static int postSpace(int width){
         int postCount = postCounter(width);
-        return (width - 130)/(postCount/2) - 1;
+        return (width - 130)/((postCount/2) - 1);
     }
 
     private static int rafterCalculator(int width){

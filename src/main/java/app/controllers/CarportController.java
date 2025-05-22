@@ -18,41 +18,23 @@ public class CarportController {
     public static void addRoutes(Javalin app){
         app.get("createCarport", ctx -> {
             CarportController.showWidthAndLength(ctx);
-            CarportController.showShedWidthAndLength(ctx);
         });
 
         app.post("createCarport", CarportController::sendUserData);
     }
 
     public static void showWidthAndLength(Context ctx){
-            List<Carport> widthAndLength = new ArrayList<>();
-            int i = 240;
-            while(i<=780){
-                if (i <= 600) {
-                    widthAndLength.add(new Carport(i, i));
-                }
-                else {
-                    widthAndLength.add(new Carport(i, 600));
-                }
-                i = i + 60;
-            }
-            ctx.attribute("widthAndLength", widthAndLength);
-            ctx.render("createCarport.html");
-        }
-
-    public static void showShedWidthAndLength(Context ctx){
-        List<Shed> shedWidthAndLength = new ArrayList<>();
+        List<Integer> width = new ArrayList<>();
+        List<Integer> length = new ArrayList<>();
         int i = 240;
         while(i<=780){
-            if (i <= 600) {
-                shedWidthAndLength.add(new Shed(i, i));
-            }
-            else {
-                shedWidthAndLength.add(new Shed(i, 600));
-            }
+            width.add(i);
+            if (i <= 600)
+                length.add(i);
             i = i + 60;
         }
-        ctx.attribute("shedWidthAndLength", shedWidthAndLength);
+        ctx.attribute("widthOptions", width);
+        ctx.attribute("lengthOptions", length);
         ctx.render("createCarport.html");
     }
 

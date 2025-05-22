@@ -1,5 +1,6 @@
     package app.entities;
 
+    import java.text.DecimalFormat;
     import java.time.LocalDate;
     import java.util.Date;
 
@@ -36,6 +37,11 @@
             this.quoteId = quoteId;
             this.isVisible = isVisible;
             this.isAccepted = isAccepted;
+        }
+
+        public String twoDecimals(){
+            DecimalFormat df = new DecimalFormat("0.00");
+            return df.format(price);
         }
 
         public boolean isExpired() {

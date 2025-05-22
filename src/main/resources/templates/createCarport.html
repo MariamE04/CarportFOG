@@ -52,26 +52,26 @@
     <form class="build-carport" action="createCarport" method="post">
 
         <div class="stack-length">
-            <label th:for="widthAndLength">Vælg Længde i cm</label>
+            <label th:for="lengthOptions">Vælg Længde i cm</label>
             <div class="length">
                 <select  name="length" required>
                     <option value="" disabled selected>Vælg længde
                     </option>
-                    <option th:each="eachLength: ${widthAndLength}" th:value="${eachLength.length}"
-                            th:text="${eachLength.length}">
+                    <option th:each="eachLength: ${lengthOptions}" th:value="${eachLength}"
+                            th:text="${eachLength}">
                     </option>
                 </select>
             </div>
         </div>
 
         <div class="stack-width">
-            <label th:for="widthAndLength">Vælg Bredde i cm</label>
+            <label th:for="widthOptions">Vælg Bredde i cm</label>
             <div class="width">
                 <select  name="width" required>
                     <option value="" disabled selected>Vælg Bredde
                     </option>
-                    <option th:each="eachWidth: ${widthAndLength}" th:value="${eachWidth.width}"
-                            th:text="${eachWidth.width}">
+                    <option th:each="eachWidth: ${widthOptions}" th:value="${eachWidth}"
+                            th:text="${eachWidth}">
                     </option>
                 </select>
             </div>
@@ -90,13 +90,13 @@
         </div>
 
         <div class="shed-dropdown">
-            <label th:for="shedWidthAndLength">Vælg skurets mål</label>
+            <label th:for="lengthOptions">Vælg skurets mål</label>
             <div class="shedLength">
                 <select  name="length" required>
                     <option value="" disabled selected>Vælg skurets længde i cm
                     </option>
-                    <option th:each="eachShedLength: ${shedWidthAndLength}" th:value="${eachShedLength.length}"
-                            th:text="${eachShedLength.length}">
+                    <option th:each="eachShedLength: ${lengthOptions}" th:value="${eachShedLength}"
+                            th:text="${eachShedLength}">
                     </option>
                 </select>
             </div>
@@ -107,8 +107,8 @@
                 <select  name="width" required>
                     <option value="" disabled selected>Vælg skurets bredde i cm
                     </option>
-                    <option th:each="eachShedWidth: ${shedWidthAndLength}" th:value="${eachShedWidth.width}"
-                            th:text="${eachShedWidth.width}">
+                    <option th:each="eachShedWidth: ${widthOptions}" th:value="${eachShedWidth}"
+                            th:text="${eachShedWidth}">
                     </option>
                 </select>
             </div>
