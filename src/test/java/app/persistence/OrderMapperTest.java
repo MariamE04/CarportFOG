@@ -13,16 +13,13 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class OrderMapperTest {
     private static ConnectionPool connector;
-    private static OrderMapper orderMapper;
-    private static Order order;
-    private static Shed shed;
 
     @BeforeAll
     static void setUpDatabase() {
 
         try {
             connector = ConnectionPool.getInstance("postgres", "bvf64wwa", "jdbc:postgresql://142.93.174.150:5432/%s?currentSchema=test", "carport");
-            orderMapper = new OrderMapper(connector);
+            OrderMapper.setConnectionPool(connector);
 
             try (Connection conn = connector.getConnection(); Statement stmt = conn.createStatement()) {
                 String sql =
@@ -135,7 +132,7 @@ class OrderMapperTest {
     }
 
     @Test
-    void testGetAllOrder() throws DatabaseException{
+    void testGetAllOrder() throws DatabaseException {
         List<Order> ordersList = OrderMapper.getAllOrders();
         assertEquals(2, ordersList.size());
 
@@ -158,16 +155,13 @@ class OrderMapperTest {
     @Test
     void databaseError(){
         //todo: Gå ind og lave en fejl i sql sætningen
-        assertThrows(DatabaseException.class, () -> orderMapper.getAllOrders());
+        assertThrows(DatabaseException.class, () -> OrderMapper.getAllOrders());
 
     }
 
 
     @Test
     void updateOrderStatusByQuoteId() throws DatabaseException {
-        // Arrange
-        OrderMapper.setConnectionPool(connector);
-
         int orderId = 1;
         String expectedStatus = "bekræftet";
 

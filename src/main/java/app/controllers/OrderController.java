@@ -60,7 +60,7 @@ public class OrderController {
             //Update Price
             int orderNumber = Integer.parseInt(ctx.formParam("orderNumber-update"));
             double totalPrice = Double.parseDouble(ctx.formParam("editPrice"));
-            OrderMapper.updateOrderPrice(totalPrice, orderNumber);
+            OrderMapper.updatePrice(orderNumber, totalPrice);
 
 
             //Update Quantity

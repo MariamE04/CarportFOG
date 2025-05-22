@@ -47,12 +47,12 @@ public class MaterialMapper {
     }
 
     public static ArrayList<String> getAllLengthsAndNames() {
-
         ArrayList<String> getAllLengthsFromMaterials = new ArrayList<>();
-
-        String sql = "SELECT length, name FROM materials";
         int materialLength;
         String materialName;
+
+        String sql = "SELECT length, name FROM materials";
+
         try (Connection connection = connectionPool.getConnection();
              PreparedStatement ps = connection.prepareStatement(sql)) {
             ResultSet rs = ps.executeQuery();
@@ -74,10 +74,10 @@ public class MaterialMapper {
     }
 
     public static int getMaterialIdByChosenLengthAndName(int materialLength, String materialName) throws DatabaseException {
-
         int materialId;
 
         String sql = "select material_id from materials where length = ? and name = ?";
+
         try (
                 Connection connection = connectionPool.getConnection();
                 PreparedStatement ps = connection.prepareStatement(sql)
@@ -90,6 +90,7 @@ public class MaterialMapper {
                 return materialId;
             }
             throw new DatabaseException("Fejl i opdatering af ordre-detalje");
+
         } catch (SQLException e) {
             throw new DatabaseException("Fejl i opdatering af ordredetaljens material_id", e.getMessage());
         }
@@ -139,7 +140,6 @@ public class MaterialMapper {
             throw new DatabaseException("Fejl i at hente stolper" + e.getMessage());
         }
         return null;
-
     }
 
     //Bruges til at hente spær

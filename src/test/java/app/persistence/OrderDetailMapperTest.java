@@ -17,14 +17,12 @@ import static org.junit.jupiter.api.Assertions.*;
 class OrderDetailMapperTest {
 
     private static ConnectionPool connector;
-    private static OrderDetailMapper orderDetailMapper;
 
     @BeforeAll
     static void setUpDatabase() {
-
         try {
             connector = ConnectionPool.getInstance("postgres", "bvf64wwa", "jdbc:postgresql://142.93.174.150:5432/%s?currentSchema=test", "carport");
-            orderDetailMapper = new OrderDetailMapper (connector);
+            OrderDetailMapper.setConnectionPool(connector);
 
             try (Connection conn = connector.getConnection(); Statement stmt = conn.createStatement()) {
                 String sql =
@@ -134,7 +132,7 @@ class OrderDetailMapperTest {
 
     @Test
     void getOrderDetailsByOrder() throws DatabaseException {
-        List<OrderDetails> orderDetailsList = orderDetailMapper.getOrderDetailsByOrder(1);
+        List<OrderDetails> orderDetailsList = OrderDetailMapper.getOrderDetailsByOrder(1);
 
         assertEquals(1, orderDetailsList.size());
         System.out.println(orderDetailsList.size());
@@ -157,7 +155,7 @@ class OrderDetailMapperTest {
 @Test
     void databaseError(){
         //todo: ændre i SQL sætningen
-        assertThrows(DatabaseException.class, () -> orderDetailMapper.getOrderDetailsByOrder(2));
+        assertThrows(DatabaseException.class, () -> OrderDetailMapper.getOrderDetailsByOrder(2));
     }
 
 
