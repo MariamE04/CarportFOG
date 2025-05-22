@@ -145,6 +145,14 @@ public class QuoteController {
 
 public static void getOrderDetailsByOrderId(Context ctx) throws DatabaseException{
     int quoteId = Integer.parseInt(ctx.pathParam("id"));
+    Quote quote = QuoteMapper.getQuoteById(quoteId);
+
+    // Tjek om tilbuddet er accepteret
+    if (!quote.isAccepted()) {
+        ctx.render("quote_not_accepted.html"); // vi antager du har lavet en route til denne side
+        return;
+    }
+
     List<OrderDetails> orderDetails= QuoteMapper.getOrderDetailsByQuoteId(quoteId);
     ctx.attribute("orderDetails", orderDetails);
     ctx.render("pay_quote.html");

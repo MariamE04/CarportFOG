@@ -146,7 +146,7 @@ public class QuoteMapper {
             throw new DatabaseException("Fejl med at tilføje tilbud til databasen", e.getMessage());
         }
     }
-
+  
     public static Quote getQuoteById(int id) throws DatabaseException {
         Quote quote = null;
 
