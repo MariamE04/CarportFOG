@@ -37,13 +37,30 @@ public class CarportSvg {
     //remme
     private void addBeams() {
         double beamHeight = 4.5; // pixel
-        double beamLength; // hele bredden af carporten
+        double beamLength = beams.get(0).getLength(); // pixel
         double offsetFromTop = 35; // 35 pixel fra top og bund.
         int beamCount = beams.size(); // Antal remme
         double beamStart = 0; // hvor remmen placeres
 
+        if (beamCount == 1){
+            // Øverste rem (nær toppen af carporten)
+            carportSvg.addRectangle(beamStart, offsetFromTop, beamHeight, beamLength,
+                    "stroke-width:1px; stroke:#000000; fill: #ffffff");
+
+            // Nederste rem (nær bunden af carporten)
+            carportSvg.addRectangle(beamStart, length - offsetFromTop - beamHeight, beamHeight, beamLength,
+                    "stroke-width:1px; stroke:#000000; fill: #ffffff");
+        }
+
         while (beamCount > 0) {
-            beamLength = beams.get(beams.size() - beamCount).getLength();
+            beamLength = 100;
+            while (beamLength + postSpace <= beams.get(beams.size() - beamCount).getLength()){
+                beamLength += postSpace;
+            }
+
+            if (beamStart + beamLength > width){
+                beamLength = width - beamStart;
+            }
 
             // Øverste rem (nær toppen af carporten)
             carportSvg.addRectangle(beamStart, offsetFromTop, beamHeight, beamLength,
