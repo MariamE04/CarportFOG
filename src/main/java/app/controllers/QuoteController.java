@@ -5,8 +5,6 @@ import app.entities.OrderDetails;
 import app.entities.Quote;
 import app.entities.User;
 import app.exceptions.DatabaseException;
-
-import app.persistence.OrderDetailMapper;
 import app.persistence.OrderMapper;
 
 import app.persistence.QuoteMapper;
