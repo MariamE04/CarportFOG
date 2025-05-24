@@ -6,7 +6,6 @@ import app.exceptions.DatabaseException;
 import org.junit.jupiter.api.*;
 import java.sql.*;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -186,7 +185,7 @@ class OrderMapperTest {
         Shed shed = new Shed(1, 300,200);
         Carport carport = new Carport(1, 600,700,"flat", shed);
         Order order = new Order(1, localDate ,19999.99, "pending", 1, 1, carport, shed);
-        assertEquals(order, ordersList.getFirst());
+        assertEquals(order, ordersList.get(0));
 
     }
 
