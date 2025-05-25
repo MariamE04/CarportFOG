@@ -25,9 +25,9 @@
     <div class="user-info" th:if="${session.currentUser != null}">
         <span th:text="${session.currentUser.email}"></span>
         <a th:href="@{/quotes}">Mine tilbud</a>
+        <a th:href="@{/logout}">Log ud</a>
     </div>
 
-    <a href="/logout">Log ud</a>
 
 
 </header>

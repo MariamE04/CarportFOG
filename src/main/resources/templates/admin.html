@@ -20,9 +20,9 @@
     <!-- Vis brugerens email, hvis nogen er logget ind -->
     <div class="user-info" th:if="${session.currentUser != null}">
         <span th:text="${session.currentUser.email}"></span>
+        <a th:href="@{/logout}" style="color:white;">Log ud</a>
     </div>
 
-    <a href="/logout" style="color: white;">Log ud</a>
 
 
 </header>
