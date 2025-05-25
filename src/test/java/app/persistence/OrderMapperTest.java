@@ -136,7 +136,7 @@ class OrderMapperTest {
         List<Order> ordersList = OrderMapper.getAllOrders();
         assertEquals(2, ordersList.size());
 
-        Order order = ordersList.getFirst();
+        Order order = ordersList.get(0);
 
         assertEquals(1, order.getOrder_id());
         assertEquals(1, order.getUser_id());

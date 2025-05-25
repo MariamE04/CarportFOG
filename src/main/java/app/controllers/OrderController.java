@@ -1,5 +1,8 @@
 package app.controllers;
 
+//Håndterer administration af ordrer, herunder visning af alle ordrer for admin,
+//redigering af ordrer og opdatering af tilhørende data som carport, pris og materialer.
+
 import app.entities.Carport;
 import app.entities.Order;
 import app.entities.OrderDetails;
@@ -24,6 +27,7 @@ import java.util.List;
 
 public class OrderController {
 
+    //Registrerer HTTP-ruter til ordre-administration (vis, rediger, opdater).
     public static void addRoutes(Javalin app){
         app.post("editOrder", ctx -> OrderController.editOrder(ctx));
         app.get("editOrder", ctx -> ctx.render("editOrder"));
@@ -38,6 +42,7 @@ public class OrderController {
 
     }
 
+    //Henter alle ordrer fra databasen og sender dem til admin-oversigten (admin.html).
     public static void getAllOrders(Context ctx) throws DatabaseException {
         List<Order> orders = OrderMapper.getAllOrders();
         ctx.attribute("orders", orders);
@@ -45,7 +50,7 @@ public class OrderController {
 
     }
 
-
+    //Opdaterer en ordre med nye værdier
     public static void updateOrder(@NotNull Context ctx) {
         try {
             System.out.println("updateMetode | orderNumber-edit param: " + ctx.formParam("orderNumber-update"));
@@ -54,6 +59,8 @@ public class OrderController {
             int carportId = Integer.parseInt(ctx.formParam("edit_carportId"));
             int width = Integer.parseInt(ctx.formParam("carport-width"));
             int length = Integer.parseInt(ctx.formParam("carport-length"));
+
+            // Opdaterer carport-dimensioner i databasen via CarportMapper.
             CarportMapper.updateCarport(width, length, carportId);
 
 
@@ -99,6 +106,7 @@ public class OrderController {
         }
     }
 
+    // Forbereder data til redigering af en ordre:
     public static void editOrder(@NotNull Context ctx) throws DatabaseException{
         System.out.println("editMetode | orderNumber-edit param: " + ctx.formParam("orderNumber-edit"));
 
@@ -109,7 +117,6 @@ public class OrderController {
             //Henter carportId her fra admin.html
             int carportId = Integer.parseInt(ctx.formParam("carportId"));
             Carport carport = CarportMapper.getCarportById(carportId);
-
 
 
             //OrderDetails

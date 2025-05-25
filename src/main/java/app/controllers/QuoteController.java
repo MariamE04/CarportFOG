@@ -20,15 +20,15 @@ import java.util.List;
 public class QuoteController {
 
     public static void addRoutes(Javalin app){
-        app.post("/addQuote", ctx -> QuoteController.addQuoteToDB(ctx));
-        app.get("/quotes", QuoteController::getQuotesByUser);
-        app.post("/quotes/{id}", QuoteController::respondToQuote);
+        app.post("/addQuote", ctx -> QuoteController.addQuoteToDB(ctx)); // Opretter et tilbud i databasen
+        app.get("/quotes", QuoteController::getQuotesByUser);    // Henter tilbud for den loggede bruger
+        app.post("/quotes/{id}", QuoteController::respondToQuote); // Behandler accept/afvisning af tilbud
         //app.get("/pay/{id}", ctx -> QuoteController.getOrderDetailsByOrderId(ctx));
     }
 
     //Henter tilbud for den aktuelle bruger baseret på sessionen
     public static void getQuotesByUser(Context ctx) {
-        expirationDate();
+        expirationDate(); // Tjekker for udløbne tilbud og opdaterer deres synlighed.
 
         // Henter den aktuelle bruger fra sessionen.
         User user = ctx.sessionAttribute("currentUser");
@@ -52,7 +52,7 @@ public class QuoteController {
                 }
             }
 
-            // Sætter den filtrerede liste af tilbud som attribut i konteksten til visning på brugerens side.
+            // Sætter den filtrerede liste som attribut og viser dem i brugergrænsefladen.
             ctx.attribute("quotes", quotes);
 
             // bruges til at vise tilbuddene på brugerens side.
@@ -106,6 +106,7 @@ public class QuoteController {
         ctx.redirect("/quotes"); // flyt udenfor try-catch så det kører uanset hvad
     }
 
+    // Tjekker og håndterer udløb af tilbud efter 14 dage, så de bliver usynlige og markeret som "Udløbet".
     public static void expirationDate() {
         try {
             List<Quote> allQuotes = QuoteMapper.getAllQuotes();
@@ -122,52 +123,43 @@ public class QuoteController {
         }
     }
 
+    // Tilføjer et nyt tilbud til databasen baseret på ordre-nummer fra formularen
     public static void addQuoteToDB(Context ctx) throws DatabaseException{
+        // Hent ordre-nummer fra formularen som et heltal
         int orderNumber = Integer.parseInt(ctx.formParam("orderNumber"));
 
-
+        // Hent prisen på ordren fra databasen via OrderMapper
         double price = OrderMapper.getPrice(orderNumber);
 
-
-        //List<OrderDetails> orderDetails= OrderDetailMapper.getOrderDetailsByOrder(orderNumber);
-
-
+        // Sæt gyldighedsperiode til 14 dage frem fra dags dato
         LocalDate validityPeriod = LocalDate.now().plusDays(14);
 
+        // Opret et nyt Quote-objekt med gyldighedsperiode, pris og ordre-nummer
         Quote quote = new Quote(validityPeriod, price, orderNumber);
+
+        // Tilføj tilbuddet til databasen gennem QuoteMapper
         QuoteMapper.addQuote(orderNumber, quote);
 
+        // Sæt tilbuddet som en attribut i HTTP-konteksten
         ctx.attribute("quote", quote);
+
+        // Redirect brugeren til admin-siden efter tilføjelse af tilbud
         ctx.redirect("/admin");
     }
 
-public static void getOrderDetailsByOrderId(Context ctx) throws DatabaseException{
-    int quoteId = Integer.parseInt(ctx.pathParam("id"));
-    Quote quote = QuoteMapper.getQuoteById(quoteId);
+    // Henter ordredetaljer for et tilbud, hvis tilbuddet er accepteret.
+    public static void getOrderDetailsByOrderId(Context ctx) throws DatabaseException{
+        int quoteId = Integer.parseInt(ctx.pathParam("id"));
+        Quote quote = QuoteMapper.getQuoteById(quoteId);
 
-    // Tjek om tilbuddet er accepteret
-    if (!quote.isAccepted()) {
-        ctx.render("quote_not_accepted.html"); // vi antager du har lavet en route til denne side
+        // Tjek om tilbuddet er accepteret
+        if (!quote.isAccepted()) {
+        ctx.render("quote_not_accepted.html");
         return;
     }
 
-    List<OrderDetails> orderDetails= QuoteMapper.getOrderDetailsByQuoteId(quoteId);
-    ctx.attribute("orderDetails", orderDetails);
-    ctx.render("pay_quote.html");
-
-}
-
-    /*public static void getQuoteByOrderAndUser(Context ctx) throws DatabaseException{
-
-        //int orderNumber = Integer.parseInt(ctx.formParam("orderNumber"));
-
-        User currentUser = ctx.sessionAttribute("currentUser");
-        int userId = currentUser.getId();
-
-        List<Quote> quotesList=  QuoteMapper.getQuoteByOrder(userId);
-
-        ctx.attribute("quotesList", quotesList);
-        ctx.render("quotes_user.html");
-
-    }*/
+        List<OrderDetails> orderDetails= QuoteMapper.getOrderDetailsByQuoteId(quoteId);
+        ctx.attribute("orderDetails", orderDetails);
+        ctx.render("pay_quote.html");
+    }
 }
