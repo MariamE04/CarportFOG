@@ -24,6 +24,12 @@ public class HomeController {
         // Rute til login
         app.post("/login", ctx -> HomeController.userLogIn(ctx)); //POST: Logger brugeren ind.
         app.get("/login", ctx -> ctx.render("login.html")); //Viser login-formularen (her: index.html).
+
+        app.get("/logout", ctx -> {
+            ctx.req().getSession().invalidate(); // Fjerner alle session data
+            ctx.redirect("/login"); // Sender brugeren tilbage til login-siden
+        });
+
     }
 
     //Håndterer brugerregistrering
