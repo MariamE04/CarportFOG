@@ -15,7 +15,7 @@ public class HomeController {
 
     public static void addRoutes(Javalin app){
         //Viser startsiden.
-        app.get("startpage", ctx -> ctx.render("startpage.html"));
+        //app.get("startpage", ctx -> ctx.render("startpage.html"));
 
         // Rute til sign-up
         app.post("/signUp", ctx -> HomeController.signUpUser(ctx)); //POST: Opretter ny bruger.

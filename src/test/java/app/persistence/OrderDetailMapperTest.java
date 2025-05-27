@@ -137,7 +137,7 @@ class OrderDetailMapperTest {
         assertEquals(1, orderDetailsList.size());
         System.out.println(orderDetailsList.size());
 
-        OrderDetails orderDetails = orderDetailsList.getFirst();
+        OrderDetails orderDetails = orderDetailsList.get(0);
         assertEquals(1, orderDetails.getOrderId());
         assertEquals(5, orderDetails.getQuantity());
 
