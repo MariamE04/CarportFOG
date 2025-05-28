@@ -129,20 +129,6 @@ public class OrderMapper {
         }
     }
 
-    public static void updateOrderStatusByQuoteId(int quoteId, String status) throws DatabaseException {
-        String sql = "UPDATE orders SET status = ? WHERE order_id = (SELECT order_id FROM quotes WHERE quote_id = ?)";
-
-        try (Connection connection = connectionPool.getConnection();
-             PreparedStatement ps = connection.prepareStatement(sql)) {
-
-            ps.setString(1, status);
-            ps.setInt(2, quoteId);
-            ps.executeUpdate();
-
-        } catch (SQLException e) {
-            throw new DatabaseException("Fejl ved opdatering af order-status med quote_id: " + e.getMessage());
-        }
-    }
 
     public static double getPrice(int orderId) throws DatabaseException {
         double price = 0;

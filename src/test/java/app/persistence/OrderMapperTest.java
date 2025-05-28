@@ -162,14 +162,15 @@ class OrderMapperTest {
 
     @Test
     void updateOrderStatusByQuoteId() throws DatabaseException {
+        QuoteMapper.setConnectionPool(connector);
         int orderId = 1;
         String expectedStatus = "bekræftet";
 
         // Act: Opdater status i databasen
-        OrderMapper.updateOrderStatusByQuoteId(orderId, expectedStatus);
+        QuoteMapper.updateOrderStatusByQuoteId(orderId, expectedStatus);
 
         // Assert: Hent order_id og Order-objektet og tjek status
-        OrderMapper.updateOrderStatusByQuoteId(orderId, expectedStatus);
+        QuoteMapper.updateOrderStatusByQuoteId(orderId, expectedStatus);
 
         Order order = OrderMapper.getOrderId(orderId);
 

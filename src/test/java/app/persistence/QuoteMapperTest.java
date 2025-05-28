@@ -1,5 +1,6 @@
 package app.persistence;
 
+import app.entities.Order;
 import app.entities.Quote;
 import app.exceptions.DatabaseException;
 import org.junit.jupiter.api.BeforeAll;
@@ -193,4 +194,5 @@ class QuoteMapperTest {
 
         assertEquals(3, qoutes.size(), "There should be exactly 3 quotes");
     }
+
 }
