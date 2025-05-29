@@ -5,14 +5,14 @@ import java.time.LocalDate;
 import java.util.List;
 
 public class Order {
-    int order_id;
-    LocalDate date_created;
-    double total_price;
-    String status;
-    int user_id;
-    Carport carport;
-    Shed shed;
-    List<OrderDetails> orderDetails;
+    private int order_id;
+    private LocalDate date_created;
+    private double total_price;
+    private String status;
+    private int user_id;
+    private Carport carport;
+    private Shed shed;
+    private List<OrderDetails> orderDetails;
 
     public Order(int order_id, LocalDate date_created, double total_price, String status, int user_id, Carport carport, Shed shed) {
         this.order_id = order_id;

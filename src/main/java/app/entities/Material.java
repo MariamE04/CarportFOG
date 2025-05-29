@@ -1,13 +1,13 @@
 package app.entities;
 
 public class Material {
-    int materialId;
-    String name;
-    String description;
-    String unit;
-    int amount;
-    int length;
-    double price;
+    private int materialId;
+    private String name;
+    private String description;
+    private String unit;
+    private int amount;
+    private int length;
+    private double price;
 
     public Material(int materialId, String name, String description, String unit, int amount, int length, double price) {
         this.materialId = materialId;

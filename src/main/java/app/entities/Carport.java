@@ -1,12 +1,12 @@
 package app.entities;
 
 public class Carport {
-    int carportId;
-    int width;
-    int length;
-    String roofType;
-    Shed shed;
-    User user;
+    private int carportId;
+    private int width;
+    private int length;
+    private String roofType;
+    private Shed shed;
+    private User user;
 
     public Carport(int carportId, int width, int length, String roofType, Shed shed, User user) {
         this.carportId = carportId;
