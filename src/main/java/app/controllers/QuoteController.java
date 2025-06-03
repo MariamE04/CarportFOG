@@ -17,6 +17,7 @@ import java.util.List;
 
 public class QuoteController {
 
+    //definerer vores routes -registere GET, POST
     public static void addRoutes(Javalin app){
         app.post("/addQuote", ctx -> QuoteController.addQuoteToDB(ctx)); // Opretter et tilbud i databasen
         app.get("/quotes", QuoteController::getQuotesByUser);    // Henter tilbud for den loggede bruger
@@ -40,7 +41,7 @@ public class QuoteController {
             // Henter alle tilbud for brugeren via email.
             List<Quote> quotes = QuoteMapper.getQuotesByEmail(user.getEmail());
 
-            // Filtrér quotes, der ikke er synlige (fjerner tilbud der ikke er synlige for brugeren).
+            // Filtrér quotes (fjerner tilbud der ikke er synlige for brugeren).
             Iterator<Quote> iterator = quotes.iterator(); // Opretter en iterator for at kunne fjerne elementer under iteration.
             while (iterator.hasNext()) {
                 Quote quote = iterator.next(); // Henter næste tilbud.
@@ -69,7 +70,7 @@ public class QuoteController {
         // Henter quoteId fra URL-stien (pathParam) og konverterer den til et heltal.
         int quoteId = Integer.parseInt(ctx.pathParam("id"));
 
-        // Henter brugerens svar (accept eller reject) fra formularen.
+        // Henter brugerens svar fra formularen.
         String response = ctx.formParam("response"); // "accept" eller "reject"
 
         try {

@@ -135,17 +135,16 @@ class QuoteMapperTest {
 
     @Test
     void getQuotesByEmail() throws DatabaseException {
-
+        //Arrange: sætter alt op, som testen skal bruge
         QuoteMapper.setConnectionPool(connector);
-
         String email = "test@example.com";
 
+        //Act: kalder den metode, jeg vil teste
         List<Quote> quotes = QuoteMapper.getQuotesByEmail(email);
 
+        //Assert: tjekker at resultatet er som forventet:
         assertFalse(quotes.isEmpty());
-
         Quote firstQuote =quotes.get(0);
-
         assertEquals(1, firstQuote.getQuoteId(), "Order ID should be 1" );
         assertEquals(19999.99, firstQuote.getPrice(), 0.01);
         assertTrue(firstQuote.isVisible());

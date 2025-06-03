@@ -20,7 +20,8 @@ public class SvgToPdfConverter {
         //Opretter en ny instans af PDFTranscoder, som bruges til at konvertere SVG til PDF.
         PDFTranscoder transcoder = new PDFTranscoder();
 
-        try (ByteArrayInputStream svgInputStream = new ByteArrayInputStream(svgContent.getBytes()); //svgInputStream: laver SVG-teksten om til en byte-stream, så PDFTranscoder kan læse den.
+        //svgInputStream: laver SVG-teksten om til en byte-stream, så PDFTranscoder kan læse den.
+        try (ByteArrayInputStream svgInputStream = new ByteArrayInputStream(svgContent.getBytes());
              FileOutputStream pdfOutputStream = new FileOutputStream(outputPdfPath)) { //forbereder en fil, som PDF’en bliver skrevet til.
 
             //Pakker SVG-streamen ind i en TranscoderInput – formatet som transcoder kræver.

@@ -14,9 +14,6 @@ public class HomeController {
     private static final Logger LOGGER = Logger.getLogger(HomeController.class.getName()); //LOGGER bruges til at logge fejl og information.
 
     public static void addRoutes(Javalin app){
-        //Viser startsiden.
-        //app.get("startpage", ctx -> ctx.render("startpage.html"));
-
         // Rute til sign-up
         app.post("/signUp", ctx -> HomeController.signUpUser(ctx)); //POST: Opretter ny bruger.
         app.get("/signUp", ctx -> ctx.render("/signUp.html")); //GET: Viser formularen.
