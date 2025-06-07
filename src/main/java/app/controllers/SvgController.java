@@ -87,7 +87,6 @@ public class SvgController {
                 return;
             }
 
-
             //Gemmer SVG-indholdet og filnavnet, så HTML’en kan bruge dem.
             ctx.attribute("svg", svgContent);
             ctx.attribute("filename", filename);

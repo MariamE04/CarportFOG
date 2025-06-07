@@ -8,6 +8,8 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+//HikariCP er en af de hurtigste og mest effektive connection pools.
+
 /***
  * Singleton pattern applied to handling a Hikari ConnectionPool
  */

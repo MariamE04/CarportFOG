@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class QuoteMapper {
-    // Static reference til connection pool, som bruges til at hente forbindelse til databasen.
+    // Static reference til connection pool | alle metoder i QuoteMapper kan bruge den samme databaseforbindelse-pool.
     private static ConnectionPool connectionPool;
 
     // Sætter connectionPool fra en ekstern kilde.

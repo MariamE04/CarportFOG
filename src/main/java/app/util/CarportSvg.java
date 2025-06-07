@@ -5,6 +5,7 @@ import app.entities.Material;
 import java.util.List;
 
 // bruges til at tegne en carport med SVG.
+//At bygge den samlede SVG-tegning af en carport, så kunden kan se resultatet af sin bestilling visuelt.
 public class CarportSvg {
     //dimensionerne på carporten
     private int width;
@@ -15,6 +16,7 @@ public class CarportSvg {
     private int rafterCount; // antal spær
     private List<Material> beams; // liste med remme
 
+    //Gemmer længde, bredde, stolper osv. i felter,  opretter en canvas med lidt margin
     public CarportSvg(int width, int length, int postCount, int postSpace, int rafterCount, List<Material> beams) {
         this.width = width;
         this.length = length;
