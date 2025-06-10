@@ -29,7 +29,8 @@ public class SvgController {
         //rute der lytter efter links som /pdf/minfil.pdf
         app.get("/pdf/{filename}", ctx -> {
             String filename = ctx.pathParam("filename"); // Henter filnavnet fra URL’en.
-            byte[] pdfBytes = FileUtil.readFileBytesFromProjectRoot("pdf/" + filename); //Bruger FileUtil-metode til at hente hele PDF-filen som bytes.
+            // //Bruger FileUtil-metode til at hente hele PDF-filen som bytes.
+            byte[] pdfBytes = FileUtil.readFileBytesFromProjectRoot("pdf/" + filename);
             ctx.contentType("application/pdf"); //Fortæller browseren, at indholdet er en PDF.
             ctx.result(pdfBytes); //Sender PDF’en som svar til browseren.
         });
@@ -81,6 +82,7 @@ public class SvgController {
                 converter.convertSvgToPdf(svgContent, pdfFilename);
                 System.out.println("PDF gemt som " + pdfFilename);
 
+            //  problemer med filsystemet eller selve konverteringen.
             } catch (IOException | TranscoderException e) {
                 e.printStackTrace();
                 ctx.status(500).result("Fejl ved konvertering til PDF.");
@@ -94,7 +96,7 @@ public class SvgController {
             //Viser HTML-siden pay_quote.html, hvor SVG og PDF-link vises.
             ctx.render("pay_quote.html");
 
-            //Hvis ID’et mangler eller ikke er et tal, sendes fejl tilbage.
+            //Hvis ID’et mangler eller ikke er et tal, sendes fejl tilbage.(dårligt input eller manglende data.)
         } catch (NumberFormatException | NullPointerException e) {
             ctx.status(400).result("Ugyldige eller manglende parametre.");
 

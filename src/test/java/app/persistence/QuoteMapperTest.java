@@ -169,17 +169,18 @@ class QuoteMapperTest {
 
     @Test
     void updateQuoteVisibility() throws DatabaseException {
+        // arrange
         QuoteMapper.setConnectionPool(connector);
-
         int id = 1;
         boolean newIsVisible = true;
 
-        // Opdater synlighed
+        // ACT Opdater synlighed
         QuoteMapper.updateQuoteVisibility(id, newIsVisible);
 
         // Hent quote fra databasen igen
         Quote updatedQuote = QuoteMapper.getQuoteById(id);
 
+        // asseret
         // Bekræft at den er opdateret korrekt
         assertTrue(updatedQuote.isVisible());
     }

@@ -26,7 +26,7 @@ public class QuoteController {
 
     //Henter tilbud for den aktuelle bruger baseret på sessionen
     public static void getQuotesByUser(Context ctx) {
-        expirationDate(); // Tjekker for udløbne tilbud og opdaterer deres synlighed.
+        expirationDate(); // Tjekker for udløbne tilbud og opdaterer deres synlighed. (business logic)
 
         // Henter den aktuelle bruger fra sessionen.
         User user = ctx.sessionAttribute("currentUser");
@@ -41,7 +41,7 @@ public class QuoteController {
             // Henter alle tilbud for brugeren via email.
             List<Quote> quotes = QuoteMapper.getQuotesByEmail(user.getEmail());
 
-            // Filtrér quotes (fjerner tilbud der ikke er synlige for brugeren).
+            // Filtrér quotes (fjerner tilbud der ikke er synlige for brugeren). (frontend logic)
             Iterator<Quote> iterator = quotes.iterator(); // Opretter en iterator for at kunne fjerne elementer under iteration.
             while (iterator.hasNext()) {
                 Quote quote = iterator.next(); // Henter næste tilbud.

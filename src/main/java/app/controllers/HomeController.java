@@ -52,12 +52,10 @@ public class HomeController {
                 return 0;
             }
 
-            long phoneNumber1 = Long.parseLong(phoneNumberStr); // Konverter først efter validering
-
+            //long phoneNumber1 = Long.parseLong(phoneNumberStr); // Konverter først efter validering
 
             User user = new User(email, password, phoneNumber); //Opretter et User-objekt med de indtastede oplysninger.
             boolean userExists = UserMapper.userExists(user); //Kalder userExists fra UserMapper for at tjekke, om brugeren allerede findes i databasen.
-
 
             if (userExists) { //Hvis brugeren allerede findes, sendes en fejlbesked, og signup.html vises.
                 ctx.attribute("message", "Bruger findes allerede. Være vendlig at loge ind.");
