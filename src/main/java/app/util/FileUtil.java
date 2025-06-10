@@ -4,7 +4,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 // Læser hele en fil (fx en PDF) som en byte-array (byte[]).
-// Det bruges fx når du vil sende en PDF som respons i controller.
+// Det bruges fx når  man vil sende en PDF som respons i controller.
 
 public class FileUtil {
 

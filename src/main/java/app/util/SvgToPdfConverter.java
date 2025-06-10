@@ -29,10 +29,10 @@ public class SvgToPdfConverter {
              FileOutputStream pdfOutputStream = new FileOutputStream(outputPdfPath)) {
 
             // pakker inputtet (SVG-streamen) ind i et TranscoderInput-objekt.
-            TranscoderInput input = new TranscoderInput(svgInputStream);
+            TranscoderInput input = new TranscoderInput(svgInputStream); // hvor SVG-indholdet kommer fra (vores inputstream med SVG-data).
 
             //Pakker outputtet (PDF-filstreamen) ind i et TranscoderOutput-objekt.
-            TranscoderOutput output = new TranscoderOutput(pdfOutputStream);
+            TranscoderOutput output = new TranscoderOutput(pdfOutputStream); //hvor outputtet skal hen – altså hvilken stream PDF’en skal skrives til.
 
             //Selve konverteringen sker her. læser SVG’en fra input og skriver en færdig PDF til output.
             transcoder.transcode(input, output);
